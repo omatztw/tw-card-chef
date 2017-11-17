@@ -11,7 +11,7 @@
             <i class="fa fa-align-justify"></i>
           </a>
         </div>
-        <div [id]="'collapse'+ri" class="collapse" role="tabpanel" aria-labelledby="'skill'+ri">
+        <div [id]="'collapse'+ri" class="collapse show" role="tabpanel" aria-labelledby="'skill'+ri">
           <div class="card-block">
             <div *ngIf="route.skills.length===1" class="monster-info">
               <img class="monster-img" [src]="'assets/' + getSymbol(route.routes[0].goal) + '.gif'" [alt]="'R' + route.routes[0].goal.rank + ': ' + route.routes[0].goal.name"

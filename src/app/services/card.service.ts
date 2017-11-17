@@ -213,12 +213,19 @@ export class CardService {
       }, { name: 'dummy', type: 'dummy', rank: 100 });
     } else {
       return cardsWithSkill.reduce((prev, current) => {
-        if (prev.rank < current.rank) {
+        const prevSkill = prev.skills.filter(skill => {
+          return skill.name === skillName;
+        });
+        const currentSkill = current.skills.filter(skill => {
+          return skill.name === skillName;
+        });
+
+        if ( prevSkill[0].value < currentSkill[0].value) {
           return current
         } else {
           return prev
         }
-      }, { name: 'dummy', type: 'dummy', rank: 0 });
+      }, { name: 'dummy', type: 'dummy', rank: 0, skills: [{name:skillName, lv: 1, value: -5}]});
     }
   }
 
