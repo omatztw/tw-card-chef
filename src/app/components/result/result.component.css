@@ -1,0 +1,20 @@
+.skill-header {
+    font-size: 1rem;
+}
+
+.gousei {
+    margin: 0.5rem 0.1rem;
+}
+
+.monster-label {
+    /* font-size: 0.5rem; */
+}
+
+.monster-img {
+    width: 5rem;
+}
+
+.monster-info {
+    margin: 0.5rem 0;
+    background-color: #f7f7f9;
+}

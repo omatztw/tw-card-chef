@@ -1,2 +1,1 @@
-# tw-card-chef
-Generate recipe for monster card
+# TW モンスターカードレシピ ジェネレータ

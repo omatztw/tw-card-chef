@@ -1,0 +1,68 @@
+<div class="container">
+  <div *ngFor="let route of routes; index as ri" class="row justify-content-center">
+    <div class="col-xs-12 col-md-6 recipie">
+      <div class="card bg-default">
+        <div class="card-header text-left bg-primary  text-white skill-header " role="tab" [id]="'skill'+ri">
+          <a class="collapsed text-right text-white" data-toggle="collapse" data-parent="#accordion" [href]="'#collapse'+ri" aria-expanded="false"
+            [attr.aria-controls]="'collapse'+ri">
+            <strong>STEP {{ri + 1}}: </strong>
+
+            <span *ngFor="let skill of route.skills">{{skill}}/</span>
+            <i class="fa fa-align-justify"></i>
+          </a>
+        </div>
+        <div [id]="'collapse'+ri" class="collapse" role="tabpanel" aria-labelledby="'skill'+ri">
+          <div class="card-block">
+            <div *ngIf="route.skills.length===1" class="monster-info">
+              <img class="monster-img" [src]="'assets/' + getSymbol(route.routes[0].goal) + '.gif'" [alt]="'R' + route.routes[0].goal.rank + ': ' + route.routes[0].goal.name"
+                srcset="">
+              <p>{{route.routes[0].goal.name}}を作成して、{{route.skills[0]}}: {{filterSkill(route.skills[0], route.routes[0].goal).value}}を習得するまでモンスターLv
+                {{filterSkill(route.skills[0], route.routes[0].goal).lv}}まで上げる</p>
+            </div>
+            <div *ngFor="let aRoute of route.routes; index as i" class="">
+              <div *ngIf="i === route.divider && route.skills.length === 1" class="monster-info">
+                <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'" [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name"
+                  srcset="">
+                <p>{{aRoute.goal.name}}で、{{route.skills[0]}}:{{filterSkill(route.skills[0], aRoute.goal).value}}を習得するまでモンスターLv
+                  {{filterSkill(route.skills[0], aRoute.goal).lv}}まで上げる</p>
+              </div>
+              <p *ngIf="i === route.divider" class="bg-warning">
+                ここからR{{route.routes[route.routes.length -1].goal.rank}}の{{route.routes[route.routes.length -1].goal.name}}まで変化させよっか
+              </p>
+              <div *ngIf="aRoute.orig" class="gousei row">
+                <div class="col-1 path-label">
+                  <i class="fa fa-circle"></i>
+                </div>
+                <div class="col-3">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.orig) + '.gif'" [alt]="'R' + aRoute.orig.rank + ': ' + aRoute.orig.name"
+                    srcset="">
+                  <div class="monster-label">{{aRoute.orig.name}}</div>
+                </div>
+                <div calss="col-1">
+                  <h2>
+                    <strong>+</strong>
+                  </h2>
+                </div>
+                <div class="col-3">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.merged) + '.gif'" [alt]="'R' + aRoute.merged.rank + ': ' + aRoute.merged.name"
+                    srcset="">
+                  <div class="monster-label">{{aRoute.merged.name}}</div>
+                </div>
+                <div calss="col-1">
+                  <h2>
+                    <strong>=</strong>
+                  </h2>
+                </div>
+                <div class="col-3">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'" [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name"
+                    srcset="">
+                  <div class="monster-label">{{aRoute.goal.name}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit($event)" #f="ngForm">
+    <div class="row">
+      <hr>
+      <div class="col-md-12">
+        <p>取得したいスキルを入力
+          <i class="fa fa-thumbs-o-up"></i></p>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="skill1" hidden>skill1</label>
+        <select class="form-control" id="skill1" [(ngModel)]="skill1" name="skill1" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="skill2" hidden>skill2</label>
+        <select class="form-control" id="skill2" [(ngModel)]="skill2" name="skill2" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="skill3" hidden>skill3</label>
+        <select class="form-control" id="skill3" [(ngModel)]="skill3" name="skill3" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="skill4" hidden>skill4</label>
+        <select class="form-control" id="skill4" [(ngModel)]="skill4" name="skill4" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        </select>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <p>所持しているカードを入力</p>
+        <p>なるべく被らないルート探しがんばるお！ヽ(`・ω・´)ﾉ </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label for="exist1" hidden>exist1</label>
+        <select class="form-control" id="exist1" [(ngModel)]="exist1" name="exist1" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="exist2" hidden>exist2</label>
+        <select class="form-control" id="exist2" [(ngModel)]="exist2" name="exist2" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="exist3" hidden>exist3</label>
+        <select class="form-control" id="exist3" [(ngModel)]="exist3" name="exist3" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="exist4" hidden>exist4</label>
+        <select class="form-control" id="exist4" [(ngModel)]="exist4" name="exist4" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label for="exist5" hidden>exist5</label>
+        <select class="form-control" id="exist5" [(ngModel)]="exist5" name="exist5" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="exist6" hidden>exist6</label>
+        <select class="form-control" id="exist6" [(ngModel)]="exist6" name="exist6" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="exist7" hidden>exist7</label>
+        <select class="form-control" id="exist7" [(ngModel)]="exist7" name="exist7" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="exist8" hidden>exist8</label>
+        <select class="form-control" id="exist8" [(ngModel)]="exist8" name="exist8" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <p class="col-md-12">着地カード入力 (Rank 4以上のみ選択可能) Rank9着地は未対応(´・ω・`)</p>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label for="final" hidden>final</label>
+        <select class="form-control" id="final" [(ngModel)]="final" name="final" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let card of goalCardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-default">合成!!</button>
+  </form>
+</div>
+<!-- <p>{{this.cardService.exists| json}}</p> -->
+<div class="alert alert-danger" role="alert" *ngIf="errMsg">
+  <strong>{{errMsg}}</strong>
+</div>
+<hr>
+<p>結果</p>
+<hr>
+<app-result [routes]="finalRoutes"></app-result>
+<footer></footer>
