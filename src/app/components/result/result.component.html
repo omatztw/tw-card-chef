@@ -30,9 +30,13 @@
                 <p>{{aRoute.goal.name}}で、{{route.skills[0]}}:{{filterSkill(route.skills[0], aRoute.goal).value}}を習得するまでモンスターLv
                   {{filterSkill(route.skills[0], aRoute.goal).lv}}まで上げる</p>
               </div>
-              <p *ngIf="i === route.divider" class="bg-warning">
-                ここからR{{route.routes[route.routes.length -1].goal.rank}}の{{route.routes[route.routes.length -1].goal.name}}まで変化させよっか
-              </p>
+              <div *ngIf="i === route.divider">
+                <p class="bg-warning">
+                  ここからR{{route.routes[route.routes.length -1].goal.rank}}の{{route.routes[route.routes.length -1].goal.name}}まで変化させよっか
+                </p>
+                <p class="text-white bg-danger">
+                  <span *ngFor="let skill of route.skills">{{skill}}/</span>が消えたら引き直す</p>
+              </div>
               <div *ngIf="aRoute.orig" class="gousei row">
                 <div class="col-1 path-label">
                   <i class="fa fa-circle"></i>
