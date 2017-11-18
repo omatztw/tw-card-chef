@@ -209,15 +209,22 @@ export class CardComponent implements OnInit {
     this.setFinalRoutes();
   }
 
+  onClear(event) {
+    this.skill1 = undefined;
+    this.skill2 = undefined;
+    this.skill3 = undefined;
+    this.skill4 = undefined;
+  }
+
   setLastMiles() {
     if (!this.final) {
       this.final = this.cardService.getSomeCardByRank(5);
     }
-    this.lastMile = this.cardService.getPathToFinal(this.final);
-    this.last2MilesFirst = this.cardService.getPathToFinal(this.lastMile.rank4Pair[0]);
+    this.lastMile = this.cardService.getPathToFinal(this.final, 0);
+    // console.log(this.lastMile);
+    this.last2MilesFirst = this.cardService.getPathToFinal(this.lastMile.rank4Pair[0], 0);
     this.cardService.addExist(this.last2MilesFirst.rank4Pair[0]);
-    this.last2MilesSecond = this.cardService.getPathToFinal(this.lastMile.rank4Pair[1]);
-
+    this.last2MilesSecond = this.cardService.getPathToFinal(this.lastMile.rank4Pair[1], 0);
     this.updateExists();
 
   }
@@ -254,7 +261,7 @@ export class CardComponent implements OnInit {
           if (this.lastMile.rank5.name !== this.lastMile.goal.name) { //着地カードがrank5じゃない場合
             this.finalRoutes[step].routes.push({
               orig: this.lastMile.rank5,
-              merged: this.lastMile.rank4Pair[1],
+              merged: this.lastMile.merged,
               goal: this.lastMile.goal
             });
           }
@@ -290,7 +297,7 @@ export class CardComponent implements OnInit {
           if (this.lastMile.rank5.name !== this.lastMile.goal.name) { //着地カードがrank5じゃない場合
             this.finalRoutes[step].routes.push({
               orig: this.lastMile.rank5,
-              merged: this.lastMile.rank4Pair[1],
+              merged: this.lastMile.merged,
               goal: this.lastMile.goal
             });
           }
@@ -327,7 +334,7 @@ export class CardComponent implements OnInit {
         if (this.lastMile.rank5.name !== this.lastMile.goal.name) { //着地カードがrank5じゃない場合
           this.finalRoutes[step].routes.push({
             orig: this.lastMile.rank5,
-            merged: this.lastMile.rank4Pair[1],
+            merged: this.lastMile.merged,
             goal: this.lastMile.goal
           });
         }

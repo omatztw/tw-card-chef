@@ -4,7 +4,10 @@
       <hr>
       <div class="col-md-12">
         <p>取得したいスキルを入力
-          <i class="fa fa-thumbs-o-up"></i></p>
+          <i class="fa fa-thumbs-o-up"></i>
+          <button type="button" class="btn btn-sm btn-danger" (click)="onClear($event)">クリア</button>
+        </p>
+
       </div>
       <div class="form-group col-md-3">
         <label for="skill1" hidden>skill1</label>
@@ -106,7 +109,7 @@
     <div class="row">
       <p class="col-md-12">着地カード入力 (Rank 4以上のみ選択可能) Rank9着地は未対応(´・ω・`)</p>
     </div>
-    <div class="row">
+    <div class="row  justify-content-center">
       <div class="form-group col-md-3">
         <label for="final" hidden>final</label>
         <select class="form-control" id="final" [(ngModel)]="final" name="final" #typef="ngModel">
@@ -115,7 +118,7 @@
         </select>
       </div>
     </div>
-    <button type="submit" class="btn btn-default">合成!!</button>
+    <button type="submit" class="btn btn-success btn-lg">合成!!</button>
   </form>
 </div>
 <!-- <p>{{this.cardService.exists| json}}</p> -->
@@ -127,7 +130,7 @@
 <hr>
 <app-result [routes]="finalRoutes"></app-result>
 <div class="container">
-<footer class="footer text-left">
-  <a href="https://github.com/omatztw/tw-card-chef">ABOUT</a>
-</footer>
+  <footer class="footer text-left">
+    <a href="https://github.com/omatztw/tw-card-chef">ABOUT</a>
+  </footer>
 </div>

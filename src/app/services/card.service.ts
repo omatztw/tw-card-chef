@@ -220,12 +220,12 @@ export class CardService {
           return skill.name === skillName;
         });
 
-        if ( prevSkill[0].value < currentSkill[0].value) {
+        if (prevSkill[0].value < currentSkill[0].value) {
           return current
         } else {
           return prev
         }
-      }, { name: 'dummy', type: 'dummy', rank: 0, skills: [{name:skillName, lv: 1, value: -5}]});
+      }, { name: 'dummy', type: 'dummy', rank: 0, skills: [{ name: skillName, lv: 1, value: -5 }] });
     }
   }
 
@@ -237,6 +237,9 @@ export class CardService {
 
 
   mergeCard(card1: Card, card2: Card): Card {
+    if (!card1 || !card2) {
+      return null;
+    }
     const type = this.getMergedCardType(card1.type, card2.type);
     const rank = this.getMergedCardRank(card1.rank, card2.rank);
     return this.getCardByType(type, rank);
@@ -446,9 +449,14 @@ export class CardService {
    * 着地カードまでの経路情報を考えた情報導き出す。
    * @param final 
    */
-  getPathToFinal(final: Card) {
+  getPathToFinal(final: Card, num) {
     const rank5 = this.getRank5Card(final);
-    const pair = this.findRank4PairFromRank5(rank5.final);
+    let pair = this.findRank4PairFromRank5(rank5.final);
+    if (pair.length === 0) {
+      this.addExist(rank5.final);
+      num++;
+      return this.getPathToFinal(final, num);
+    }
     if (pair.length) {
       return {
         rank4Pair: pair[0],
@@ -498,13 +506,17 @@ export class CardService {
     let retCardPair = [];
     const rank4cards = this.getFilteredCardByRank(4);
     rank4cards.reduce((prev, current) => {
-      const merged = this.getMergedCard(prev, current);
-      if (merged && !this.checkIfCardExist(merged)) {
-        retCardPair.push([prev, current]);
+      const goal = this.mergeCard(prev, current);
+      if (goal) {
+        if (!this.checkIfCardExist(goal)) {
+          if (goal.name === rank5card.name) {
+            retCardPair.push([prev, current]);
+          }
+        }
       }
+
       return current;
     }, null);
-
 
     return retCardPair;
   }
