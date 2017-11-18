@@ -50,28 +50,28 @@
         <label for="exist1" hidden>exist1</label>
         <select class="form-control" id="exist1" [(ngModel)]="exist1" name="exist1" #typef="ngModel">
           <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist2" hidden>exist2</label>
         <select class="form-control" id="exist2" [(ngModel)]="exist2" name="exist2" #typef="ngModel">
           <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist3" hidden>exist3</label>
         <select class="form-control" id="exist3" [(ngModel)]="exist3" name="exist3" #typef="ngModel">
           <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist4" hidden>exist4</label>
         <select class="form-control" id="exist4" [(ngModel)]="exist4" name="exist4" #typef="ngModel">
           <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
     </div>
@@ -80,41 +80,46 @@
         <label for="exist5" hidden>exist5</label>
         <select class="form-control" id="exist5" [(ngModel)]="exist5" name="exist5" #typef="ngModel">
           <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist6" hidden>exist6</label>
         <select class="form-control" id="exist6" [(ngModel)]="exist6" name="exist6" #typef="ngModel">
           <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist7" hidden>exist7</label>
         <select class="form-control" id="exist7" [(ngModel)]="exist7" name="exist7" #typef="ngModel">
           <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist8" hidden>exist8</label>
         <select class="form-control" id="exist8" [(ngModel)]="exist8" name="exist8" #typef="ngModel">
           <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
     </div>
     <hr>
     <div class="row">
-      <p class="col-md-12">着地カード入力 (Rank 4以上のみ選択可能) Rank9着地は未対応(´・ω・`)</p>
+      <p class="col-md-12">着地カード入力 (Rank 4以上9未満のみ選択可能)</p>
+      <p class="col-md-12">初期値は「{{defaultFinal.name}}」(´(･)｀)</p>
+      <p class="col-md-12">
+        <span class="bg-info text-white">背景色</span>が異なるものは初期スキルを所持していないカードなので合成前のスキルをそのまま継承できる
+        <span class="badge badge-success">ｵｽｽﾒ</span>
+      </p>
     </div>
     <div class="row  justify-content-center">
       <div class="form-group col-md-3">
         <label for="final" hidden>final</label>
         <select class="form-control" id="final" [(ngModel)]="final" name="final" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of goalCardList" [ngValue]="card">{{card.type}}R{{card.rank}}: {{card.name}}</option>
+          <!-- <option [ngValue]="null"> </option> -->
+          <option *ngFor="let card of goalCardList" [ngValue]="card" [class]="noSkillWhenLv1(card)?'bg-info text-white':''">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
     </div>

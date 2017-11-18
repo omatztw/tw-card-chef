@@ -3,6 +3,7 @@ import { CardService } from '../../services/card.service';
 import { Card } from '../../models/card.model';
 import { RouteModel } from '../../models/route.model';
 import { TYPES, cards, graph, SKILL_ARRAY, convert2Symbol } from '../../consts/index';
+import { Skill } from '../../models/skill.model';
 
 @Component({
   selector: 'app-card',
@@ -17,7 +18,7 @@ export class CardComponent implements OnInit {
   type2: string;
   rank2: number;
 
-  final: Card;
+  final: Card = this.defaultFinal;
 
   exist1: Card;
   exist2: Card;
@@ -57,6 +58,7 @@ export class CardComponent implements OnInit {
   totalSteps: number;
 
 
+
   constructor(
     private cardService: CardService
   ) { }
@@ -66,6 +68,15 @@ export class CardComponent implements OnInit {
       err => this.errMsg = err
     );
   }
+
+  // get cardList() {
+  //   cards.sort(function (a, b) {
+  //     if (a.rank < b.rank) return -1;
+  //     if (a.rank > b.rank) return 1;
+  //     return 0;
+  //   });
+  //   return cards
+  // }
 
   get skills() {
     let skills = [];
@@ -116,6 +127,22 @@ export class CardComponent implements OnInit {
       }
     );
     return cards;
+  }
+
+  get defaultFinal(): Card {
+    return this.cardService.getCardByType('人形', 5);
+  }
+
+  noSkillWhenLv1(card: Card): boolean {
+    let lv1Skills: Skill[] = [];
+    lv1Skills = card.skills.filter(skill => {
+      return skill.lv === 1;
+    });
+    if (lv1Skills.length) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
 
@@ -206,6 +233,17 @@ export class CardComponent implements OnInit {
   }
 
   onSubmit(event) {
+    if (!this.skills.length) {
+      this.cardService.error("スキル入力忘れていまっせ(ﾉ∀`)")
+      return
+    }
+    if (!this.final) {
+      this.final = this.defaultFinal;
+    }
+    if (!this.skills.length) {
+      return
+    }
+
     this.setFinalRoutes();
   }
 
@@ -217,9 +255,9 @@ export class CardComponent implements OnInit {
   }
 
   setLastMiles() {
-    if (!this.final) {
-      this.final = this.cardService.getSomeCardByRank(5);
-    }
+    // if (!this.final) {
+    //   this.final = this.cardService.getSomeCardByRank(5);
+    // }
     this.lastMile = this.cardService.getPathToFinal(this.final, 0);
     // console.log(this.lastMile);
     this.last2MilesFirst = this.cardService.getPathToFinal(this.lastMile.rank4Pair[0], 0);
@@ -230,6 +268,7 @@ export class CardComponent implements OnInit {
   }
 
   setFinalRoutes() {
+    this.finalRoutes = []; //初期化
     this.calcAllPath();
     this.totalSteps = this.skillDisplayed.length * 2 - 1;
     const skillCount = this.skillDisplayed.length;
