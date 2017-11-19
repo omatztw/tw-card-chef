@@ -91,7 +91,7 @@ export class CardComponent implements OnInit {
     return skills;
   }
 
-  get exists() {
+  get exists(): Card[] {
     let exists = [];
     if (this.exist1) exists.push(this.exist1);
     if (this.exist2) exists.push(this.exist2);
@@ -228,10 +228,19 @@ export class CardComponent implements OnInit {
   }
 
   onSubmit(event) {
+
+    this.valueInit();
+
     if (!this.skills.length) {
-      this.cardService.error("スキル入力忘れていまっせ(ﾉ∀`)")
-      return
+      this.cardService.error("スキル入力忘れていまっせ(ﾉ∀`)");
+      return;
     }
+
+    if (this.existSkillGoal()) {
+      this.cardService.error("どうも作れない組み合わせのようだ(´・ω・`) 必要なスキルの最大値を持つカードをすでに持っている気がする(´・ω・`)");
+      return;
+    }
+
     if (!this.final) {
       this.final = this.defaultFinal;
     }
@@ -240,6 +249,18 @@ export class CardComponent implements OnInit {
     }
 
     this.setFinalRoutes();
+  }
+
+  valueInit() {
+    this.finalRoutes = []; //初期化
+  }
+
+  existSkillGoal(): boolean {
+    const existSkillGoal = this.cards.filter(card => {
+      return this.exists.some(exist => exist.name === card.goal.name)
+    })
+
+    return !!existSkillGoal.length
   }
 
   onClear(event) {
@@ -263,7 +284,6 @@ export class CardComponent implements OnInit {
   }
 
   setFinalRoutes() {
-    this.finalRoutes = []; //初期化
     this.calcAllPath();
     this.totalSteps = this.skillDisplayed.length * 2 - 1;
     const skillCount = this.skillDisplayed.length;
