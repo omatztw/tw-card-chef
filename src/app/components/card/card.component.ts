@@ -178,16 +178,11 @@ export class CardComponent implements OnInit {
         this.routes[step] = [];
       } else {
         const graphDP = JSON.parse(JSON.stringify(graph));
-        const path = this.cardService.getPath(this.cards[step].start, this.cards[step].goal, graphDP);
-        this.routes[step] = this.cardService.getPerfectPath(path);
+        this.routes[step] = this.cardService.getPath(this.cards[step].start, this.cards[step].goal, graphDP);
 
-        const toMinPath = this.cardService.getPath(this.cards[step].goal, minGoal[step], graphDP);
-        this.toRankMinRoutes[step] = this.cardService.getPerfectPath(toMinPath);
+        this.toRankMinRoutes[step] = this.cardService.getPath(this.cards[step].goal, minGoal[step], graphDP);
       }
       if (step === 0) { //1枚目
-        if (stepCount === 1) {
-
-        }
         if (stepCount === 2) {
           this.cardService.addExist(this.lastMile.rank4Pair[0]);
         } else if (stepCount >= 3) {

@@ -28,69 +28,44 @@ export class CardService {
   setExistsWeight(graph) {
     let graphDeepCopy = JSON.parse(JSON.stringify(graph));
 
-    this.exists.map(card => {
-      const exist = this.getSymbolByCard(card);
-      for (let i = 1; i <= 9; i++) {
-        if (graphDeepCopy['a' + i][exist]) {
-          graphDeepCopy['a' + i][exist] = this.COST_INF;
+    this.exists.map(exist => {
+      const existSymbol = this.getSymbolByCard(exist);
+      this.cards.map(card => {
+
+        //合成結果がExistsだった場合のコストを上げる
+        const cardSymbol = this.getSymbolByCard(card);
+        if (graphDeepCopy[cardSymbol][existSymbol]) graphDeepCopy[cardSymbol][existSymbol] = this.COST_INF;
+
+        //合成対象がExistsだった場合のコストを上げる
+        const forbiddenGoal = this.mergeCard(card, exist);
+        if (!forbiddenGoal) {
+          return;
         }
-        if (graphDeepCopy['b' + i][exist]) {
-          graphDeepCopy['b' + i][exist] = this.COST_INF;
+        const forbiddenGoalSymbol = this.getSymbolByCard(forbiddenGoal);
+        if (graphDeepCopy[cardSymbol][forbiddenGoalSymbol]) {
+          graphDeepCopy[cardSymbol][forbiddenGoalSymbol] = this.COST_INF;
         }
-        if (graphDeepCopy['c' + i][exist]) {
-          graphDeepCopy['c' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['d' + i][exist]) {
-          graphDeepCopy['d' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['e' + i][exist]) {
-          graphDeepCopy['e' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['f' + i][exist]) {
-          graphDeepCopy['f' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['g' + i][exist]) {
-          graphDeepCopy['g' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['h' + i][exist]) {
-          graphDeepCopy['h' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['i' + i][exist]) {
-          graphDeepCopy['i' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['j' + i][exist]) {
-          graphDeepCopy['j' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['k' + i][exist]) {
-          graphDeepCopy['k' + i][exist] = this.COST_INF;
-        }
-        if (graphDeepCopy['l' + i][exist]) {
-          graphDeepCopy['l' + i][exist] = this.COST_INF;
-        }
-      }
+
+      });
     });
 
     return graphDeepCopy;
 
   }
 
-  makePathHeavy(start: Card, goal: Card, graph) {
-    if (!start) {
-      return graph;
-    };
-    let copy = JSON.parse(JSON.stringify(graph));
+  // makePathHeavy(start: Card, goal: Card, graph) {
+  //   if (!start) {
+  //     return graph;
+  //   };
+  //   let copy = JSON.parse(JSON.stringify(graph));
 
-    const startValue = this.getSymbolByCard(start);
-    const goalValue = this.getSymbolByCard(goal);
+  //   const startValue = this.getSymbolByCard(start);
+  //   const goalValue = this.getSymbolByCard(goal);
 
-    // console.log('Make this path to heaby!: ' + start.name + ' -> ' + goal.name)
-    copy[startValue][goalValue] = this.COST_INF;
-    return copy;
-  }
-
-  checkIfMergedCardExistOnPath(path) {
-    let suspeciousPath
-  }
+  //   // console.log('Make this path to heaby!: ' + start.name + ' -> ' + goal.name)
+  //   copy[startValue][goalValue] = this.COST_INF;
+  //   return copy;
+  // }
 
   error(msg: string) {
     this.error$.next(msg);
@@ -105,7 +80,6 @@ export class CardService {
     this.clearError();
 
     let currentGraph = this.setExistsWeight(graph);
-    let flag = false;
 
     const startValue = this.getSymbolByCard(start);
     const goalValue = this.getSymbolByCard(goal);
@@ -116,43 +90,46 @@ export class CardService {
       this.error('経路ありませんでした(´・ω・`) 作れない組み合わせかもなのかもしれない(´・ω・`)');
       return [];
     }
-    let pathList: Card[] = path.map(
+    const pathList: Card[] = path.map(
       p => {
         return this.getCardBySymbol(p);
       }
     );
 
-    pathList.reduce(
-      (prev, current, i, list) => {
-        const mergedCard = this.getMergedCard(prev, current);
-        // console.log("This will be Merged: ", mergedCard);
+    return this.getPerfectPath(pathList);
 
-        if (mergedCard ? this.exists.some(existCard => existCard.name === mergedCard.name) : false) {
-          currentGraph = this.makePathHeavy(prev, current, currentGraph);
-          flag = true;
-        }
-        return current;
-      }, null
-    );
+    // let flag = false;    
+    // pathList.reduce(
+    //   (prev, current, i, list) => {
+    //     const mergedCard = this.getMergedCard(prev, current);
+    //     // console.log("This will be Merged: ", mergedCard);
 
-    if (flag) {
-      if (count > 10) {
-        // console.log("あきらめる", pathList);
-        this.error("頑張って探したけど経路ありませんでした(´・ω・`) これから徹夜して経路探索しますが、たぶん見つからないので設定変えてみてください(´・ω・`)");
-        return [];
-      } else {
-        // console.log("RETRY!!: ", pathList);
-        count++;
-        pathList = this.getPath(start, goal, currentGraph, count);
-      }
-    }
+    //     if (mergedCard ? this.exists.some(existCard => existCard.name === mergedCard.name) : false) {
+    //       currentGraph = this.makePathHeavy(prev, current, currentGraph);
+    //       flag = true;
+    //     }
+    //     return current;
+    //   }, null
+    // );
+
+    // if (flag) {
+    //   if (count > 10) {
+    //     // console.log("あきらめる", pathList);
+    //     this.error("頑張って探したけど経路ありませんでした(´・ω・`) これから徹夜して経路探索しますが、たぶん見つからないので設定変えてみてください(´・ω・`)");
+    //     return [];
+    //   } else {
+    //     // console.log("RETRY!!: ", pathList);
+    //     count++;
+    //     pathList = this.getPath(start, goal, currentGraph, count);
+    //   }
+    // }
 
     // console.log(currentGraph);
 
-    return pathList
+    // return pathList
   }
 
-  getPerfectPath(pathList): Path[] {
+  private getPerfectPath(pathList): Path[] {
     let perfectPath: Path[] = [];
     pathList.reduce(
       (prev, current, i, list) => {
