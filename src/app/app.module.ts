@@ -7,6 +7,7 @@ import { CardComponent } from './components/card/card.component';
 
 import { CardService } from './services/card.service';
 import { ResultComponent } from './components/result/result.component';
+import { ErrorService } from './services/error.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ResultComponent } from './components/result/result.component';
     ReactiveFormsModule
   ],
   providers: [
-    CardService
+    CardService,
+    ErrorService
   ],
   bootstrap: [AppComponent]
 })

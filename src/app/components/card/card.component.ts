@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CardService } from '../../services/card.service';
 import { Card } from '../../models/card.model';
 import { RouteModel } from '../../models/route.model';
-import { TYPES, cards, graph, SKILL_ARRAY, convert2Symbol } from '../../consts/index';
+import { TYPES, cards, SKILL_ARRAY, convert2Symbol } from '../../consts/index';
 import { Skill } from '../../models/skill.model';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-card',
@@ -43,8 +44,6 @@ export class CardComponent implements OnInit {
   routes = [];
   toRankMinRoutes = [];
 
-  graph = graph;
-
   TYPES = TYPES;
   SKILL_ARRAY = SKILL_ARRAY;
   cardList = cards;
@@ -60,11 +59,12 @@ export class CardComponent implements OnInit {
 
 
   constructor(
-    private cardService: CardService
+    private cardService: CardService,
+    private errorService: ErrorService
   ) { }
 
   ngOnInit() {
-    this.cardService.error$.asObservable().subscribe(
+    this.errorService.error$.asObservable().subscribe(
       err => this.errMsg = err
     );
   }
@@ -177,10 +177,8 @@ export class CardComponent implements OnInit {
       if (!this.cards[step].start || !this.cards[step].goal) {
         this.routes[step] = [];
       } else {
-        const graphDP = JSON.parse(JSON.stringify(graph));
-        this.routes[step] = this.cardService.getPath(this.cards[step].start, this.cards[step].goal, graphDP);
-
-        this.toRankMinRoutes[step] = this.cardService.getPath(this.cards[step].goal, minGoal[step], graphDP);
+        this.routes[step] = this.cardService.getPath(this.cards[step].start, this.cards[step].goal);
+        this.toRankMinRoutes[step] = this.cardService.getPath(this.cards[step].goal, minGoal[step]);
       }
       if (step === 0) { //1枚目
         if (stepCount === 2) {
@@ -232,12 +230,12 @@ export class CardComponent implements OnInit {
     this.valueInit();
 
     if (!this.skills.length) {
-      this.cardService.error("スキル入力忘れていまっせ(ﾉ∀`)");
+      this.errorService.error("スキル入力忘れていまっせ(ﾉ∀`)");
       return;
     }
 
     if (this.existSkillGoal()) {
-      this.cardService.error("どうも作れない組み合わせのようだ(´・ω・`) 必要なスキルの最大値を持つカードをすでに持っている気がする(´・ω・`)");
+      this.errorService.error("どうも作れない組み合わせのようだ(´・ω・`) 必要なスキルの最大値を持つカードをすでに持っている気がする(´・ω・`)");
       return;
     }
 
@@ -271,11 +269,8 @@ export class CardComponent implements OnInit {
   }
 
   setLastMiles() {
-    // if (!this.final) {
-    //   this.final = this.cardService.getSomeCardByRank(5);
-    // }
+
     this.lastMile = this.cardService.getPathToFinal(this.final, 0);
-    // console.log(this.lastMile);
     this.last2MilesFirst = this.cardService.getPathToFinal(this.lastMile.rank4Pair[0], 0);
     this.cardService.addExist(this.last2MilesFirst.rank4Pair[0]);
     this.last2MilesSecond = this.cardService.getPathToFinal(this.lastMile.rank4Pair[1], 0);

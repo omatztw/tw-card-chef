@@ -5,6 +5,7 @@ import { Path } from '../models/route.model';
 import '../../assets/graph.js';
 import { graph, convert2Type, convert2Symbol } from '../consts/dijkstra-map';
 import { Subject } from 'rxjs/Rx';
+import { ErrorService } from './error.service';
 
 declare var Graph: any;
 
@@ -19,67 +20,25 @@ export class CardService {
   initGraph = graph;
   exists: Card[] = [];
   COST_INF = 10000000000000000000000000000000;
-  error$ = new Subject();
   TYPES = TYPES;
 
-  constructor() {
-  }
+  constructor(
+    private errorService: ErrorService
+  ) { }
 
-  setExistsWeight(graph) {
-    let graphDeepCopy = JSON.parse(JSON.stringify(graph));
+  //public
 
-    this.exists.map(exist => {
-      const existSymbol = this.getSymbolByCard(exist);
-      this.cards.map(card => {
 
-        //合成結果がExistsだった場合のコストを上げる
-        const cardSymbol = this.getSymbolByCard(card);
-        if (graphDeepCopy[cardSymbol][existSymbol]) graphDeepCopy[cardSymbol][existSymbol] = this.COST_INF;
+  /**
+   * ダイクストラ法で最短経路を用いる。startとgoalを指定すると、重複チェックをした後に最短経路を算出。
+   * @param start 
+   * @param goal 
+   */
+  getPath(start: Card, goal: Card): Path[] {
 
-        //合成対象がExistsだった場合のコストを上げる
-        const forbiddenGoal = this.mergeCard(card, exist);
-        if (!forbiddenGoal) {
-          return;
-        }
-        const forbiddenGoalSymbol = this.getSymbolByCard(forbiddenGoal);
-        if (graphDeepCopy[cardSymbol][forbiddenGoalSymbol]) {
-          graphDeepCopy[cardSymbol][forbiddenGoalSymbol] = this.COST_INF;
-        }
+    this.errorService.clear();
 
-      });
-    });
-
-    return graphDeepCopy;
-
-  }
-
-  // makePathHeavy(start: Card, goal: Card, graph) {
-  //   if (!start) {
-  //     return graph;
-  //   };
-  //   let copy = JSON.parse(JSON.stringify(graph));
-
-  //   const startValue = this.getSymbolByCard(start);
-  //   const goalValue = this.getSymbolByCard(goal);
-
-  //   // console.log('Make this path to heaby!: ' + start.name + ' -> ' + goal.name)
-  //   copy[startValue][goalValue] = this.COST_INF;
-  //   return copy;
-  // }
-
-  error(msg: string) {
-    this.error$.next(msg);
-  }
-
-  clearError() {
-    this.error$.next('');
-  }
-
-  getPath(start: Card, goal: Card, graph, count: number = 0) {
-
-    this.clearError();
-
-    let currentGraph = this.setExistsWeight(graph);
+    let currentGraph = this.setExistsWeight(this.initGraph);
 
     const startValue = this.getSymbolByCard(start);
     const goalValue = this.getSymbolByCard(goal);
@@ -87,7 +46,7 @@ export class CardService {
     const gr = new Graph(currentGraph);
     const path = gr.findShortestPath(startValue, goalValue);
     if (!path) {
-      this.error('経路ありませんでした(´・ω・`) 作れない組み合わせかもなのかもしれない(´・ω・`)');
+      this.errorService.error('経路ありませんでした(´・ω・`) 作れない組み合わせかもなのかもしれない(´・ω・`)');
       return [];
     }
     const pathList: Card[] = path.map(
@@ -97,73 +56,26 @@ export class CardService {
     );
 
     return this.getPerfectPath(pathList);
-
-    // let flag = false;    
-    // pathList.reduce(
-    //   (prev, current, i, list) => {
-    //     const mergedCard = this.getMergedCard(prev, current);
-    //     // console.log("This will be Merged: ", mergedCard);
-
-    //     if (mergedCard ? this.exists.some(existCard => existCard.name === mergedCard.name) : false) {
-    //       currentGraph = this.makePathHeavy(prev, current, currentGraph);
-    //       flag = true;
-    //     }
-    //     return current;
-    //   }, null
-    // );
-
-    // if (flag) {
-    //   if (count > 10) {
-    //     // console.log("あきらめる", pathList);
-    //     this.error("頑張って探したけど経路ありませんでした(´・ω・`) これから徹夜して経路探索しますが、たぶん見つからないので設定変えてみてください(´・ω・`)");
-    //     return [];
-    //   } else {
-    //     // console.log("RETRY!!: ", pathList);
-    //     count++;
-    //     pathList = this.getPath(start, goal, currentGraph, count);
-    //   }
-    // }
-
-    // console.log(currentGraph);
-
-    // return pathList
   }
 
-  private getPerfectPath(pathList): Path[] {
-    let perfectPath: Path[] = [];
-    pathList.reduce(
-      (prev, current, i, list) => {
-        const mergedCard = this.getMergedCard(prev, current);
-        perfectPath.push({
-          orig: prev,
-          merged: mergedCard,
-          goal: current
-        });
-        return current;
-      }, null
-    );
-    return perfectPath;
-  }
-
-
+  /**
+   * typeとrankから、Cardクラスを算出
+   * @param type 
+   * @param rank 
+   */
   getCardByType(type: string, rank): Card {
     return this.cards.find(card => {
       return card.type === type && card.rank === rank;
     });
   }
 
-  getCardByName(name: string): Card {
-    return this, cards.find(card => {
-      return card.name === name;
-    });
-  }
-
-  getCardsByType(type: string): Card[] {
-    return this.cards.filter(card => {
-      return card.type === type;
-    });
-  }
-
+  /**
+   * skillを所持しているカードを算出。
+   * minフラグをTrueにするとスキルを所持している最小'ランク'のカードを返却
+   * minフラグをFalseにするとスキルを所持している最大'スキルレベル'のカードを返却
+   * @param skillName
+   * @param min 
+   */
   getCardBySkill(skillName: string, min: boolean = true): Card {
 
     if (!skillName) {
@@ -206,6 +118,121 @@ export class CardService {
     }
   }
 
+  /**
+   * 所持しているカードを追加
+   * @param card 
+   */
+  addExist(card: Card) {
+    if (card) {
+      this.exists.push(card);
+    }
+  }
+
+  /**
+   * 所持しているカードをリセット
+   */
+  clearExist() {
+    this.exists = [];
+  }
+
+  /**
+   * 特定のカードを所持カードから除去
+   * @param card 
+   */
+  removeOneFromExist(card: Card) {
+    this.exists = this.exists.filter(
+      exCard => exCard.name !== card.name
+    )
+  }
+
+  /**
+ * cardから、a1,b2などのシンボルを算出
+ * @param card 
+ */
+  getSymbolByCard(card: Card): string {
+    return convert2Type[card.type] + '' + card.rank;
+  }
+
+  /**
+   * 着地カードまでの経路情報を考えた情報導き出す。
+   * 着地カードから4つのRank4まで導き出す方法を考える
+   * 1. Any -> Rank5
+   * 2. Rank5 -> Rank4, Rank4
+   * 3. Rank4, Rank4 -> Rank5, Rank5 
+   * 4. Rank5, Rank5 -> Rank4, Rank4, Rank4, Rank4
+   * 
+   * 
+   * 2と4は同じ
+   * 1と3も実質同じ
+   * 
+   * つまり、Any -> Rank5およびRank5 -> Rank4があれば良い
+   * @param final 
+   */
+  getPathToFinal(final: Card, num) {
+    const rank5 = this.getRank5Card(final);
+    let pair = this.findRank4PairFromRank5(rank5.final);
+    if (pair.length === 0) {
+      this.addExist(rank5.final);
+      num++;
+      return this.getPathToFinal(final, num);
+    }
+    if (pair.length) {
+      return {
+        rank4Pair: pair[0],
+        rank5: rank5.final,
+        merged: rank5.merged,
+        goal: final
+      }
+    }
+    return null;
+  }
+
+  //private
+
+  private setExistsWeight(graph) {
+    let graphDeepCopy = JSON.parse(JSON.stringify(graph));
+
+    this.exists.map(exist => {
+      const existSymbol = this.getSymbolByCard(exist);
+      this.cards.map(card => {
+
+        //合成結果がExistsだった場合のコストを上げる
+        const cardSymbol = this.getSymbolByCard(card);
+        if (graphDeepCopy[cardSymbol][existSymbol]) graphDeepCopy[cardSymbol][existSymbol] = this.COST_INF;
+
+        //合成対象がExistsだった場合のコストを上げる
+        const forbiddenGoal = this.mergeCard(card, exist);
+        if (!forbiddenGoal) {
+          return;
+        }
+        const forbiddenGoalSymbol = this.getSymbolByCard(forbiddenGoal);
+        if (graphDeepCopy[cardSymbol][forbiddenGoalSymbol]) {
+          graphDeepCopy[cardSymbol][forbiddenGoalSymbol] = this.COST_INF;
+        }
+
+      });
+    });
+
+    return graphDeepCopy;
+
+  }
+
+  private getPerfectPath(pathList): Path[] {
+    let perfectPath: Path[] = [];
+    pathList.reduce(
+      (prev, current, i, list) => {
+        const mergedCard = this.getMergedCard(prev, current);
+        perfectPath.push({
+          orig: prev,
+          merged: mergedCard,
+          goal: current
+        });
+        return current;
+      }, null
+    );
+    return perfectPath;
+  }
+
   private filterSkill(skills, skill: string) {
     return skills.filter(s => {
       return s.name === skill;
@@ -213,7 +240,7 @@ export class CardService {
   }
 
 
-  mergeCard(card1: Card, card2: Card): Card {
+  private mergeCard(card1: Card, card2: Card): Card {
     if (!card1 || !card2) {
       return null;
     }
@@ -228,7 +255,7 @@ export class CardService {
    * @param start 
    * @param goal 
    */
-  getMergedCard(start: Card, goal: Card): Card {
+  private getMergedCard(start: Card, goal: Card): Card {
 
     if (!start || !goal) {
       return null;
@@ -268,113 +295,6 @@ export class CardService {
     }
   }
 
-  addExist(card: Card) {
-    if (card) {
-      this.exists.push(card);
-    }
-  }
-
-  clearExist() {
-    this.exists = [];
-  }
-
-  removeOneFromExist(card: Card) {
-    this.exists = this.exists.filter(
-      exCard => exCard.name !== card.name
-    )
-  }
-
-  getSomeCardByRank(rank: number, count: number = 0): Card {
-    const randType = this.TYPES[Math.floor(Math.random() * this.TYPES.length)];
-    const retCard = this.getCardByType(randType, rank);
-
-    if (this.checkIfCardExist(retCard)) {
-      if (count > 8) {
-        this.error("ランクが「" + rank + "」のカード持ちすぎわろたｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ");
-        throw new Error();
-      } else {
-        count++;
-        return this.getSomeCardByRank(rank, count);
-      }
-    } else {
-      return this.getCardByType(randType, rank);
-    }
-  }
-
-  checkIfCardExist(card: Card): boolean {
-    return this.exists.some(c => c.name === card.name);
-  }
-
-  //目的のカードを作るための最適なペアを算出する
-  getPairCard(final: Card) {
-    let ret = [];
-    const needRankPair = this.getRankPair(final.rank);
-    const needTypePair = this.getCardListByType(final.type);
-  }
-
-  //指定したrankにするためのRankの組み合わせの最適値を算出する
-  getRankPair(rank: number) {
-    if (rank <= 1) {
-      //RANK1以下の場合は作成できない
-      return undefined;
-    }
-    let retArray = [];
-    let ranksDeepCopy = this.MIN_RANK;
-    //rank 1 - 希望のRankまででループ
-    //RANK MAX(9)までのループにすると、合成素材に作りたいRankのカードが入ってくるので希望のRankまでのループにしている。
-    for (var i = 1; i < rank; i++) {
-
-      for (var j = ranksDeepCopy; j < rank; j++) {
-        let currentRank = this.getMergedCardRank(i, j);
-        if (currentRank === rank) {
-          retArray.push({
-            rank1: i,
-            rank2: j,
-            total: i + j
-          });
-        }
-      }
-      //組み合わせ重複を避けるために、第二ループのスタート位置を一つ増やす。
-      //例えば、rank(1,2)とrank(2,1)は同じということを考慮している。
-      ranksDeepCopy++;
-    }
-
-    //最適値として、rankのトータル値が低いものを返す
-    return retArray.reduce((last, current) => {
-      if (last.total > current.total) {
-        return current;
-      } else {
-        return last;
-      }
-    }, { rank1: 100, rank: 100, total: 200 });
-  }
-
-  //目的のtypeにするための、Typeのペアを算出している
-  getCardListByType(type: string) {
-    let retArray = [];
-    let typesDeepCopy = Object.assign([], TYPES);
-    for (var i = 0; i < TYPES.length; i++) {
-
-      for (var j = 0; j < typesDeepCopy.length; j++) {
-        let currentType = this.cardMatrix[TYPES[i]][typesDeepCopy[j]];
-        if (currentType === type) {
-          retArray.push({
-            type1: TYPES[i],
-            type2: typesDeepCopy[j]
-          });
-        }
-      }
-      // 組み合わせ重複を避けるために、第二ループの配列から除去している。
-      typesDeepCopy = typesDeepCopy.filter(
-        type => {
-          return type !== TYPES[i];
-        }
-      );
-    }
-    return retArray;
-
-  }
-
   private getMergedCardType(type1: string, type2: string): string {
     return cardMatrix[type1][type2];
   }
@@ -386,65 +306,25 @@ export class CardService {
     return rankMatrix[rank1 - 1][rank2 - 1];
   }
 
+  /**
+ * 所持カードに存在するかをチェックする
+ * @param card 
+ */
+  private checkIfCardExist(card: Card): boolean {
+    return this.exists.some(c => c.name === card.name);
+  }
+
 
   /**
    * a1, a2などのシンボルから、cardを算出
    * @param symbol 
    */
-  getCardBySymbol(symbol: string): Card {
+  private getCardBySymbol(symbol: string): Card {
     const strArr = symbol.split('');
     const type = convert2Symbol[strArr[0]];
     const rank: number = parseInt(strArr[1]);
     return this.getCardByType(type, rank);
   }
-
-  /**
-   * cardから、a1,b2などのシンボルを算出
-   * @param card 
-   */
-  getSymbolByCard(card: Card): string {
-    return convert2Type[card.type] + '' + card.rank;
-  }
-
-  /*
-  * 着地カードから4つのRank4まで導き出す方法を考える
-  * 1. Any -> Rank5
-  * 2. Rank5 -> Rank4, Rank4
-  * 3. Rank4, Rank4 -> Rank5, Rank5 
-  * 4. Rank5, Rank5 -> Rank4, Rank4, Rank4, Rank4
-  * 
-  * 
-  * 2と4は同じ
-  * 1と3も実質同じ
-  * 
-  * つまり、Any -> Rank5およびRank5 -> Rank4があれば良い
-  * 
-  *                                   
-  */
-
-  /**
-   * 着地カードまでの経路情報を考えた情報導き出す。
-   * @param final 
-   */
-  getPathToFinal(final: Card, num) {
-    const rank5 = this.getRank5Card(final);
-    let pair = this.findRank4PairFromRank5(rank5.final);
-    if (pair.length === 0) {
-      this.addExist(rank5.final);
-      num++;
-      return this.getPathToFinal(final, num);
-    }
-    if (pair.length) {
-      return {
-        rank4Pair: pair[0],
-        rank5: rank5.final,
-        merged: rank5.merged,
-        goal: final
-      }
-    }
-    return null;
-  }
-
 
   /**
    * Rank5のカードで重複しないものと、着地までの素材カード（重複チェックあり）を探す
@@ -471,7 +351,7 @@ export class CardService {
         merged: merged
       };
     }
-    this.error('Rank5 カード持ちすぎわろたｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ');
+    this.errorService.error('Rank5 カード持ちすぎわろたｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ');
     throw new Error('Cannot find Rank 5 card..');
   }
 
