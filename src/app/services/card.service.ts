@@ -345,6 +345,7 @@ export class CardService {
     for (let i = 0; i < rank5cards.length; i++) {
       const merged = this.getMergedCard(rank5cards[i], final);
       // console.log(merged);
+      if (!merged) continue; //mergeがない      
       if (this.checkIfCardExist(merged)) continue;
       return {
         final: rank5cards[i],
