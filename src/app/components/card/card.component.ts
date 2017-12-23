@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CardService } from '../../services/card.service';
 import { Card } from '../../models/card.model';
-import { RouteModel } from '../../models/route.model';
+import { RouteModel, Path } from '../../models/route.model';
 import { TYPES, cards, SKILL_ARRAY, convert2Symbol } from '../../consts/index';
 import { Skill } from '../../models/skill.model';
 import { ErrorService } from '../../services/error.service';
@@ -126,7 +126,79 @@ export class CardComponent implements OnInit {
         })
       }
     );
-    return cards;
+
+    const filteredCards = this.filterDuplicatedCard(cards);
+
+    let retCards = [];
+    filteredCards.map(
+      fCard => {
+        let pre: Path[] = [];
+        let fGoal = null;
+        fCard.starts.reduce((previous, current) => {
+          fGoal = this.cardService.mergeCard(previous, current);
+          if (!fGoal) {
+            fGoal = current;
+          }
+          pre.push({
+            orig: previous,
+            merged: current,
+            goal: fGoal
+          });
+          return fGoal
+        });
+
+        let fStart;
+        if (pre.length > 0) {
+          fStart = fGoal;
+        } else {
+          fStart = fCard.starts[0]
+        }
+
+        retCards.push({
+          pre: pre,
+          start: fStart,
+          goal: fCard.goal,
+          skill: fCard.skill
+        });
+      }
+    );
+    return retCards;
+  }
+
+  /**
+   * 必要なスキルの最終カードが被っているときに統合する
+   */
+  filterDuplicatedCard(cards) {
+    let filterdCards: {
+      starts: Card[],
+      goal: Card,
+      skill: Skill[]
+    }[] = [];
+
+    cards.map(
+      card => {
+        //重複してるものを探す
+        let flag = false;
+        filterdCards.map((fCard, index) => {
+          if (fCard.goal === card.goal) {
+            filterdCards[index].starts.push(card.start);
+            filterdCards[index].skill.push(card.skill);
+            flag = true;
+          }
+        });
+
+        if (!flag) {
+          filterdCards.push({
+            starts: [card.start],
+            goal: card.goal,
+            skill: [card.skill]
+          });
+        }
+      }
+    );
+
+    return filterdCards;
+
   }
 
   get defaultFinal(): Card {
@@ -149,7 +221,7 @@ export class CardComponent implements OnInit {
   calcAllPath() {
     this.updateExists();
     this.setLastMiles();
-    this.skillDisplayed = Object.assign([], this.skills);
+    this.skillDisplayed = Object.assign([], this.cards);
     const stepCount = this.skillDisplayed.length;
     let minGoal: Card[] = [null, null, null, null];
     this.routes = [];
@@ -229,7 +301,7 @@ export class CardComponent implements OnInit {
 
     this.valueInit();
 
-    if (!this.skills.length) {
+    if (!this.cards.length) {
       this.errorService.error("スキル入力忘れていまっせ(ﾉ∀`)");
       return;
     }
@@ -242,7 +314,7 @@ export class CardComponent implements OnInit {
     if (!this.final) {
       this.final = this.defaultFinal;
     }
-    if (!this.skills.length) {
+    if (!this.cards.length) {
       return
     }
 
@@ -286,17 +358,19 @@ export class CardComponent implements OnInit {
     for (let step = 0; step < this.totalSteps; step++) {
       this.finalRoutes[step] = new RouteModel();
       if (step === 0) { //1回目は必ず最初のスキルを合成する動きになる
-        this.finalRoutes[step].skills.push(this.skillDisplayed[0]);
+        this.finalRoutes[step].pre = this.skillDisplayed[0].pre;
+        this.finalRoutes[step].skills.push(...this.skillDisplayed[0].skill);
         this.finalRoutes[step].divider = this.routes[0].length;
         this.finalRoutes[step].routes.push(...this.routes[0]);
         this.finalRoutes[step].routes.push(...this.toRankMinRoutes[0]);
       } else if (step === 1) { //2回目は必ず次のスキルを合成する動きになる
-        this.finalRoutes[step].skills.push(this.skillDisplayed[1]);
+        this.finalRoutes[step].pre = this.skillDisplayed[1].pre;
+        this.finalRoutes[step].skills.push(...this.skillDisplayed[1].skill);
         this.finalRoutes[step].divider = this.routes[1].length;
         this.finalRoutes[step].routes.push(...this.routes[1]);
         this.finalRoutes[step].routes.push(...this.toRankMinRoutes[1]);
       } else if (step === 2) { //3回目は1回目と2回目のカードを合成する動きとなる
-        this.finalRoutes[step].skills.push(this.skillDisplayed[0], this.skillDisplayed[1]);
+        this.finalRoutes[step].skills.push(...this.skillDisplayed[0].skill, ...this.skillDisplayed[1].skill);
         this.finalRoutes[step].divider = NaN; //分岐点はなし
 
         //スキルの数によって動作が異なる
@@ -329,13 +403,14 @@ export class CardComponent implements OnInit {
           );
         }
       } else if (step === 3) { //4回目は3つめのskill作成
-        this.finalRoutes[step].skills.push(this.skillDisplayed[2]);
+        this.finalRoutes[step].pre = this.skillDisplayed[2].pre;
+        this.finalRoutes[step].skills.push(...this.skillDisplayed[2].skill);
         this.finalRoutes[step].divider = this.routes[2].length;
         this.finalRoutes[step].routes.push(...this.routes[2]);
         this.finalRoutes[step].routes.push(...this.toRankMinRoutes[2]);
       } else if (step === 4) { //5回目はスキルの数によって異なる
         if (skillCount === 3) { //3つスキルがある場合は1,2,3のスキルを合成させたカードになる
-          this.finalRoutes[step].skills.push(this.skillDisplayed[0], this.skillDisplayed[1], this.skillDisplayed[2]);
+          this.finalRoutes[step].skills.push(...this.skillDisplayed[0].skill, ...this.skillDisplayed[1].skill, ...this.skillDisplayed[2].skill);
 
           this.finalRoutes[step].routes.push({
             orig: this.lastMile.rank4Pair[0],
@@ -351,13 +426,14 @@ export class CardComponent implements OnInit {
             });
           }
         } else if (skillCount === 4) { //4つスキルがある場合は、4つめのスキルカードを作成
-          this.finalRoutes[step].skills.push(this.skillDisplayed[3]);
+          this.finalRoutes[step].pre = this.skillDisplayed[3].pre;
+          this.finalRoutes[step].skills.push(...this.skillDisplayed[3].skill);
           this.finalRoutes[step].divider = this.routes[3].length;
           this.finalRoutes[step].routes.push(...this.routes[3]);
           this.finalRoutes[step].routes.push(...this.toRankMinRoutes[3]);
         }
       } else if (step === 5) { //6回目  ここに来るには4つスキルがないと不可. 3,4を合成する
-        this.finalRoutes[step].skills.push(this.skillDisplayed[2], this.skillDisplayed[3])
+        this.finalRoutes[step].skills.push(...this.skillDisplayed[2].skill, ...this.skillDisplayed[3].skill)
 
         this.finalRoutes[step].routes.push(
           {
@@ -372,7 +448,7 @@ export class CardComponent implements OnInit {
           }
         );
       } else if (step === 6) { //最後のステップ
-        this.finalRoutes[step].skills.push(this.skillDisplayed[0], this.skillDisplayed[1], this.skillDisplayed[2], this.skillDisplayed[3]);
+        this.finalRoutes[step].skills.push(...this.skillDisplayed[0].skill, ...this.skillDisplayed[1].skill, ...this.skillDisplayed[2].skill, ...this.skillDisplayed[3].skill);
         this.finalRoutes[step].divider = NaN;
         this.finalRoutes[step].routes.push({
           orig: this.lastMile.rank4Pair[0],

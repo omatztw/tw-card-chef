@@ -22,6 +22,50 @@
               <p>
                 <span *ngFor="let skill of route.skills">{{skill}}/</span>が消えたら引き直す</p>
             </div>
+            <div *ngFor="let aPre of route.pre; index as pi">
+              <div *ngIf="pi === 0" class="monster-info">
+                <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'" [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name"
+                  srcset="">
+                <p>{{aPre.orig.name}}を作成して、{{route.skills[pi]}}: {{filterSkill(route.skills[pi], aPre.orig).value}}を習得するまでモンスターLv
+                  {{filterSkill(route.skills[pi], aPre.orig).lv}}まで上げる</p>
+              </div>
+              <div class="monster-info">
+                <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'" [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name"
+                  srcset="">
+                <p>{{aPre.merged.name}}を作成して、{{route.skills[pi+1]}}: {{filterSkill(route.skills[pi+1], aPre.merged).value}}を習得するまでモンスターLv
+                  {{filterSkill(route.skills[pi+1], aPre.merged).lv}}まで上げる</p>
+              </div>
+              <div class="gousei row">
+                <div class="col-1 path-label">
+                  <i class="fa fa-circle"></i>
+                </div>
+                <div class="col-3">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'" [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name"
+                    srcset="">
+                  <div class="monster-label">{{aPre.orig.name}}</div>
+                </div>
+                <div calss="col-1">
+                  <h2>
+                    <strong>+</strong>
+                  </h2>
+                </div>
+                <div class="col-3">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'" [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name"
+                    srcset="">
+                  <div class="monster-label">{{aPre.merged.name}}</div>
+                </div>
+                <div calss="col-1">
+                  <h2>
+                    <strong>=</strong>
+                  </h2>
+                </div>
+                <div class="col-3">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.goal) + '.gif'" [alt]="'R' + aPre.goal.rank + ': ' + aPre.goal.name"
+                    srcset="">
+                  <div class="monster-label">{{aPre.goal.name}}</div>
+                </div>
+              </div>
+            </div>
             <div *ngFor="let aRoute of route.routes; index as i" class="">
               <div *ngIf="i === route.divider && route.skills.length === 1" class="monster-info">
                 <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'" [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name"

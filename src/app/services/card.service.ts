@@ -240,7 +240,7 @@ export class CardService {
   }
 
 
-  private mergeCard(card1: Card, card2: Card): Card {
+  public mergeCard(card1: Card, card2: Card): Card {
     if (!card1 || !card2) {
       return null;
     }
