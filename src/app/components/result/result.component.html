@@ -67,7 +67,7 @@
               </div>
             </div>
             <div *ngFor="let aRoute of route.routes; index as i" class="">
-              <div *ngIf="i === route.divider && route.skills.length === 1" class="monster-info">
+              <div *ngIf="i === route.divider" class="monster-info">
                 <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'" [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name"
                   srcset="">
                 <p>{{aRoute.goal.name}}で、{{route.skills[0]}}:{{filterSkill(route.skills[0], aRoute.goal).value}}を習得するまでモンスターLv
