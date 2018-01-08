@@ -26,4 +26,19 @@ export class ResultComponent {
     });
     return fskill[0];
   }
+
+  filterSkills(skills: any[], card: Card) {
+    const fskill = skills.map(
+      skill => this.filterSkill(skill, card)
+    ).filter(skill => !!skill);
+
+    return fskill[0];
+  }
+
+  getMaxLv(skills: any[], card: Card) {
+    const lvArray = skills.map(skill => {
+      return this.filterSkill(skill, card).lv
+    });
+    return Math.max(...lvArray);
+  }
 }

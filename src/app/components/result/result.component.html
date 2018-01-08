@@ -15,8 +15,8 @@
             <div *ngIf="route.skills.length===1" class="monster-info">
               <img class="monster-img" [src]="'assets/' + getSymbol(route.routes[0].goal) + '.gif'" [alt]="'R' + route.routes[0].goal.rank + ': ' + route.routes[0].goal.name"
                 srcset="">
-              <p>{{route.routes[0].goal.name}}を作成して、{{route.skills[0]}}: {{filterSkill(route.skills[0], route.routes[0].goal).value}}を習得するまでモンスターLv
-                {{filterSkill(route.skills[0], route.routes[0].goal).lv}}まで上げる</p>
+              <p>{{route.routes[0].goal.name}}を作成して、{{filterSkills(route.skills, route.routes[0].goal).name}}: {{filterSkills(route.skills,
+                route.routes[0].goal).value}}を習得するまでモンスターLv {{filterSkills(route.skills, route.routes[0].goal).lv}}まで上げる</p>
             </div>
             <div class="text-white bg-danger">
               <p>
@@ -26,14 +26,14 @@
               <div *ngIf="pi === 0" class="monster-info">
                 <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'" [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name"
                   srcset="">
-                <p>{{aPre.orig.name}}を作成して、{{route.skills[pi]}}: {{filterSkill(route.skills[pi], aPre.orig).value}}を習得するまでモンスターLv
-                  {{filterSkill(route.skills[pi], aPre.orig).lv}}まで上げる</p>
+                <p>{{aPre.orig.name}}を作成して、{{filterSkills(route.skills, aPre.orig).name}}: {{filterSkills(route.skills, aPre.orig).value}}を習得するまでモンスターLv
+                  {{filterSkills(route.skills, aPre.orig).lv}}まで上げる</p>
               </div>
-              <div class="monster-info">
+              <div *ngIf="filterSkills(route.skills, aPre.merged)" class="monster-info">
                 <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'" [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name"
                   srcset="">
-                <p>{{aPre.merged.name}}を作成して、{{route.skills[pi+1]}}: {{filterSkill(route.skills[pi+1], aPre.merged).value}}を習得するまでモンスターLv
-                  {{filterSkill(route.skills[pi+1], aPre.merged).lv}}まで上げる</p>
+                <p>{{aPre.merged.name}}を作成して、{{filterSkills(route.skills, aPre.merged).name}}: {{filterSkills(route.skills,
+                  aPre.merged).value}}を習得するまでモンスターLv {{filterSkills(route.skills, aPre.merged).lv}}まで上げる</p>
               </div>
               <div class="gousei row">
                 <div class="col-1 path-label">
@@ -70,8 +70,8 @@
               <div *ngIf="i === route.divider" class="monster-info">
                 <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'" [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name"
                   srcset="">
-                <p>{{aRoute.goal.name}}で、{{route.skills[0]}}:{{filterSkill(route.skills[0], aRoute.goal).value}}を習得するまでモンスターLv
-                  {{filterSkill(route.skills[0], aRoute.goal).lv}}まで上げる</p>
+                <p>{{aRoute.goal.name}}で、
+                  <span *ngFor="let skill of route.skills; index as i">{{skill}}:{{filterSkill(skill, aRoute.goal).value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills, aRoute.goal)}}まで上げる</p>
               </div>
               <div *ngIf="i === route.divider">
                 <p class="bg-warning">
