@@ -67,6 +67,26 @@ export class CardComponent implements OnInit {
     this.errorService.error$.asObservable().subscribe(
       err => this.errMsg = err
     );
+
+    // this.debug1();
+    // this.debug2();
+    // this.debug3();
+  }
+
+  private debug1() {
+    this.skill1 = "MR増加";
+    this.skill2 = "天の裁き";
+  }
+
+  private debug2() {
+    this.skill3 = "HACK成長";
+    this.skill4 = "追撃[風]";
+  }
+
+  private debug3() {
+    this.skill1 = "AGI成長";
+    this.skill2 = "初速";
+    this.skill3 = "属性UP[雷]"
   }
 
   // get cardList() {
@@ -133,15 +153,29 @@ export class CardComponent implements OnInit {
     filteredCards.map(
       fCard => {
         let pre: Path[] = [];
+
         let fGoal = null;
         fCard.starts.reduce((previous, current) => {
+          let fOrig = previous;
+          let fMerged = current;
           fGoal = this.cardService.mergeCard(previous, current);
-          if (!fGoal) {
+          if (fGoal === null) {
             fGoal = current;
           }
+          if (fGoal === undefined) {
+            let mGoal = this.findMiddleGoal(previous, current);
+            pre.push({
+              orig: previous,
+              merged: mGoal.merged,
+              goal: mGoal.mGoal
+            });
+            fOrig = mGoal.mGoal;
+            fMerged = current;
+            fGoal = this.cardService.mergeCard(mGoal.mGoal, current);
+          }
           pre.push({
-            orig: previous,
-            merged: current,
+            orig: fOrig,
+            merged: fMerged,
             goal: fGoal
           });
           return fGoal
@@ -165,6 +199,37 @@ export class CardComponent implements OnInit {
     return retCards;
   }
 
+  private findMiddleGoal(previous: Card, current: Card, excluds: Card[] = []): { mGoal: Card, merged: Card } {
+    const another = this.findAnother([previous, current, ...excluds]);
+    let mGoal = this.cardService.mergeCard(previous, another);
+    if (mGoal === undefined) {
+      excluds.push(another);
+      return this.findMiddleGoal(previous, current, excluds);
+    }
+
+    //中間ゴールカードをすでに所持している場合の対策
+    if (this.cardService.mergeCard(mGoal, current) === undefined) {
+      excluds.push(another);
+      return this.findMiddleGoal(previous, current, excluds);
+    }
+
+    return {
+      mGoal: mGoal,
+      merged: another
+    };
+
+  }
+
+  private findAnother(excluds: Card[]): Card {
+    for (let i = 0; i < TYPES.length; i++) {
+      const currentCandidate = this.cardService.getCardByType(TYPES[i], 1);
+      if (excluds.some(card => card === currentCandidate)) {
+        continue;
+      }
+      return currentCandidate;
+    }
+  }
+
   /**
    * 必要なスキルの最終カードが被っているときに統合する
    */
@@ -182,6 +247,7 @@ export class CardComponent implements OnInit {
         filterdCards.map((fCard, index) => {
           if (fCard.goal === card.goal) {
             filterdCards[index].starts.push(card.start);
+            filterdCards[index].starts.sort(this.sortCard);
             filterdCards[index].skill.push(card.skill);
             flag = true;
           }
@@ -198,7 +264,10 @@ export class CardComponent implements OnInit {
     );
 
     return filterdCards;
+  }
 
+  sortCard(a: Card, b: Card) {
+    return a.rank - b.rank;
   }
 
   get defaultFinal(): Card {

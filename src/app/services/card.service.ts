@@ -240,13 +240,29 @@ export class CardService {
   }
 
 
-  public mergeCard(card1: Card, card2: Card): Card {
+  /**
+   * カードを合成する。合成後のカードを返す。
+   * 合成元のカードを指定していない場合は、nullを返す。
+   * つくれない組み合わせの場合はundefindedを返す。
+   * @param card1 
+   * @param card2 
+   */
+  public mergeCard(card1: Card, card2: Card, ignoreExists = false): Card {
     if (!card1 || !card2) {
       return null;
     }
     const type = this.getMergedCardType(card1.type, card2.type);
     const rank = this.getMergedCardRank(card1.rank, card2.rank);
-    return this.getCardByType(type, rank);
+    const mergedCard = this.getCardByType(type, rank);
+    if (mergedCard === card1 || mergedCard === card2) {
+      //つくれない組み合わせの場合
+      return undefined;
+    }
+    if (!ignoreExists && this.exists.some(exist => exist === mergedCard)) {
+      //カードが重複
+      return undefined;
+    }
+    return mergedCard;
   }
 
   /**
