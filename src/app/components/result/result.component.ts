@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { RouteModel } from '../../models/route.model';
 import { Card } from '../../models/card.model';
 import { CardService } from '../../services/card.service';
+import { Skill } from '../../models/skill.model';
 
 @Component({
   selector: 'app-result',
@@ -27,18 +28,21 @@ export class ResultComponent {
     return fskill[0];
   }
 
-  filterSkills(skills: any[], card: Card) {
+  filterSkills(skills: any[], card: Card, exclude: Skill = null) {
     const fskill = skills.map(
       skill => this.filterSkill(skill, card)
-    ).filter(skill => !!skill);
+    ).filter(skill => !!skill && skill !== exclude);
 
-    return fskill[0];
+    return fskill;
   }
 
   getMaxLv(skills: any[], card: Card) {
     const lvArray = skills.map(skill => {
-      return this.filterSkill(skill, card).lv
-    });
+      const filteredSkill = this.filterSkill(skill, card);
+      if (filteredSkill) {
+        return filteredSkill.lv
+      }
+    }).filter(lv => !!lv);
     return Math.max(...lvArray);
   }
 }

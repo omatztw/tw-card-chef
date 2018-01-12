@@ -38,6 +38,36 @@
         </select>
       </div>
     </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label for="skill5" hidden>skill5</label>
+        <select class="form-control" id="skill5" [(ngModel)]="skill5" name="skill5" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="skill6" hidden>skill6</label>
+        <select class="form-control" id="skill6" [(ngModel)]="skill6" name="skill6" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="skill7" hidden>skill7</label>
+        <select class="form-control" id="skill7" [(ngModel)]="skill7" name="skill7" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="skill8" hidden>skill8</label>
+        <select class="form-control" id="skill8" [(ngModel)]="skill8" name="skill8" #typef="ngModel">
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        </select>
+      </div>
+    </div>
     <hr>
     <div class="row">
       <div class="col-md-12">

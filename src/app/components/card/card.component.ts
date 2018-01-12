@@ -5,6 +5,7 @@ import { RouteModel, Path } from '../../models/route.model';
 import { TYPES, cards, SKILL_ARRAY, convert2Symbol } from '../../consts/index';
 import { Skill } from '../../models/skill.model';
 import { ErrorService } from '../../services/error.service';
+import { FinalPathTree, FinalPathBinaryTree, FinalPath } from '../../models/final-path-tree.model';
 
 @Component({
   selector: 'app-card',
@@ -34,6 +35,13 @@ export class CardComponent implements OnInit {
   skill2: string;
   skill3: string;
   skill4: string;
+  skill5: string;
+  skill6: string;
+  skill7: string;
+  skill8: string;
+
+
+  finalPathBinaryTree: FinalPathBinaryTree;
 
   skillDisplayed = [];
 
@@ -43,15 +51,12 @@ export class CardComponent implements OnInit {
   route4;
   routes = [];
   toRankMinRoutes = [];
+  minGoals = [];
 
   TYPES = TYPES;
   SKILL_ARRAY = SKILL_ARRAY;
   cardList = cards;
   errMsg;
-
-  lastMile;
-  last2MilesFirst;
-  last2MilesSecond;
 
   finalRoutes: RouteModel[] = [];
   totalSteps: number;
@@ -67,12 +72,7 @@ export class CardComponent implements OnInit {
     this.errorService.error$.asObservable().subscribe(
       err => this.errMsg = err
     );
-
-    // this.debug1();
-    // this.debug2();
-    // this.debug3();
   }
-
   private debug1() {
     this.skill1 = "MR増加";
     this.skill2 = "天の裁き";
@@ -88,15 +88,36 @@ export class CardComponent implements OnInit {
     this.skill2 = "初速";
     this.skill3 = "属性UP[雷]"
   }
+  private debug4() {
+    this.skill5 = "AGI成長";
+    this.skill6 = "初速";
+    this.skill7 = "属性UP[雷]"
+  }
+  private debug5() {
+    this.skill1 = "SP吸収";
+    this.skill2 = "MP吸収";
+    this.skill3 = "女神の微笑";
+    this.skill4 = "瞬足";
+    this.skill7 = "属性UP[白]";
+    this.skill6 = "追撃[白]";
+    this.skill5 = "財力";
+    this.skill8 = "耐久の初撃";
+    this.exist1 = this.cardService.getCardByType('悪魔', 3);
+  }
 
-  // get cardList() {
-  //   cards.sort(function (a, b) {
-  //     if (a.rank < b.rank) return -1;
-  //     if (a.rank > b.rank) return 1;
-  //     return 0;
-  //   });
-  //   return cards
-  // }
+  private debug6() {
+    this.skill1 = "SP吸収";
+    this.skill2 = "MP吸収";
+    this.skill3 = "女神の微笑";
+    this.skill4 = "瞬足";
+    this.skill7 = "属性UP[白]";
+    this.skill6 = "追撃[白]";
+    this.skill5 = "夜行性";
+    this.skill8 = "耐久の初撃";
+    this.exist1 = this.cardService.getCardByType('ゼリー', 6);
+    this.exist2 = this.cardService.getCardByType('悪魔', 5);
+    this.exist3 = this.cardService.getCardByType('昆虫', 5);
+  }
 
   get skills() {
     let skills = [];
@@ -104,7 +125,12 @@ export class CardComponent implements OnInit {
     if (this.skill2) skills.push(this.skill2);
     if (this.skill3) skills.push(this.skill3);
     if (this.skill4) skills.push(this.skill4);
+    if (this.skill5) skills.push(this.skill5);
+    if (this.skill6) skills.push(this.skill6);
+    if (this.skill7) skills.push(this.skill7);
+    if (this.skill8) skills.push(this.skill8);
 
+    //重複するものを除く
     skills = skills.filter((skill, index) => {
       return index === skills.indexOf(skill);
     })
@@ -129,6 +155,8 @@ export class CardComponent implements OnInit {
     return exists;
   }
 
+
+  //Rank4 - 8までのカードが着地として選択可能
   get goalCardList() {
     return this.cardList.filter(card => {
       return card.rank >= 4 && card.rank <= 8;
@@ -147,31 +175,32 @@ export class CardComponent implements OnInit {
       }
     );
 
-    const filteredCards = this.filterDuplicatedCard(cards);
+    const filteredCards = this.filterDuplicatedFinalCard(cards);
 
     let retCards = [];
     filteredCards.map(
-      fCard => {
+      filteredCard => {
         let pre: Path[] = [];
 
         let fGoal = null;
-        fCard.starts.reduce((previous, current) => {
+        filteredCard.starts.reduce((previous, current) => {
           let fOrig = previous;
           let fMerged = current;
           fGoal = this.cardService.mergeCard(previous, current);
-          if (fGoal === null) {
+          if (fGoal === null) { //previous or currentのどちらかを指定していない場合
             fGoal = current;
           }
-          if (fGoal === undefined) {
-            let mGoal = this.findMiddleGoal(previous, current);
-            pre.push({
-              orig: previous,
-              merged: mGoal.merged,
-              goal: mGoal.mGoal
-            });
-            fOrig = mGoal.mGoal;
-            fMerged = current;
-            fGoal = this.cardService.mergeCard(mGoal.mGoal, current);
+          if (fGoal === undefined) { //作れない組み合わせの場合。（所持カードの重複も含まれる)
+            //一旦別のカードに迂回するための、中間点のPathを検索する。
+            let middlePath = this.findMiddleGoal(previous, current);
+            if (middlePath) {
+              pre.push(middlePath);
+              fOrig = middlePath.goal;
+              fMerged = current;
+              fGoal = this.cardService.mergeCard(middlePath.goal, current);
+            } else {
+              fGoal = this.cardService.mergeCard(previous, current, true);
+            }
           }
           pre.push({
             orig: fOrig,
@@ -185,55 +214,59 @@ export class CardComponent implements OnInit {
         if (pre.length > 0) {
           fStart = fGoal;
         } else {
-          fStart = fCard.starts[0]
+          fStart = filteredCard.starts[0]
         }
 
         retCards.push({
           pre: pre,
           start: fStart,
-          goal: fCard.goal,
-          skill: fCard.skill
+          goal: filteredCard.goal,
+          skill: filteredCard.skill
         });
       }
     );
     return retCards;
   }
 
-  private findMiddleGoal(previous: Card, current: Card, excluds: Card[] = []): { mGoal: Card, merged: Card } {
-    const another = this.findAnother([previous, current, ...excluds]);
+  /**
+   * 中間ゴールを取得する。
+   * 最終モンスターを所持している場合において、初期モンスター(種モンスター)の合成ができなかった場合に、中間ゴールを設定して回避する。
+   * 考え方：
+   *    1. Rank1の別のカードを組み合わせる。組み合わせが見つかるまで再帰的にRank1カードを探していく。
+   *    2. 中間ゴールカードを合成させたスタートカードを所持している場合もNGケースとして再度探す
+   * @param previous 
+   * @param current 
+   * @param excluds 
+   */
+  private findMiddleGoal(previous: Card, current: Card, excluds: Card[] = []): Path {
+    const another = this.cardService.findRank1Card([previous, current, ...excluds]);
+    if (!another) { //どうしても見つからない場合はあきらめる
+      return null;
+    }
     let mGoal = this.cardService.mergeCard(previous, another);
     if (mGoal === undefined) {
       excluds.push(another);
       return this.findMiddleGoal(previous, current, excluds);
     }
 
-    //中間ゴールカードをすでに所持している場合の対策
+    //中間ゴールカードを合成させたスタートカードを所持している場合
     if (this.cardService.mergeCard(mGoal, current) === undefined) {
       excluds.push(another);
       return this.findMiddleGoal(previous, current, excluds);
     }
 
     return {
-      mGoal: mGoal,
+      orig: previous,
+      goal: mGoal,
       merged: another
     };
-
-  }
-
-  private findAnother(excluds: Card[]): Card {
-    for (let i = 0; i < TYPES.length; i++) {
-      const currentCandidate = this.cardService.getCardByType(TYPES[i], 1);
-      if (excluds.some(card => card === currentCandidate)) {
-        continue;
-      }
-      return currentCandidate;
-    }
   }
 
   /**
    * 必要なスキルの最終カードが被っているときに統合する
    */
-  filterDuplicatedCard(cards) {
+  filterDuplicatedFinalCard(cards: { pre: any[], start: Card, goal: Card, skill: Skill }[]): { starts: Card[], goal: Card, skill: Skill[] }[] {
+
     let filterdCards: {
       starts: Card[],
       goal: Card,
@@ -243,17 +276,31 @@ export class CardComponent implements OnInit {
     cards.map(
       card => {
         //重複してるものを探す
-        let flag = false;
-        filterdCards.map((fCard, index) => {
-          if (fCard.goal === card.goal) {
-            filterdCards[index].starts.push(card.start);
-            filterdCards[index].starts.sort(this.sortCard);
+        let isDuplicated = false;
+        filterdCards.map((filterdCard, index) => {
+          //重複した場合統合させる。
+          //昇順になるように並べ替える。
+          if (filterdCard.goal === card.goal) {
+
+
+            const tmpFCards = cards
+              .filter(fCard => fCard.start.name !== card.start.name)
+              .filter(fCard => fCard.goal.name === card.goal.name)
+              .some(fCard => fCard.start.skills.some(s => s.name === card.skill));
+            if (!tmpFCards) {
+              filterdCards[index].starts.push(card.start);
+            } else {
+              // console.log(filterdCards[index].starts);
+              // console.log(card);
+            }
+            filterdCards[index].starts.sort((a, b) => a.rank - b.rank);
             filterdCards[index].skill.push(card.skill);
-            flag = true;
+            isDuplicated = true;
           }
         });
 
-        if (!flag) {
+        //重複していない場合は、そのまま採用する
+        if (!isDuplicated) {
           filterdCards.push({
             starts: [card.start],
             goal: card.goal,
@@ -264,10 +311,6 @@ export class CardComponent implements OnInit {
     );
 
     return filterdCards;
-  }
-
-  sortCard(a: Card, b: Card) {
-    return a.rank - b.rank;
   }
 
   get defaultFinal(): Card {
@@ -286,73 +329,122 @@ export class CardComponent implements OnInit {
     }
   }
 
-
   calcAllPath() {
-    this.updateExists();
-    this.setLastMiles();
-    this.skillDisplayed = Object.assign([], this.cards);
-    const stepCount = this.skillDisplayed.length;
-    let minGoal: Card[] = [null, null, null, null];
+    const skillCount = this.skillDisplayed.length;
+    const totalCount = skillCount * 2 - 1;
+    let shouldAdd: Card[][] = [[], [], [], [], [], [], [], []];
+    let shouldRemove: Card[][] = [[], [], [], [], [], [], [], []];
     this.routes = [];
 
+    this.updateExists();
 
-    if (stepCount === 1) {
-      minGoal[0] = this.final;
-    } else if (stepCount === 2) {
-      minGoal[0] = this.lastMile.rank4Pair[0];
-      minGoal[1] = this.lastMile.rank4Pair[1];
-    } else if (stepCount === 3) {
-      minGoal[0] = this.last2MilesFirst.rank4Pair[0];
-      minGoal[1] = this.last2MilesFirst.rank4Pair[1];
-      minGoal[2] = this.lastMile.rank4Pair[1];
-    } else if (stepCount === 4) {
-      minGoal[0] = this.last2MilesFirst.rank4Pair[0];
-      minGoal[1] = this.last2MilesFirst.rank4Pair[1];
-      minGoal[2] = this.last2MilesSecond.rank4Pair[0];
-      minGoal[3] = this.last2MilesSecond.rank4Pair[1];
+    if (skillCount === 1) {
+      shouldAdd[0].push(this.minGoals[0]);
+    } else if (skillCount === 2) {
+      shouldAdd[0].push(this.minGoals[0]);
+      shouldAdd[1].push(this.finalPathBinaryTree.data.goal);
+
+      shouldRemove[1].push(...shouldAdd[0]);
+
+    } else if (skillCount === 3) {
+      shouldAdd[0].push(this.minGoals[0]);
+      shouldAdd[1].push(this.finalPathBinaryTree.data.rank4Pair[0]);
+      shouldAdd[2].push(this.finalPathBinaryTree.data.goal);
+
+      shouldRemove[1] = shouldAdd[0];
+      shouldRemove[2] = shouldAdd[1];
+    } else if (skillCount === 4) {
+      shouldAdd[0].push(this.minGoals[0]);
+      shouldAdd[1].push(this.finalPathBinaryTree.left.data.goal);
+      shouldAdd[2].push(this.minGoals[2]);
+      shouldAdd[3].push(this.finalPathBinaryTree.data.goal);
+
+      shouldRemove[1] = shouldAdd[0];
+      shouldRemove[3].push(...shouldAdd[2]);
+      shouldRemove[3].push(...shouldAdd[1]);
+
+    } else if (skillCount === 5) {
+
+
+      shouldAdd[0].push(this.minGoals[0]);
+      shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
+      shouldAdd[2].push(this.finalPathBinaryTree.left.data.goal);
+      shouldAdd[3].push(this.minGoals[3]);
+      shouldAdd[4].push(this.finalPathBinaryTree.data.goal);
+
+      shouldRemove[0].push();
+      shouldRemove[1].push(...shouldAdd[0]);
+      shouldRemove[2].push(...shouldAdd[1]);
+      shouldRemove[3].push();
+      shouldRemove[4].push(...shouldAdd[2], ...shouldAdd[3]);
+
+
+    } else if (skillCount === 6) {
+
+      shouldAdd[0].push(this.minGoals[0]);
+      shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
+      shouldAdd[2].push(this.minGoals[2]);
+      shouldAdd[3].push(this.finalPathBinaryTree.left.data.goal);
+      shouldAdd[4].push(this.minGoals[4]);
+      shouldAdd[5].push(this.finalPathBinaryTree.data.goal);
+
+      shouldRemove[0].push();
+      shouldRemove[1].push(...shouldAdd[0]);
+      shouldRemove[2].push();
+      shouldRemove[3].push(...shouldAdd[1], ...shouldAdd[2]);
+      shouldRemove[4].push();
+      shouldRemove[5].push(...shouldAdd[3], ...shouldAdd[4]);
+
+    } else if (skillCount === 7) {
+
+      shouldAdd[0].push(this.minGoals[0]);
+      shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
+      shouldAdd[2].push(this.minGoals[1]);
+      shouldAdd[3].push(this.finalPathBinaryTree.left.data.goal);
+      shouldAdd[4].push(this.minGoals[4]);
+      shouldAdd[5].push(this.finalPathBinaryTree.right.left.data.goal);
+      shouldAdd[6].push(this.finalPathBinaryTree.data.goal);
+
+      shouldRemove[0].push();
+      shouldRemove[1].push(...shouldAdd[0]);
+      shouldRemove[2].push();
+      shouldRemove[3].push(...shouldAdd[1], ...shouldAdd[2]);
+      shouldRemove[4].push();
+      shouldRemove[5].push(...shouldAdd[3]);
+      shouldRemove[6].push(...shouldAdd[4], ...shouldAdd[5]);
+
+    } else if (skillCount === 8) {
+
+      shouldAdd[0].push(this.minGoals[0]);
+      shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
+      shouldAdd[2].push(this.minGoals[2]);
+      shouldAdd[3].push(this.finalPathBinaryTree.left.data.goal);
+      shouldAdd[4].push(this.minGoals[4]);
+      shouldAdd[5].push(this.finalPathBinaryTree.right.left.data.goal);
+      shouldAdd[6].push(this.minGoals[6]);
+      shouldAdd[7].push(this.finalPathBinaryTree.data.goal);
+
+      shouldRemove[0].push();
+      shouldRemove[1].push(...shouldAdd[0]);
+      shouldRemove[2].push();
+      shouldRemove[3].push(...shouldAdd[1], ...shouldAdd[2]);
+      shouldRemove[4].push();
+      shouldRemove[5].push(...shouldAdd[3]);
+      shouldRemove[6].push();
+      shouldRemove[7].push(...shouldAdd[4], ...shouldAdd[5], ...shouldAdd[6]);
     }
 
-
-
-    for (let step = 0; step < stepCount; step++) {
+    for (let step = 0; step < skillCount; step++) {
       if (!this.cards[step].start || !this.cards[step].goal) {
         this.routes[step] = [];
       } else {
         this.routes[step] = this.cardService.getPath(this.cards[step].start, this.cards[step].goal);
-        this.toRankMinRoutes[step] = this.cardService.getPath(this.cards[step].goal, minGoal[step]);
+        this.toRankMinRoutes[step] = this.cardService.getPath(this.cards[step].goal, this.minGoals[step]);
       }
-      if (step === 0) { //1枚目
-        if (stepCount === 2) {
-          this.cardService.addExist(this.lastMile.rank4Pair[0]);
-        } else if (stepCount >= 3) {
-          this.cardService.addExist(this.last2MilesFirst.rank4Pair[0]);
-        }
-      } else if (step === 1) { //2枚目
-        if (stepCount === 2) {
-          this.cardService.removeOneFromExist(this.lastMile.rank4Pair[0]);
-          this.cardService.addExist(this.lastMile.goal);
-        } else if (stepCount >= 3) {
-          this.cardService.removeOneFromExist(this.last2MilesFirst.rank4Pair[0]);
-          this.cardService.addExist(this.last2MilesFirst.goal);
-        }
-      } else if (step === 2) { //3枚目
-        if (stepCount === 4) {
-          this.cardService.addExist(this.last2MilesSecond.rank4Pair[0]);
-        }
-      } else if (step === 4) { //4枚目
-        if (stepCount === 4) {
-          this.cardService.removeOneFromExist(this.last2MilesSecond.rank4Pair[0]);
-          this.cardService.addExist(this.last2MilesSecond.goal);
-        }
-      }
-    }
-  }
+      shouldAdd[step].map(add => this.cardService.addExist(add));
+      shouldRemove[step].map(remove => this.cardService.removeOneFromExist(remove));
 
-  private getLastCard(routes, step: number): Card {
-    if (routes[step][routes[step].length - 1]) {
-      return routes[step][routes[step].length - 1].current;
     }
-    return null;
   }
 
   getSymbol(card) {
@@ -368,7 +460,7 @@ export class CardComponent implements OnInit {
 
   onSubmit(event) {
 
-    this.valueInit();
+    this.InitValues();
 
     if (!this.cards.length) {
       this.errorService.error("スキル入力忘れていまっせ(ﾉ∀`)");
@@ -387,11 +479,22 @@ export class CardComponent implements OnInit {
       return
     }
 
+    this.skillDisplayed = Object.assign([], this.cards);
+    const skillCount = this.skillDisplayed.length;
+    const totalCount = skillCount * 2 - 1;
+    this.makeLastMiles(this.finalPathBinaryTree, totalCount);
+    this.minGoals = this.getRoutes(this.finalPathBinaryTree, [])
+      .filter(route => { return route[0].merged === null && route[0].orig === null })
+      .map(route => { return route[0].goal; });
+    this.calcAllPath();
     this.setFinalRoutes();
   }
 
-  valueInit() {
+  InitValues() {
     this.finalRoutes = []; //初期化
+    this.skillDisplayed = Object.assign([], this.cards);
+    this.updateExists();
+    this.finalPathBinaryTree = new FinalPathBinaryTree(this.cardService.getPathToFinal(this.final, 0));
   }
 
   existSkillGoal(): boolean {
@@ -407,132 +510,103 @@ export class CardComponent implements OnInit {
     this.skill2 = undefined;
     this.skill3 = undefined;
     this.skill4 = undefined;
+    this.skill5 = undefined;
+    this.skill6 = undefined;
+    this.skill7 = undefined;
+    this.skill8 = undefined;
   }
 
-  setLastMiles() {
-
-    this.lastMile = this.cardService.getPathToFinal(this.final, 0);
-    this.last2MilesFirst = this.cardService.getPathToFinal(this.lastMile.rank4Pair[0], 0);
-    this.cardService.addExist(this.last2MilesFirst.rank4Pair[0]);
-    this.last2MilesSecond = this.cardService.getPathToFinal(this.lastMile.rank4Pair[1], 0);
+  makeLastMiles(tree: FinalPathBinaryTree, maxCount: number) {
+    if (maxCount === 1) {
+      return;
+    }
+    this.finalPathBinaryTree.add(this.cardService.getPathToFinal(tree.data.rank4Pair[0], 0));
+    this.cardService.addExist(tree.data.rank4Pair[0]);
+    this.finalPathBinaryTree.add(this.cardService.getPathToFinal(tree.data.rank4Pair[1], 0));
     this.updateExists();
+    if (maxCount > this.finalPathBinaryTree.size) {
+      const lastNode = this.finalPathBinaryTree.getLast(this.finalPathBinaryTree);
+      this.makeLastMiles(lastNode, maxCount);
+    }
+  }
 
+  getRoutes(root: FinalPathBinaryTree, current: Path[][]): Path[][] {
+    if (root.left) {
+      current = this.getRoutes(root.left, current);
+    }
+    if (root.right) {
+      current = this.getRoutes(root.right, current);
+    }
+    if (!root.left && !root.right) {
+      let path: Path = {
+        orig: null,
+        goal: root.data.goal,
+        merged: null
+      }
+      current.push([path]);
+    } else {
+      let path: Path[] = [{
+        orig: root.left.data.goal,
+        goal: root.data.rank5,
+        merged: root.right.data.goal
+      }]
+      if (root.data.rank5 !== root.data.goal) {
+        path.push({
+          orig: root.data.rank5,
+          goal: root.data.goal,
+          merged: root.data.merged
+        });
+      }
+      current.push(path);
+    }
+    return current;
   }
 
   setFinalRoutes() {
-    this.calcAllPath();
-    this.totalSteps = this.skillDisplayed.length * 2 - 1;
-    const skillCount = this.skillDisplayed.length;
-    let currentSkill = 0;
-    for (let step = 0; step < this.totalSteps; step++) {
-      this.finalRoutes[step] = new RouteModel();
-      if (step === 0) { //1回目は必ず最初のスキルを合成する動きになる
-        this.finalRoutes[step].pre = this.skillDisplayed[0].pre;
-        this.finalRoutes[step].skills.push(...this.skillDisplayed[0].skill);
-        this.finalRoutes[step].divider = this.routes[0].length;
-        this.finalRoutes[step].routes.push(...this.routes[0]);
-        this.finalRoutes[step].routes.push(...this.toRankMinRoutes[0]);
-      } else if (step === 1) { //2回目は必ず次のスキルを合成する動きになる
-        this.finalRoutes[step].pre = this.skillDisplayed[1].pre;
-        this.finalRoutes[step].skills.push(...this.skillDisplayed[1].skill);
-        this.finalRoutes[step].divider = this.routes[1].length;
-        this.finalRoutes[step].routes.push(...this.routes[1]);
-        this.finalRoutes[step].routes.push(...this.toRankMinRoutes[1]);
-      } else if (step === 2) { //3回目は1回目と2回目のカードを合成する動きとなる
-        this.finalRoutes[step].skills.push(...this.skillDisplayed[0].skill, ...this.skillDisplayed[1].skill);
-        this.finalRoutes[step].divider = NaN; //分岐点はなし
+    let currentSkillIndex = 0;
+    let skillQueue = [];
 
-        //スキルの数によって動作が異なる
-        if (skillCount === 2) { //1はありえない. スキルの数が2の時は、最後のステップは後1回
-          this.finalRoutes[step].routes.push({
-            orig: this.lastMile.rank4Pair[0],
-            merged: this.lastMile.rank4Pair[1],
-            goal: this.lastMile.rank5
-          });
-
-          if (this.lastMile.rank5.name !== this.lastMile.goal.name) { //着地カードがrank5じゃない場合
-            this.finalRoutes[step].routes.push({
-              orig: this.lastMile.rank5,
-              merged: this.lastMile.merged,
-              goal: this.lastMile.goal
-            });
+    const preRoutes = this.getRoutes(this.finalPathBinaryTree, []);
+    let offset = 0;
+    preRoutes.map(
+      (route, index, array) => {
+        if (route[0].orig === null && route[0].merged === null) {
+          if (this.skillDisplayed[currentSkillIndex]) {
+            const newRoute = new RouteModel();
+            newRoute.pre = this.skillDisplayed[currentSkillIndex].pre;
+            newRoute.skills.push(...this.skillDisplayed[currentSkillIndex].skill);
+            newRoute.divider = this.routes[currentSkillIndex].length;
+            newRoute.routes.push(...this.routes[currentSkillIndex]);
+            newRoute.routes.push(...this.toRankMinRoutes[currentSkillIndex]);
+            this.finalRoutes.push(newRoute);
+            skillQueue.push(this.skillDisplayed[currentSkillIndex].skill);
+            currentSkillIndex++;
           }
-        } else { //3つ以上スキルがあるは1枚目と2枚目を合成するステップとなる
-          this.finalRoutes[step].routes.push(
-            {
-              orig: this.last2MilesFirst.rank4Pair[0],
-              merged: this.last2MilesFirst.rank4Pair[1],
-              goal: this.last2MilesFirst.rank5
-            },
-            {
-              orig: this.last2MilesFirst.rank5,
-              merged: this.last2MilesFirst.merged,
-              goal: this.last2MilesFirst.goal
+        } else {
+          const newRoute = new RouteModel();
+          newRoute.divider = NaN;
+          newRoute.routes.push(...route);
+          if (this.skillDisplayed.length) {
+            if (index === array.length - 1) { //最後は全部
+              for (let i = 0; i < this.skillDisplayed.length; i++) {
+                newRoute.skills.push(...this.skillDisplayed[i].skill);
+              }
+
+            } else if (skillQueue.length > 1) {
+              skillQueue.map(skill => {
+                newRoute.skills.push(...skill);
+              });
+            } else {
+              for (let i = offset; i < currentSkillIndex; i++) {
+                newRoute.skills.push(...this.skillDisplayed[i].skill);
+              }
+              offset = currentSkillIndex;
             }
-          );
-        }
-      } else if (step === 3) { //4回目は3つめのskill作成
-        this.finalRoutes[step].pre = this.skillDisplayed[2].pre;
-        this.finalRoutes[step].skills.push(...this.skillDisplayed[2].skill);
-        this.finalRoutes[step].divider = this.routes[2].length;
-        this.finalRoutes[step].routes.push(...this.routes[2]);
-        this.finalRoutes[step].routes.push(...this.toRankMinRoutes[2]);
-      } else if (step === 4) { //5回目はスキルの数によって異なる
-        if (skillCount === 3) { //3つスキルがある場合は1,2,3のスキルを合成させたカードになる
-          this.finalRoutes[step].skills.push(...this.skillDisplayed[0].skill, ...this.skillDisplayed[1].skill, ...this.skillDisplayed[2].skill);
-
-          this.finalRoutes[step].routes.push({
-            orig: this.lastMile.rank4Pair[0],
-            merged: this.lastMile.rank4Pair[1],
-            goal: this.lastMile.rank5
-          });
-
-          if (this.lastMile.rank5.name !== this.lastMile.goal.name) { //着地カードがrank5じゃない場合
-            this.finalRoutes[step].routes.push({
-              orig: this.lastMile.rank5,
-              merged: this.lastMile.merged,
-              goal: this.lastMile.goal
-            });
           }
-        } else if (skillCount === 4) { //4つスキルがある場合は、4つめのスキルカードを作成
-          this.finalRoutes[step].pre = this.skillDisplayed[3].pre;
-          this.finalRoutes[step].skills.push(...this.skillDisplayed[3].skill);
-          this.finalRoutes[step].divider = this.routes[3].length;
-          this.finalRoutes[step].routes.push(...this.routes[3]);
-          this.finalRoutes[step].routes.push(...this.toRankMinRoutes[3]);
-        }
-      } else if (step === 5) { //6回目  ここに来るには4つスキルがないと不可. 3,4を合成する
-        this.finalRoutes[step].skills.push(...this.skillDisplayed[2].skill, ...this.skillDisplayed[3].skill)
-
-        this.finalRoutes[step].routes.push(
-          {
-            orig: this.last2MilesSecond.rank4Pair[0],
-            merged: this.last2MilesSecond.rank4Pair[1],
-            goal: this.last2MilesSecond.rank5
-          },
-          {
-            orig: this.last2MilesSecond.rank5,
-            merged: this.last2MilesSecond.merged,
-            goal: this.last2MilesSecond.goal
-          }
-        );
-      } else if (step === 6) { //最後のステップ
-        this.finalRoutes[step].skills.push(...this.skillDisplayed[0].skill, ...this.skillDisplayed[1].skill, ...this.skillDisplayed[2].skill, ...this.skillDisplayed[3].skill);
-        this.finalRoutes[step].divider = NaN;
-        this.finalRoutes[step].routes.push({
-          orig: this.lastMile.rank4Pair[0],
-          merged: this.lastMile.rank4Pair[1],
-          goal: this.lastMile.rank5
-        });
-
-        if (this.lastMile.rank5.name !== this.lastMile.goal.name) { //着地カードがrank5じゃない場合
-          this.finalRoutes[step].routes.push({
-            orig: this.lastMile.rank5,
-            merged: this.lastMile.merged,
-            goal: this.lastMile.goal
-          });
+          this.finalRoutes.push(newRoute);
+          skillQueue = [];
         }
       }
-    }
+    )
   }
 }

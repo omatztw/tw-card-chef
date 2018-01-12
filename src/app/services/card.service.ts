@@ -6,8 +6,9 @@ import '../../assets/graph.js';
 import { graph, convert2Type, convert2Symbol } from '../consts/dijkstra-map';
 import { Subject } from 'rxjs/Rx';
 import { ErrorService } from './error.service';
+import { FinalPath } from '../models/final-path-tree.model';
 
-declare var Graph: any;
+declare const Graph: any;
 
 @Injectable()
 export class CardService {
@@ -168,15 +169,28 @@ export class CardService {
    * つまり、Any -> Rank5およびRank5 -> Rank4があれば良い
    * @param final 
    */
-  getPathToFinal(final: Card, num) {
+  getPathToFinal(final: Card, num): FinalPath {
     const rank5 = this.getRank5Card(final);
     let pair = this.findRank4PairFromRank5(rank5.final);
     if (pair.length === 0) {
       this.addExist(rank5.final);
       num++;
+      if (num > 30) {
+        this.errorService.error('経路みつかんねｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ');
+        throw new Error('Cannot find final Route..');
+      }
       return this.getPathToFinal(final, num);
     }
     if (pair.length) {
+      pair.sort((a, b) => { //死と羽は特別なので、なるべく通らないルートにしたい(ソートで優先度を降格)
+        if (a[0].type === '死' || a[0].type === '羽') {
+          return 1;
+        }
+        if (a[1].type === '死' || a[1].type === '羽') {
+          return 1;
+        }
+        return -1;
+      });
       return {
         rank4Pair: pair[0],
         rank5: rank5.final,
@@ -187,7 +201,51 @@ export class CardService {
     return null;
   }
 
+  /**
+   * カードを合成する。合成後のカードを返す。
+   * 合成元のカードを指定していない場合は、nullを返す。
+   * つくれない組み合わせの場合はundefindedを返す。
+   * @param card1 
+   * @param card2 
+   */
+  mergeCard(card1: Card, card2: Card, ignoreExists = false): Card {
+    if (!card1 || !card2) {
+      return null;
+    }
+    const type = this.getMergedCardType(card1.type, card2.type);
+    const rank = this.getMergedCardRank(card1.rank, card2.rank);
+    const mergedCard = this.getCardByType(type, rank);
+    if (mergedCard === card1 || mergedCard === card2) {
+      //つくれない組み合わせの場合
+      return undefined;
+    }
+    if (!ignoreExists && this.exists.some(exist => exist === mergedCard)) {
+      //カードが重複
+      return undefined;
+    }
+    return mergedCard;
+  }
+
+  /**
+   * Rank 1のカードを探す。
+   * ただし、excludesに存在するものは除く。
+   * @param excluds 
+  */
+  public findRank1Card(excluds: Card[]): Card {
+    return this.findRankedCard(excluds, 1);
+  }
+
   //private
+
+  private findRankedCard(excluds: Card[], rank: number): Card {
+    for (let i = 0; i < TYPES.length; i++) {
+      const currentCandidate = this.getCardByType(TYPES[i], rank);
+      if (excluds.some(card => card === currentCandidate)) {
+        continue;
+      }
+      return currentCandidate;
+    }
+  }
 
   private setExistsWeight(graph) {
     let graphDeepCopy = JSON.parse(JSON.stringify(graph));
@@ -240,30 +298,7 @@ export class CardService {
   }
 
 
-  /**
-   * カードを合成する。合成後のカードを返す。
-   * 合成元のカードを指定していない場合は、nullを返す。
-   * つくれない組み合わせの場合はundefindedを返す。
-   * @param card1 
-   * @param card2 
-   */
-  public mergeCard(card1: Card, card2: Card, ignoreExists = false): Card {
-    if (!card1 || !card2) {
-      return null;
-    }
-    const type = this.getMergedCardType(card1.type, card2.type);
-    const rank = this.getMergedCardRank(card1.rank, card2.rank);
-    const mergedCard = this.getCardByType(type, rank);
-    if (mergedCard === card1 || mergedCard === card2) {
-      //つくれない組み合わせの場合
-      return undefined;
-    }
-    if (!ignoreExists && this.exists.some(exist => exist === mergedCard)) {
-      //カードが重複
-      return undefined;
-    }
-    return mergedCard;
-  }
+
 
   /**
    * 最初と最後のカードを指定すると、合成に使うカードを一つ算出してくれる。
@@ -346,7 +381,7 @@ export class CardService {
    * Rank5のカードで重複しないものと、着地までの素材カード（重複チェックあり）を探す
    * @param final 
    */
-  private getRank5Card(final: Card): { final: Card, merged: Card } {
+  private getRank5Card(final: Card, excludes: Card[] = []): { final: Card, merged: Card } {
     if (final.rank === 5) {
       //すでにRank5
       return {
@@ -360,14 +395,15 @@ export class CardService {
 
     for (let i = 0; i < rank5cards.length; i++) {
       const merged = this.getMergedCard(rank5cards[i], final);
-      // console.log(merged);
       if (!merged) continue; //mergeがない      
       if (this.checkIfCardExist(merged)) continue;
+      if (excludes.some(card => card === merged)) continue;
       return {
         final: rank5cards[i],
         merged: merged
       };
     }
+
     this.errorService.error('Rank5 カード持ちすぎわろたｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ');
     throw new Error('Cannot find Rank 5 card..');
   }
@@ -376,7 +412,7 @@ export class CardService {
    * rank5カードから、必要なRank4のペアの配列を算出（重複チェックあり）
    * @param rank5card 
    */
-  private findRank4PairFromRank5(rank5card: Card): Card[][] {
+  private findRank4PairFromRank5_org(rank5card: Card): Card[][] {
     let retCardPair = [];
     const rank4cards = this.getFilteredCardByRank(4);
     rank4cards.reduce((prev, current) => {
@@ -392,6 +428,28 @@ export class CardService {
       return current;
     }, null);
 
+    return retCardPair;
+  }
+
+  private findRank4PairFromRank5(rank5card: Card): Card[][] {
+    let retCardPair = [];
+    const rank4cards1 = this.getFilteredCardByRank(4);
+    const rank4cards2 = this.getFilteredCardByRank(4);
+    for (let i = 0; i < rank4cards1.length; i++) {
+      for (let j = 0; j < rank4cards2.length; j++) {
+        if (rank4cards1[i].name === rank4cards2[j].name) {
+          continue;
+        }
+        const goal = this.mergeCard(rank4cards1[i], rank4cards2[j]);
+        if (goal) {
+          if (!this.checkIfCardExist(goal)) {
+            if (goal.name === rank5card.name) {
+              retCardPair.push([rank4cards1[i], rank4cards2[j]]);
+            }
+          }
+        }
+      }
+    }
     return retCardPair;
   }
 
