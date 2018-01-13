@@ -447,6 +447,11 @@ export const cards: Card[] = [
                 lv: 6,
                 value: 3,
                 name: SKILL.追撃土
+            },
+            {
+                lv: 9,
+                value: 3,
+                name: SKILL.経験値増加
             }
         ]
     },
