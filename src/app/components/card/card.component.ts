@@ -230,6 +230,7 @@ export class CardComponent implements OnInit {
 
   /**
    * 中間ゴールを取得する。
+   *   //To Card Service
    * 最終モンスターを所持している場合において、初期モンスター(種モンスター)の合成ができなかった場合に、中間ゴールを設定して回避する。
    * 考え方：
    *    1. Rank1の別のカードを組み合わせる。組み合わせが見つかるまで再帰的にRank1カードを探していく。
@@ -317,6 +318,7 @@ export class CardComponent implements OnInit {
     return this.cardService.getCardByType('人形', 5);
   }
 
+  //To Card Service
   noSkillWhenLv1(card: Card): boolean {
     let lv1Skills: Skill[] = [];
     lv1Skills = card.skills.filter(skill => {
@@ -530,6 +532,7 @@ export class CardComponent implements OnInit {
     }
   }
 
+  //To FinalPathBinaryTree Class
   getRoutes(root: FinalPathBinaryTree, current: Path[][]): Path[][] {
     if (root.left) {
       current = this.getRoutes(root.left, current);

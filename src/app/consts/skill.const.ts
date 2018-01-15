@@ -217,3 +217,102 @@ export const SKILL_ARRAY = [
     '合成運↑Rk',
     '合成運↑MB',
 ]
+
+//test用にスキルを間引く
+export const SKILL_ARRAY_FORTEST1 = [
+    'HP回復',
+    'MP回復',
+    'SP回復',
+    'HP吸収',
+    'MP吸収',
+    'SP吸収',
+    '自己再生',
+    '緊急回避',
+    '属性UP[火]',
+    '属性UP[風]',
+]
+
+//test用にスキルを間引く
+export const SKILL_ARRAY_FORTEST2 = [
+    '属性UP[雷]',
+    '属性UP[白]',
+    '属性UP[黒]',
+    'STAB増加',
+    'HACK増加',
+    'INT増加',
+    'DEF増加',
+    'MR増加',
+    'DEX増加',
+    'AGI増加',
+
+]
+
+//test用にスキルを間引く
+export const SKILL_ARRAY_FORTEST3 = [
+    'DEF成長',
+    'MR成長',
+    'DEX成長',
+    'AGI成長',
+    '鋼の肌',
+    '魔法耐性',
+    '仁王立ち',
+    '初速',
+    '瞬足',
+    '致命打',
+
+]
+
+//test用にスキルを間引く
+export const SKILL_ARRAY_FORTEST4 = [
+    '追撃[風]',
+    '追撃[土]',
+    '追撃[雷]',
+    '追撃[白]',
+    '追撃[黒]',
+    '一心不乱',
+    '戦闘鼓舞',
+    '夜行性',
+    '不意打ち',
+    '財力',
+
+]
+
+export const SKILL_ARRAY_FORTEST5 = [
+
+    '鈍足',
+    '痛恨の一撃',
+    '女神の微笑',
+    '合成職人',
+    '宝探し',
+    '日々の恩恵',
+    '経験値増加',
+    '成長期',
+    '観察',
+    '属性UP[水]',
+]
+
+export const SKILL_ARRAY_FORTEST6 = [
+    '属性UP[土]',
+    '旋風撃',
+    'スプラッシュ',
+    'STAB成長',
+    'HACK成長',
+    'INT成長',
+    '周囲騒然',
+    '追撃[火]',
+    '追撃[水]',
+    '合成運↑Rk',
+]
+
+export const SKILL_ARRAY_FORTEST7 = [
+    '合成運↑MB',
+    '不死の力',
+    '生存本能',
+    '耐久の初撃',
+    '天の裁き',
+    'グロウス',
+    '匠の技',
+    'ドロー↑St',
+    '合成運↑Lv',
+    '合成運↑St',
+]
