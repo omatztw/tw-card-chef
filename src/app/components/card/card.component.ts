@@ -119,6 +119,17 @@ export class CardComponent implements OnInit {
     this.exist3 = this.cardService.getCardByType('昆虫', 5);
   }
 
+  private debug7() {
+    this.skill1 = "SP回復";
+    this.skill2 = "属性UP[雷]";
+    this.skill3 = "INT増加";
+    this.skill4 = "属性UP[黒]";
+    this.skill5 = "STAB増加";
+    this.skill6 = "HACK増加";
+    this.skill7 = "DEF増加";
+    this.skill8 = "AGI増加";
+  }
+
   get skills() {
     let skills = [];
     if (this.skill1) skills.push(this.skill1);
@@ -225,6 +236,10 @@ export class CardComponent implements OnInit {
         });
       }
     );
+
+    retCards.sort((a, b) => {
+      return a.skill.length - b.skill.length;
+    });
     return retCards;
   }
 
