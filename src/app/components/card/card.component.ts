@@ -130,6 +130,17 @@ export class CardComponent implements OnInit {
     this.skill8 = "AGI増加";
   }
 
+  private debug8() {
+    this.skill1 = "MP回復";
+    this.skill2 = "HACK増加";
+    this.skill3 = "STAB増加";
+    this.skill4 = "緊急回避";
+    this.skill5 = "属性UP[雷]";
+    this.skill6 = "SP吸収";
+    this.skill7 = "属性UP[白]";
+    this.skill8 = "追撃[白]";
+  }
+
   get skills() {
     let skills = [];
     if (this.skill1) skills.push(this.skill1);
@@ -449,9 +460,9 @@ export class CardComponent implements OnInit {
       shouldRemove[2].push();
       shouldRemove[3].push(...shouldAdd[1], ...shouldAdd[2]);
       shouldRemove[4].push();
-      shouldRemove[5].push(...shouldAdd[3]);
+      shouldRemove[5].push(...shouldAdd[4]);
       shouldRemove[6].push();
-      shouldRemove[7].push(...shouldAdd[4], ...shouldAdd[5], ...shouldAdd[6]);
+      shouldRemove[7].push(...shouldAdd[3], ...shouldAdd[5], ...shouldAdd[6]);
     }
 
     for (let step = 0; step < skillCount; step++) {
