@@ -472,9 +472,8 @@ export class CardComponent implements OnInit {
         this.routes[step] = this.cardService.getPath(this.cards[step].start, this.cards[step].goal);
         this.toRankMinRoutes[step] = this.cardService.getPath(this.cards[step].goal, this.minGoals[step]);
       }
-      shouldAdd[step].map(add => this.cardService.addExist(add));
       shouldRemove[step].map(remove => this.cardService.removeOneFromExist(remove));
-
+      shouldAdd[step].map(add => this.cardService.addExist(add));
     }
   }
 
