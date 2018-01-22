@@ -322,6 +322,8 @@ export class CardComponent implements OnInit {
                 // console.log(filterdCards[index].starts);
                 // console.log(card);
               }
+              //startカードの重複を除去除去
+              filterdCards[index].starts = filterdCards[index].starts.filter((x, i, self) => self.indexOf(x) === i);
               filterdCards[index].starts.sort((a, b) => a.rank - b.rank);
               filterdCards[index].skill.push(card.skill);
               isDuplicated = true;

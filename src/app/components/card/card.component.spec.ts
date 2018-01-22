@@ -382,5 +382,34 @@ describe('CardComponent', () => {
 
 
   });
+  it('水属性UPと水追撃UPのパターン', () => {
+    const service = new CardService(null);
+    component.skill1 = "SP吸収";
+    component.skill2 = "MP吸収";
+    component.skill3 = "女神の微笑";
+    component.skill4 = "瞬足";
+    component.skill5 = "属性UP[水]";
+    component.skill7 = "鋼の肌";
+    component.skill6 = "追撃[水]";
+    component.skill8 = "魔法耐性";
+    component.final = service.getCardByType('悪魔', 5);
+
+    component.exist1 = service.getCardByType('猛者', 5);
+    component.exist2 = service.getCardByType('人形', 5);
+    component.exist3 = service.getCardByType('甲羅', 5);
+
+    fixture.detectChanges();
+    component.onSubmit(null);
+    expect(component.finalRoutes.length).toBe(11);
+    component.finalRoutes.forEach(
+      route => route.routes.map(aRoute => {
+        if (aRoute.orig && aRoute.merged) {
+          expect(aRoute.goal).toBe(service.mergeCard(aRoute.orig, aRoute.merged));
+        }
+        expect(component.exists).not.toContain(aRoute.goal);
+        expect(component.exists).not.toContain(aRoute.merged);
+      })
+    );
+  });
 
 });
