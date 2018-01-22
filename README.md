@@ -53,4 +53,4 @@ https://omatztw.github.io/tw-card-chef/3rdpartylicenses.txt
 
 すべての画像データは韓国NEXON社に帰属するものとします。
 
-    Copyright © 2011 NEXON Korea Corporation and NEXON Co., Ltd. All Rights Reserved.
+    Copyright © NEXON Korea Corporation and NEXON Co., Ltd. All Rights Reserved.
