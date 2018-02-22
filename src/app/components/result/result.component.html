@@ -2,7 +2,7 @@
   <div *ngFor="let route of routes; index as ri" class="row justify-content-center">
     <div class="col-md-12 col-lg-6 recipie">
       <div class="card bg-default">
-        <div class="card-header text-left bg-primary  text-white skill-header " role="tab" [id]="'skill'+ri">
+        <div class="card-header text-left bg-primary  text-white skill-header " role="tab" [id]="'rskill'+ri">
           <a class="collapsed text-right text-white" data-toggle="collapse" data-parent="#accordion" [href]="'#collapse'+ri" aria-expanded="false"
             [attr.aria-controls]="'collapse'+ri">
             <i class="fa fa-align-justify"></i>
@@ -10,6 +10,11 @@
             <span *ngFor="let skill of route.skills">{{skill}}/</span>
           </a>
         </div>
+        <ul class="nav nav-tabs">
+          <li *ngFor="let route of routes; index as lri" class="nav-item">
+            <a class="nav-link btn btn-default btn-sm" (click)="goTo('rskill' + lri)">S{{lri + 1}}</a>
+          </li>
+        </ul>
         <div [id]="'collapse'+ri" class="collapse show" role="tabpanel" aria-labelledby="'skill'+ri">
           <div class="card-block">
             <div *ngIf="!route.pre.length && route.divider" class="monster-info">

@@ -18,3 +18,12 @@
     margin: 0.5rem 0;
     background-color: #f7f7f9;
 }
+
+.nav-link {
+    cursor: pointer;
+    font-size: 0.75em;
+    padding: 0;
+    width: 29px;
+    margin: 0;
+    border: solid 0.5px rgb(117, 117, 117);
+}

@@ -45,4 +45,9 @@ export class ResultComponent {
     }).filter(lv => !!lv);
     return Math.max(...lvArray);
   }
+
+  goTo(location: string): void {
+    window.location.hash = '';
+    window.location.hash = location;
+  }
 }
