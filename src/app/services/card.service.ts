@@ -170,10 +170,19 @@ export class CardService {
    * @param final 
    */
   getPathToFinal(final: Card, num): FinalPath {
-    const rank5 = this.getRank5Card(final);
-    let pair = this.findRank4PairFromRank5(rank5.final);
+
+    // 中間状態となるカードを摘出。基本的にはRank5のカードとRank4のペアとなる。
+    let middleCard = this.getRank5Card(final);
+    let pair = this.findRank4PairFromRank5(middleCard.final);
+    if (final.rank === 6) { // rank6が着地の場合は、Rank4のペアではなくRank4とRank5のペアを作って最後に着地したほうが効率的
+      pair = this.findRank4AndRank5PairFromRank6(final);
+      middleCard = {
+        final: final,
+        merged: null
+      }
+    }
     if (pair.length === 0) {
-      this.addExist(rank5.final);
+      this.addExist(middleCard.final);
       num++;
       if (num > 30) {
         this.errorService.error('経路みつかんねｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ');
@@ -193,8 +202,8 @@ export class CardService {
       });
       return {
         rank4Pair: pair[0],
-        rank5: rank5.final,
-        merged: rank5.merged,
+        rank5: middleCard.final,
+        merged: middleCard.merged,
         goal: final
       }
     }
@@ -431,26 +440,36 @@ export class CardService {
     return retCardPair;
   }
 
-  private findRank4PairFromRank5(rank5card: Card): Card[][] {
+  private findCardPair(foundRank1: number, foundRank2: number, fromRank: number, fromCard: Card): Card[][] {
     let retCardPair = [];
-    const rank4cards1 = this.getFilteredCardByRank(4);
-    const rank4cards2 = this.getFilteredCardByRank(4);
-    for (let i = 0; i < rank4cards1.length; i++) {
-      for (let j = 0; j < rank4cards2.length; j++) {
-        if (rank4cards1[i].name === rank4cards2[j].name) {
+    const cards1 = this.getFilteredCardByRank(foundRank1);
+    const cards2 = this.getFilteredCardByRank(foundRank2);
+    for (let i = 0; i < cards1.length; i++) {
+      for (let j = 0; j < cards2.length; j++) {
+        if (cards1[i].name === cards2[j].name) {
           continue;
         }
-        const goal = this.mergeCard(rank4cards1[i], rank4cards2[j]);
+        const goal = this.mergeCard(cards1[i], cards2[j]);
         if (goal) {
           if (!this.checkIfCardExist(goal)) {
-            if (goal.name === rank5card.name) {
-              retCardPair.push([rank4cards1[i], rank4cards2[j]]);
+            if (goal.name === fromCard.name) {
+              retCardPair.push([cards1[i], cards2[j]]);
             }
           }
         }
       }
     }
     return retCardPair;
+
+  }
+
+  private findRank4AndRank5PairFromRank6(rank6card: Card): Card[][] {
+    return this.findCardPair(4, 5, 6, rank6card);
+  }
+
+
+  private findRank4PairFromRank5(rank5card: Card): Card[][] {
+    return this.findCardPair(4, 4, 5, rank5card);
   }
 
   /**

@@ -98,6 +98,30 @@ describe('CardComponent', () => {
     expect(component.finalRoutes[7].pre.length).toBe(0); //重なった場合
   });
 
+  it('着地がRank6の場合で問題ないこと', () => {
+    const service = new CardService(null);
+    component.skill1 = "MR増加";
+    component.skill2 = "MR成長";
+    component.skill3 = "女神の微笑";
+    component.skill4 = "耐久の初撃";
+    component.skill5 = "鋼の肌";
+    component.skill6 = "魔法耐性";
+    component.skill7 = "属性UP[白]";
+    component.skill8 = "追撃[白]";
+    component.final = service.getCardByType('ゼリー', 6);
+    fixture.detectChanges();
+    component.onSubmit(null);
+    expect(component.finalRoutes.length).toBe(13);
+    component.finalRoutes.forEach(
+      route => route.routes.map(aRoute => {
+        if (aRoute.orig && aRoute.merged) {
+          expect(aRoute.goal).toBe(service.mergeCard(aRoute.orig, aRoute.merged));
+        }
+      })
+    );
+    expect(component.finalRoutes[7].pre.length).toBe(0); //重なった場合
+  });
+
   it('所有済みのカードが合成されないこと', () => {
     const service = new CardService(null);
     component.skill1 = "SP吸収";
@@ -179,7 +203,7 @@ describe('CardComponent', () => {
     );
   });
 
-  it('スキル4個のパターンで問題ないこと1', () => {
+  it('スキル8個のパターンで問題ないこと1', () => {
     const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST1, 8);
     skillPattern.forEach(
@@ -208,7 +232,7 @@ describe('CardComponent', () => {
 
 
   });
-  it('スキル4個のパターンで問題ないこと2', () => {
+  it('スキル8個のパターンで問題ないこと2', () => {
     const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST2, 8);
     skillPattern.forEach(
@@ -237,7 +261,7 @@ describe('CardComponent', () => {
 
 
   });
-  it('スキル4個のパターンで問題ないこと3', () => {
+  it('スキル8個のパターンで問題ないこと3', () => {
     const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST3, 8);
     skillPattern.forEach(
@@ -266,7 +290,7 @@ describe('CardComponent', () => {
 
 
   });
-  it('スキル4個のパターンで問題ないこと4', () => {
+  it('スキル8個のパターンで問題ないこと4', () => {
     const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST4, 8);
     skillPattern.forEach(
@@ -295,7 +319,7 @@ describe('CardComponent', () => {
 
 
   });
-  it('スキル4個のパターンで問題ないこと5', () => {
+  it('スキル8個のパターンで問題ないこと5', () => {
     const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST5, 8);
     skillPattern.forEach(
@@ -324,7 +348,7 @@ describe('CardComponent', () => {
 
 
   });
-  it('スキル4個のパターンで問題ないこと6', () => {
+  it('スキル8個のパターンで問題ないこと6', () => {
     const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST6, 8);
     skillPattern.forEach(
@@ -353,7 +377,8 @@ describe('CardComponent', () => {
 
 
   });
-  it('スキル4個のパターンで問題ないこと7', () => {
+
+  it('スキル8個のパターンで問題ないこと7', () => {
     const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST7, 8);
     skillPattern.forEach(
@@ -379,9 +404,37 @@ describe('CardComponent', () => {
 
       }
     )
-
-
   });
+
+  it('スキル8個のパターンでRank6着地で問題ないこと', () => {
+    const service = new CardService(null);
+    const skillPattern = k_combinations(SKILL_ARRAY_FORTEST1, 8);
+    skillPattern.forEach(
+      (pattern, index) => {
+        component.skill1 = pattern[0];
+        component.skill2 = pattern[1];
+        component.skill3 = pattern[2];
+        component.skill4 = pattern[3];
+        component.skill5 = pattern[4];
+        component.skill6 = pattern[5];
+        component.skill7 = pattern[6];
+        component.skill8 = pattern[7];
+        component.final = service.getCardByType('ゼリー', 6);
+        fixture.detectChanges();
+        component.onSubmit(null);
+        component.finalRoutes.forEach(
+          route => route.routes.map(aRoute => {
+            if (aRoute.orig && aRoute.merged) {
+              expect(aRoute.goal).toBe(service.mergeCard(aRoute.orig, aRoute.merged));
+            }
+            expect(component.exists).not.toContain(aRoute.goal);
+          })
+        );
+      }
+    )
+  });
+
+
   it('水属性UPと水追撃UPのパターン', () => {
     const service = new CardService(null);
     component.skill1 = "SP吸収";
