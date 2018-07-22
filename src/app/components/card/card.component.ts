@@ -141,6 +141,17 @@ export class CardComponent implements OnInit {
     this.skill8 = "追撃[白]";
   }
 
+  private debug9() {
+    this.skill1 = "MR増加";
+    this.skill2 = "MR成長";
+    this.skill3 = "女神の微笑";
+    this.skill4 = "耐久の初撃";
+    this.skill5 = "鋼の肌";
+    this.skill6 = "魔法耐性";
+    this.skill7 = "属性UP[白]";
+    this.skill8 = "追撃[白]";
+  }
+
   get skills() {
     let skills = [];
     if (this.skill1) skills.push(this.skill1);
@@ -432,7 +443,7 @@ export class CardComponent implements OnInit {
 
       shouldAdd[0].push(this.minGoals[0]);
       shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
-      shouldAdd[2].push(this.minGoals[1]);
+      shouldAdd[2].push(this.minGoals[2]);
       shouldAdd[3].push(this.finalPathBinaryTree.left.data.goal);
       shouldAdd[4].push(this.minGoals[4]);
       shouldAdd[5].push(this.finalPathBinaryTree.right.left.data.goal);
