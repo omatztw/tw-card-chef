@@ -143,6 +143,7 @@ export const SKILL = {
     合成運St: '合成運↑St',
     合成運Rk: '合成運↑Rk',
     合成運MB: '合成運↑MB',
+    食いしん坊: '食いしん坊',
 }
 
 export const SKILL_ARRAY = [
@@ -216,6 +217,7 @@ export const SKILL_ARRAY = [
     '合成運↑St',
     '合成運↑Rk',
     '合成運↑MB',
+    '食いしん坊',
 ]
 
 //test用にスキルを間引く

@@ -44,6 +44,7 @@ const COST = [
     100000,
     200000,
     300000,
+    400000,
     1000000000
 ]
 
@@ -58,20 +59,21 @@ const GEN_COST = [
     2400000,
     5600000,
     12800000,
-    22500000
+    22500000,
+    30000000
 ]
 
 //コストを計算する
 function calcCost(start, goal) {
-    const retryCount = 1; //3回繰り返すこととする
+    const retryCount = 1;
 
     //実際とは計算異なるけど、エラーにならない程度でごまかす
     let needRank = (goal - 1) * 2 - start;
     if (needRank < 1) {
         needRank = 1;
     }
-    if (needRank > 9) {
-        needRank = 9;
+    if (needRank > 10) {
+        needRank = 10;
     }
     return GEN_COST[needRank] + COST[needRank] + COST[goal] * retryCount;
 }
@@ -587,6 +589,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     b7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), // 7->5
@@ -594,6 +597,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     c7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), // 7->5
@@ -601,6 +605,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     d7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), // 7->5
@@ -608,6 +613,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     e7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), // 7->5
@@ -615,6 +621,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     f7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), // 7->5
@@ -622,6 +629,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     g7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), // 7->5
@@ -629,6 +637,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     h7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), // 7->5
@@ -636,6 +645,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     i7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), // 7->5
@@ -643,6 +653,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), // 7->7                
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), // 7->10
     },
     j7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), k5: calcCost(7, 5), l5: calcCost(7, 5), // 7->5
@@ -650,6 +661,7 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), k7: calcCost(7, 7), l7: calcCost(7, 7), // 7->7         
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), k8: calcCost(7, 8), l8: calcCost(7, 8), // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), k9: calcCost(7, 9), l9: calcCost(7, 9), // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), k10: calcCost(7, 10), l10: calcCost(7, 10), // 7->10
     },
     k7: {
         j5: calcCost(7, 5), k5: calcCost(7, 5), l5: calcCost(7, 5), // 7->5
@@ -657,6 +669,7 @@ export const graph = {
         j7: calcCost(7, 7), k7: calcCost(7, 7), l7: calcCost(7, 7), // 7->7         
         j8: calcCost(7, 8), k8: calcCost(7, 8), l8: calcCost(7, 8), // 7->8
         j9: calcCost(7, 9), k9: calcCost(7, 9), l9: calcCost(7, 9), // 7->9
+        j10: calcCost(7, 10), k10: calcCost(7, 10), l10: calcCost(7, 10), // 7->10
     },
     l7: {
         a5: calcCost(7, 5), b5: calcCost(7, 5), c5: calcCost(7, 5), d5: calcCost(7, 5), e5: calcCost(7, 5), f5: calcCost(7, 5), g5: calcCost(7, 5), h5: calcCost(7, 5), i5: calcCost(7, 5), j5: calcCost(7, 5), k5: calcCost(7, 5),  // 7->5
@@ -664,150 +677,247 @@ export const graph = {
         a7: calcCost(7, 7), b7: calcCost(7, 7), c7: calcCost(7, 7), d7: calcCost(7, 7), e7: calcCost(7, 7), f7: calcCost(7, 7), g7: calcCost(7, 7), h7: calcCost(7, 7), i7: calcCost(7, 7), j7: calcCost(7, 7), k7: calcCost(7, 7),  // 7->7         
         a8: calcCost(7, 8), b8: calcCost(7, 8), c8: calcCost(7, 8), d8: calcCost(7, 8), e8: calcCost(7, 8), f8: calcCost(7, 8), g8: calcCost(7, 8), h8: calcCost(7, 8), i8: calcCost(7, 8), j8: calcCost(7, 8), k8: calcCost(7, 8),  // 7->8
         a9: calcCost(7, 9), b9: calcCost(7, 9), c9: calcCost(7, 9), d9: calcCost(7, 9), e9: calcCost(7, 9), f9: calcCost(7, 9), g9: calcCost(7, 9), h9: calcCost(7, 9), i9: calcCost(7, 9), j9: calcCost(7, 9), k9: calcCost(7, 9),  // 7->9
+        a10: calcCost(7, 10), b10: calcCost(7, 10), c10: calcCost(7, 10), d10: calcCost(7, 10), e10: calcCost(7, 10), f10: calcCost(7, 10), g10: calcCost(7, 10), h10: calcCost(7, 10), i10: calcCost(7, 10), j10: calcCost(7, 10), k10: calcCost(7, 10),  // 7->10
     },
     a8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     b8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     c8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     d8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     e8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     f8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     g8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     h8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     i8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), // 8->6        
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), // 8->7                
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), // 8->10
     },
     j8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), k6: calcCost(8, 6), l6: calcCost(8, 6), // 8->6 
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), k7: calcCost(8, 7), l7: calcCost(8, 7), // 8->7         
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), k8: calcCost(8, 8), l8: calcCost(8, 8), // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), k9: calcCost(8, 9), l9: calcCost(8, 9), // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), k10: calcCost(8, 10), l10: calcCost(8, 10), // 8->10
     },
     k8: {
         j6: calcCost(8, 6), k6: calcCost(8, 6), l6: calcCost(8, 6), // 8->6 
         j7: calcCost(8, 7), k7: calcCost(8, 7), l7: calcCost(8, 7), // 8->7         
         j8: calcCost(8, 8), k8: calcCost(8, 8), l8: calcCost(8, 8), // 8->8
         j9: calcCost(8, 9), k9: calcCost(8, 9), l9: calcCost(8, 9), // 8->9
+        j10: calcCost(8, 10), k10: calcCost(8, 10), l10: calcCost(8, 10), // 8->10
     },
     l8: {
         a6: calcCost(8, 6), b6: calcCost(8, 6), c6: calcCost(8, 6), d6: calcCost(8, 6), e6: calcCost(8, 6), f6: calcCost(8, 6), g6: calcCost(8, 6), h6: calcCost(8, 6), i6: calcCost(8, 6), j6: calcCost(8, 6), k6: calcCost(8, 6),  // 8->6 
         a7: calcCost(8, 7), b7: calcCost(8, 7), c7: calcCost(8, 7), d7: calcCost(8, 7), e7: calcCost(8, 7), f7: calcCost(8, 7), g7: calcCost(8, 7), h7: calcCost(8, 7), i7: calcCost(8, 7), j7: calcCost(8, 7), k7: calcCost(8, 7),  // 8->7         
         a8: calcCost(8, 8), b8: calcCost(8, 8), c8: calcCost(8, 8), d8: calcCost(8, 8), e8: calcCost(8, 8), f8: calcCost(8, 8), g8: calcCost(8, 8), h8: calcCost(8, 8), i8: calcCost(8, 8), j8: calcCost(8, 8), k8: calcCost(8, 8),  // 8->8
         a9: calcCost(8, 9), b9: calcCost(8, 9), c9: calcCost(8, 9), d9: calcCost(8, 9), e9: calcCost(8, 9), f9: calcCost(8, 9), g9: calcCost(8, 9), h9: calcCost(8, 9), i9: calcCost(8, 9), j9: calcCost(8, 9), k9: calcCost(8, 9),  // 8->9
+        a10: calcCost(8, 10), b10: calcCost(8, 10), c10: calcCost(8, 10), d10: calcCost(8, 10), e10: calcCost(8, 10), f10: calcCost(8, 10), g10: calcCost(8, 10), h10: calcCost(8, 10), i10: calcCost(8, 10), j10: calcCost(8, 10), k10: calcCost(8, 10),  // 8->10
     },
     a9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     b9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     c9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     d9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     e9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     f9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     g9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     h9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     i9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), // 9->6        
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), // 9->7                
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), // 9->10
     },
     j9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), k6: calcCost(9, 6), l6: calcCost(9, 6), // 9->6 
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), k7: calcCost(9, 7), l7: calcCost(9, 7), // 9->7         
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), k8: calcCost(9, 8), l8: calcCost(9, 8), // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), k9: calcCost(9, 9), l9: calcCost(9, 9), // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), k10: calcCost(9, 10), l10: calcCost(9, 10), // 9->10
     },
     k9: {
         j6: calcCost(9, 6), k6: calcCost(9, 6), l6: calcCost(9, 6), // 9->6 
         j7: calcCost(9, 7), k7: calcCost(9, 7), l7: calcCost(9, 7), // 9->7         
         j8: calcCost(9, 8), k8: calcCost(9, 8), l8: calcCost(9, 8), // 9->8
         j9: calcCost(9, 9), k9: calcCost(9, 9), l9: calcCost(9, 9), // 9->9
+        j10: calcCost(9, 10), k10: calcCost(9, 10), l10: calcCost(9, 10), // 9->10
     },
     l9: {
         a6: calcCost(9, 6), b6: calcCost(9, 6), c6: calcCost(9, 6), d6: calcCost(9, 6), e6: calcCost(9, 6), f6: calcCost(9, 6), g6: calcCost(9, 6), h6: calcCost(9, 6), i6: calcCost(9, 6), j6: calcCost(9, 6), k6: calcCost(9, 6),  // 9->6 
         a7: calcCost(9, 7), b7: calcCost(9, 7), c7: calcCost(9, 7), d7: calcCost(9, 7), e7: calcCost(9, 7), f7: calcCost(9, 7), g7: calcCost(9, 7), h7: calcCost(9, 7), i7: calcCost(9, 7), j7: calcCost(9, 7), k7: calcCost(9, 7),  // 9->7         
         a8: calcCost(9, 8), b8: calcCost(9, 8), c8: calcCost(9, 8), d8: calcCost(9, 8), e8: calcCost(9, 8), f8: calcCost(9, 8), g8: calcCost(9, 8), h8: calcCost(9, 8), i8: calcCost(9, 8), j8: calcCost(9, 8), k8: calcCost(9, 8),  // 9->8
         a9: calcCost(9, 9), b9: calcCost(9, 9), c9: calcCost(9, 9), d9: calcCost(9, 9), e9: calcCost(9, 9), f9: calcCost(9, 9), g9: calcCost(9, 9), h9: calcCost(9, 9), i9: calcCost(9, 9), j9: calcCost(9, 9), k9: calcCost(9, 9),  // 9->9
+        a10: calcCost(9, 10), b10: calcCost(9, 10), c10: calcCost(9, 10), d10: calcCost(9, 10), e10: calcCost(9, 10), f10: calcCost(9, 10), g10: calcCost(9, 10), h10: calcCost(9, 10), i10: calcCost(9, 10), j10: calcCost(9, 10), k10: calcCost(9, 10),  // 9->10
+    },
+    a10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    b10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    c10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    d10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    e10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    f10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    g10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    h10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    i10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), // 10->7                
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), // 10->10
+    },
+    j10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), k7: calcCost(10, 7), l7: calcCost(10, 7), // 10->7         
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), k8: calcCost(10, 8), l8: calcCost(10, 8), // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), k9: calcCost(10, 9), l9: calcCost(10, 9), // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), k10: calcCost(10, 10), l10: calcCost(10, 10), // 10->10
+    },
+    k10: {
+        j7: calcCost(10, 7), k7: calcCost(10, 7), l7: calcCost(10, 7), // 10->7         
+        j8: calcCost(10, 8), k8: calcCost(10, 8), l8: calcCost(10, 8), // 10->8
+        j9: calcCost(10, 9), k9: calcCost(10, 9), l9: calcCost(10, 9), // 10->9
+        j10: calcCost(10, 10), k10: calcCost(10, 10), l10: calcCost(10, 10), // 10->10
+    },
+    l10: {
+        a7: calcCost(10, 7), b7: calcCost(10, 7), c7: calcCost(10, 7), d7: calcCost(10, 7), e7: calcCost(10, 7), f7: calcCost(10, 7), g7: calcCost(10, 7), h7: calcCost(10, 7), i7: calcCost(10, 7), j7: calcCost(10, 7), k7: calcCost(10, 7),  // 10->7         
+        a8: calcCost(10, 8), b8: calcCost(10, 8), c8: calcCost(10, 8), d8: calcCost(10, 8), e8: calcCost(10, 8), f8: calcCost(10, 8), g8: calcCost(10, 8), h8: calcCost(10, 8), i8: calcCost(10, 8), j8: calcCost(10, 8), k8: calcCost(10, 8),  // 10->8
+        a9: calcCost(10, 9), b9: calcCost(10, 9), c9: calcCost(10, 9), d9: calcCost(10, 9), e9: calcCost(10, 9), f9: calcCost(10, 9), g9: calcCost(10, 9), h9: calcCost(10, 9), i9: calcCost(10, 9), j9: calcCost(10, 9), k9: calcCost(10, 9),  // 10->9
+        a10: calcCost(10, 10), b10: calcCost(10, 10), c10: calcCost(10, 10), d10: calcCost(10, 10), e10: calcCost(10, 10), f10: calcCost(10, 10), g10: calcCost(10, 10), h10: calcCost(10, 10), i10: calcCost(10, 10), j10: calcCost(10, 10), k10: calcCost(10, 10),  // 10->10
     }
 }
 
