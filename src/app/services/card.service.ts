@@ -382,7 +382,8 @@ export class CardService {
   private getCardBySymbol(symbol: string): Card {
     const strArr = symbol.split('');
     const type = convert2Symbol[strArr[0]];
-    const rank: number = parseInt(strArr[1]);
+    const rank: number = parseInt(symbol.slice(1));
+    console.log(strArr.slice(1).reduce((prev, cur) => prev + cur, ''));
     return this.getCardByType(type, rank);
   }
 

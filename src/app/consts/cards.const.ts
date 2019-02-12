@@ -235,6 +235,11 @@ export const cards: Card[] = [
         type: 'ゼリー',
         rank: 9
     },
+    {
+        name: '亡念のグール',
+        type: 'ゼリー',
+        rank: 10
+    },
     //植物
     {
         name: 'スリーピーマン',
@@ -468,6 +473,11 @@ export const cards: Card[] = [
             }
         ]
     },
+    {
+        name: 'トゥームスコルピノ',
+        type: '植物',
+        rank: 10
+    },
     //昆虫	トゥートゥー	トト	きのこ芋虫	トルコトゥートゥー	ゴムバブル	トゥートゥーキング	マグマバブル	トゥートゥークイーン	ゴーレムコマンドー
     {
         name: 'トゥートゥー',
@@ -670,6 +680,27 @@ export const cards: Card[] = [
             }
         ]
     },
+    {
+        name: 'ゾンビマスター',
+        type: '昆虫',
+        rank: 10,
+        // Lv?/財力+3
+        // Lv?/戦闘鼓舞+3
+        // Lv?/生存本能+1
+        // Lv?/耐久の初撃+2
+        // Lv?/日々の恩恵-1
+        // Lv?/瞬足-2
+        // Lv?/MR増加+4
+        skills: [
+            {
+                // 他のスキルは使わないと思うので省略
+                // Lvはﾜｶﾗﾅｲので適当・・・。
+                lv: 9,
+                value: 4,
+                name: SKILL.MR増加
+            }
+        ]
+    },
     //人形	テディ	スモールマトリョーシカ	ビッグマトリョーシカ	ハートベア	ビックテディ	ストーンゴーレムジュニア	スノーピカ	クリスタルトランプドール	プレタ
     {
         name: 'テディ',
@@ -866,6 +897,27 @@ export const cards: Card[] = [
             }
         ]
     },
+    {
+        name: 'ゾンビ',
+        type: '人形',
+        rank: 10,
+        // Lv?/AGI増加-1
+        // Lv?/HP回復-2
+        // Lv?/自己再生-1
+        // Lv?/グロウス+3
+        // Lv?/観察+1
+        // Lv?/緊急回避+2
+        // Lv?/HACK増加+4
+        skills: [
+            {
+                // 他のスキルは使わないと思うので省略
+                // Lvはﾜｶﾗﾅｲので適当・・・。
+                lv: 9,
+                value: 4,
+                name: SKILL.HACK増加
+            }
+        ]
+    },
     //動物	ミネ	ワイルドキャット	ワイズキャット	レッドミネ	サングラミネ	ハニーベア	ハスキー	タトゥーベア	ワイルドボー
     {
         name: 'ミネ',
@@ -948,6 +1000,14 @@ export const cards: Card[] = [
         rank: 9,
         skills: [
             { lv: 1, value: 1, name: SKILL.合成運St }
+        ]
+    },
+    {
+        name: '幽霊狩猟犬',
+        type: '動物',
+        rank: 10,
+        skills: [
+            { lv: 9, value: 4, name: SKILL.STAB増加 }
         ]
     },
     //水	ハゼ	クラーケンジュニア	プニック	武士ハゼ	ボクサーハゼ	バイキングハゼ	巫女ハゼ	グレートハゼ	ユニシール
@@ -1045,6 +1105,11 @@ export const cards: Card[] = [
             { lv: 1, value: 3, name: SKILL.追撃白 }
         ]
     },
+    {
+        name: 'スケルトンマーダラー',
+        type: '水',
+        rank: 10
+    },
     //甲羅	スコルピノ	ポイズンスコルピノ	コクーン	ピティーチャップ	アレネ	サザエキャップ	クレム	エンピニオン	スクープ
     {
         name: 'スコルピノ',
@@ -1133,6 +1198,14 @@ export const cards: Card[] = [
         rank: 9,
         skills: [
             { lv: 1, value: 1, name: SKILL.合成運Rk }
+        ]
+    },
+    {
+        name: '猛毒の注視者',
+        type: '甲羅',
+        rank: 10,
+        skills: [
+            { lv: 9, value: 4, name: SKILL.INT増加 }
         ]
     },
     //精霊	森の精霊	ウィングクリスタル	クレミノ	ミラクル	クレミノタトゥー	ピケル	アジダハカ	真アジダハカ	河童
@@ -1229,6 +1302,14 @@ export const cards: Card[] = [
             { lv: 1, value: 3, name: SKILL.初速 }
         ]
     },
+    {
+        name: 'ミイラ',
+        type: '精霊',
+        rank: 10,
+        skills: [
+            { lv: 9, value: 4, name: SKILL.DEF増加 }
+        ]
+    },
     //猛者	ハリネズミ	ウサギ剣士	平原ダックウォーリア	イジワル	海岸ダックウォーリア	洞窟ダックウォーリア	スキア	武闘虎	チカブム    
     {
         name: 'ハリネズミ',
@@ -1313,6 +1394,14 @@ export const cards: Card[] = [
         rank: 9,
         skills: [
             { lv: 1, value: 3, name: SKILL.一心不乱 }
+        ]
+    },
+    {
+        name: 'ラミア',
+        type: '猛者',
+        rank: 10,
+        skills: [
+            { lv: 9, value: 4, name: SKILL.DEX増加 }
         ]
     },
     //死	ゼリッピリ	ラルヴァ	スカルウォーリア	シクル	バンデージヴァンプ	グランドラルヴァ	デビルナイト	ポーウン	夜幻影
@@ -1411,6 +1500,14 @@ export const cards: Card[] = [
             { lv: 1, value: 1, name: SKILL.ドローSt }
         ]
     },
+    {
+        name: 'モロス',
+        type: '死',
+        rank: 10,
+        skills: [
+            { lv: 9, value: 4, name: SKILL.AGI増加 }
+        ]
+    },
     //悪魔	ベービング	クルーエルベービング	ドグサ	シャピアー	ミンクス	サイモン	ムスケル	ログルベグル	ウィッキド
     {
         name: 'ベービング',
@@ -1507,6 +1604,14 @@ export const cards: Card[] = [
             { lv: 1, value: 1, name: SKILL.合成運MB }
         ]
     },
+    {
+        name: 'ヘカテー',
+        type: '悪魔',
+        rank: 10,
+        skills: [
+            { lv: 9, value: 1, name: SKILL.食いしん坊 }
+        ]
+    },
     //羽	ハニービー	ホースビー	ウィンキィ	ユニビ	モス	ラバプライア	クリセラ	ハンド	フレイムリザード
     {
         name: 'ハニービー',
@@ -1600,6 +1705,14 @@ export const cards: Card[] = [
         rank: 9,
         skills: [
             { lv: 1, value: 3, name: SKILL.属性UP火 }
+        ]
+    },
+    {
+        name: '使命の継承者ニックス',
+        type: '羽',
+        rank: 10,
+        skills: [
+            { lv: 9, value: 4, name: SKILL.女神の微笑 }
         ]
     }
 ]
