@@ -76,16 +76,17 @@ export class CardService {
    * minフラグをFalseにするとスキルを所持している最大'スキルレベル'のカードを返却
    * @param skillName
    * @param min 
+   * @param limit // カードランクの上限
    */
-  getCardBySkill(skillName: string, min: boolean = true): Card {
+  getCardBySkill(skillName: string, min: boolean = true, limit: number = 10): Card {
 
     if (!skillName) {
       return null;
     }
 
-    const filteredcards = this.cards.filter(card => {
-      return card.skills;
-    });
+    const filteredcards = this.cards
+      .filter(card => card.skills) // skillを持っていないカードは除外
+      .filter(card => card.rank <= limit); // 上限を超えたカードは除外
 
     const cardsWithSkill = filteredcards.filter(card => {
       return card.skills.some(skill => {

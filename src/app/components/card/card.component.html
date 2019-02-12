@@ -8,7 +8,12 @@
           <i class="fa fa-thumbs-o-up"></i>
           <button type="button" class="btn btn-sm btn-danger" (click)="onClear($event)">クリア</button>
         </p>
-
+        <div class="checkbox checkbox-primary">
+          <input id="rank10Enabled" type="checkbox" class="styled" checked name="rank10Enabled" [(ngModel)]="rank10Enabled">
+          <label for="rank10Enabled">
+            Rank10カードスキルを有効化
+          </label>
+        </div>
       </div>
       <div class="form-group col-md-3">
         <label for="skill1" hidden>skill1</label>

@@ -10,7 +10,7 @@ import { FinalPathTree, FinalPathBinaryTree, FinalPath } from '../../models/fina
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css']
+  styleUrls: ['./card.component.css', './toggle.css']
 })
 export class CardComponent implements OnInit {
 
@@ -60,6 +60,8 @@ export class CardComponent implements OnInit {
 
   finalRoutes: RouteModel[] = [];
   totalSteps: number;
+
+  rank10Enabled = true;
 
 
 
@@ -202,7 +204,7 @@ export class CardComponent implements OnInit {
       skill => {
         cards.push({
           start: this.cardService.getCardBySkill(skill, true),
-          goal: this.cardService.getCardBySkill(skill, false),
+          goal: this.cardService.getCardBySkill(skill, false, this.rank10Enabled ? 10 : 9),
           skill: skill
         })
       }
