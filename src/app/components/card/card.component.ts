@@ -194,7 +194,7 @@ export class CardComponent implements OnInit {
   //Rank4 - 8までのカードが着地として選択可能
   get goalCardList() {
     return this.cardList.filter(card => {
-      return card.rank >= 4 && card.rank <= 8;
+      return card.rank >= 4;
     });
   }
 
@@ -364,6 +364,9 @@ export class CardComponent implements OnInit {
 
   //To Card Service
   noSkillWhenLv1(card: Card): boolean {
+    // そもそもスキルがない場合
+    if (!card.skills) return true;
+
     let lv1Skills: Skill[] = [];
     lv1Skills = card.skills.filter(skill => {
       return skill.lv === 1;

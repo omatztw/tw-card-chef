@@ -80,7 +80,7 @@
                 <p>{{aRoute.goal.name}}で、
                   <span *ngFor="let skill of route.skills; index as i">{{skill}}:{{filterSkill(skill, aRoute.goal).value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills, aRoute.goal)}}まで上げる</p>
               </div>
-              <div *ngIf="i === route.divider">
+              <div *ngIf="i === route.divider && route.routes[route.routes.length -1].goal !== aRoute.goal">
                 <p class="bg-warning">
                   ここからR{{route.routes[route.routes.length -1].goal.rank}}の{{route.routes[route.routes.length -1].goal.name}}まで変化させよっか
                 </p>
