@@ -103,7 +103,7 @@ export class CardService {
         }
       }, { name: 'dummy', type: 'dummy', rank: 100 });
     } else {
-      return cardsWithSkill.reduce((prev, current) => {
+      return cardsWithSkill.sort((a, b) => a.rank - b.rank).reduce((prev, current) => {
         const prevSkill = prev.skills.filter(skill => {
           return skill.name === skillName;
         });
