@@ -684,17 +684,45 @@ export const cards: Card[] = [
         name: 'ゾンビマスター',
         type: '昆虫',
         rank: 10,
-        // Lv?/財力+3
-        // Lv?/戦闘鼓舞+3
-        // Lv?/生存本能+1
-        // Lv?/耐久の初撃+2
-        // Lv?/日々の恩恵-1
-        // Lv?/瞬足-2
-        // Lv?/MR増加+4
+        // Lv1/財力+3
+        // Lv3/戦闘鼓舞+3
+        // Lv5/生存本能+1
+        // Lv6/耐久の初撃+2
+        // Lv7/日々の恩恵-1
+        // Lv8/瞬足-2
+        // Lv9/MR増加+4
         skills: [
             {
-                // 他のスキルは使わないと思うので省略
-                // Lvはﾜｶﾗﾅｲので適当・・・。
+                lv: 1,
+                value: 3,
+                name: SKILL.財力
+            },
+            {
+                lv: 3,
+                value: 3,
+                name: SKILL.戦闘鼓舞
+            },
+            {
+                lv: 5,
+                value: 1,
+                name: SKILL.生存本能
+            },
+            {
+                lv: 6,
+                value: 2,
+                name: SKILL.耐久の初撃
+            },
+            {
+                lv: 7,
+                value: -1,
+                name: SKILL.日々の恩恵
+            },
+            {
+                lv: 8,
+                value: -2,
+                name: SKILL.瞬足
+            },
+            {
                 lv: 9,
                 value: 4,
                 name: SKILL.MR増加
@@ -901,17 +929,45 @@ export const cards: Card[] = [
         name: 'ゾンビ',
         type: '人形',
         rank: 10,
-        // Lv?/AGI増加-1
-        // Lv?/HP回復-2
-        // Lv?/自己再生-1
-        // Lv?/グロウス+3
-        // Lv?/観察+1
-        // Lv?/緊急回避+2
-        // Lv?/HACK増加+4
+        // Lv1/AGI増加-1
+        // Lv3/HP回復-2
+        // Lv5/自己再生-1
+        // Lv6/グロウス+3
+        // Lv7/観察+1
+        // Lv8/緊急回避+2
+        // Lv9/HACK増加+4
         skills: [
             {
-                // 他のスキルは使わないと思うので省略
-                // Lvはﾜｶﾗﾅｲので適当・・・。
+                lv: 1,
+                value: -1,
+                name: SKILL.AGI増加
+            },
+            {
+                lv: 3,
+                value: -2,
+                name: SKILL.HP回復
+            },
+            {
+                lv: 5,
+                value: -1,
+                name: SKILL.自己再生
+            },
+            {
+                lv: 6,
+                value: 3,
+                name: SKILL.グロウス
+            },
+            {
+                lv: 7,
+                value: 1,
+                name: SKILL.観察
+            },
+            {
+                lv: 8,
+                value: 2,
+                name: SKILL.緊急回避
+            },
+            {
                 lv: 9,
                 value: 4,
                 name: SKILL.HACK増加
@@ -1007,6 +1063,7 @@ export const cards: Card[] = [
         type: '動物',
         rank: 10,
         skills: [
+            { lv: 1, value: 1, name: SKILL.自己再生 },
             { lv: 9, value: 4, name: SKILL.STAB増加 }
         ]
     },
@@ -1205,6 +1262,7 @@ export const cards: Card[] = [
         type: '甲羅',
         rank: 10,
         skills: [
+            { lv: 1, value: 3, name: SKILL.属性UP黒 },
             { lv: 9, value: 4, name: SKILL.INT増加 }
         ]
     },
@@ -1307,6 +1365,7 @@ export const cards: Card[] = [
         type: '精霊',
         rank: 10,
         skills: [
+            { lv: 1, value: 1, name: SKILL.DEF成長 },
             { lv: 9, value: 4, name: SKILL.DEF増加 }
         ]
     },
@@ -1401,6 +1460,7 @@ export const cards: Card[] = [
         type: '猛者',
         rank: 10,
         skills: [
+            { lv: 1, value: 1, name: SKILL.鋼の肌 },
             { lv: 9, value: 4, name: SKILL.DEX増加 }
         ]
     },
@@ -1505,6 +1565,7 @@ export const cards: Card[] = [
         type: '死',
         rank: 10,
         skills: [
+            { lv: 1, value: -3, name: SKILL.MP吸収 },
             { lv: 9, value: 4, name: SKILL.AGI増加 }
         ]
     },
@@ -1609,6 +1670,7 @@ export const cards: Card[] = [
         type: '悪魔',
         rank: 10,
         skills: [
+            { lv: 1, value: -1, name: SKILL.HACK増加 },
             { lv: 9, value: 1, name: SKILL.食いしん坊 }
         ]
     },
@@ -1712,6 +1774,7 @@ export const cards: Card[] = [
         type: '羽',
         rank: 10,
         skills: [
+            { lv: 1, value: -3, name: SKILL.MP吸収 },
             { lv: 9, value: 4, name: SKILL.女神の微笑 }
         ]
     }

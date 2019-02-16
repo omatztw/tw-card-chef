@@ -173,14 +173,17 @@ export class CardService {
   getPathToFinal(final: Card, num): FinalPath {
 
     // 中間状態となるカードを摘出。基本的にはRank5のカードとRank4のペアとなる。
-    let middleCard = this.getRank5Card(final);
-    let pair = this.findRank4PairFromRank5(middleCard.final);
-    if (final.rank === 6) { // rank6が着地の場合は、Rank4のペアではなくRank4とRank5のペアを作って最後に着地したほうが効率的
-      pair = this.findRank4AndRank5PairFromRank6(final);
+    let middleCard: { final: Card, merged: Card };
+    let pair: Card[][];
+    if (final.rank > 5) { // rank6以上が着地の場合は、Rank4のペアではなく相応のペアにする
       middleCard = {
         final: final,
         merged: null
       }
+      pair = this.findBestPair(final);
+    } else {
+      middleCard = this.getRank5Card(final);
+      pair = this.findBestPair(middleCard.final);
     }
     if (pair.length === 0) {
       this.addExist(middleCard.final);
@@ -384,7 +387,6 @@ export class CardService {
     const strArr = symbol.split('');
     const type = convert2Symbol[strArr[0]];
     const rank: number = parseInt(symbol.slice(1));
-    console.log(strArr.slice(1).reduce((prev, cur) => prev + cur, ''));
     return this.getCardByType(type, rank);
   }
 
@@ -465,13 +467,12 @@ export class CardService {
 
   }
 
-  private findRank4AndRank5PairFromRank6(rank6card: Card): Card[][] {
-    return this.findCardPair(4, 5, 6, rank6card);
-  }
-
-
-  private findRank4PairFromRank5(rank5card: Card): Card[][] {
-    return this.findCardPair(4, 4, 5, rank5card);
+  private findBestPair(card: Card): Card[][] {
+    if (card.rank > 5) {
+      return this.findCardPair(card.rank - 2, card.rank - 1, card.rank, card);
+    }
+    // 4未満のカードは不可
+    return this.findCardPair(4, 4, 5, card);
   }
 
   /**
