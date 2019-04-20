@@ -61,7 +61,7 @@ export class CardComponent implements OnInit {
   finalRoutes: RouteModel[] = [];
   totalSteps: number;
 
-  rank10Enabled = true;
+  rank10Enabled = false;
 
 
 
