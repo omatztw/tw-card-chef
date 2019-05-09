@@ -517,4 +517,65 @@ describe('CardComponent', () => {
     );
   });
 
+  it('イジワルが重複する問題', () => {
+    const service = new CardService(null);
+    component.skill1 = "属性UP[白]";
+    component.skill2 = "追撃[白]";
+    component.skill3 = "MP吸収";
+    component.skill4 = "SP吸収";
+    component.skill5 = "女神の微笑";
+    component.skill6 = "瞬足";
+    component.skill7 = "初速";
+    component.skill8 = "耐久の初撃";
+    component.final = service.getCardByType('昆虫', 4);
+
+    fixture.detectChanges();
+    component.onSubmit(null);
+    expect(component.finalRoutes.length).toBe(15);
+    component.finalRoutes.forEach(
+      (route, index) => route.routes.map(aRoute => {
+        if (aRoute.orig && aRoute.merged) {
+          expect(aRoute.goal).toBe(service.mergeCard(aRoute.orig, aRoute.merged));
+        }
+        if (index >= 7 && index <= 13) { // 右半分にイジワル[6]がいないこと
+          expect(component.finalRoutes[6].routes[component.finalRoutes[6].routes.length - 1].goal).not.toBe(aRoute.goal);
+          expect(component.finalRoutes[6].routes[component.finalRoutes[6].routes.length - 1].goal).not.toBe(aRoute.merged);
+        }
+        expect(service.exists).not.toContain(aRoute.goal);
+        expect(service.exists).not.toContain(aRoute.merged);
+      })
+    );
+  });
+
+  it('イジワルが重複する問題2', () => {
+    const service = new CardService(null);
+    component.skill1 = "HP吸収";
+    component.skill2 = "MP吸収";
+    component.skill3 = "属性UP[黒]";
+    component.skill4 = "追撃[黒]";
+    component.skill5 = "瞬足";
+    component.skill6 = "女神の微笑";
+    component.skill7 = "自己再生";
+    component.skill8 = "初速";
+    component.exist1 = service.getCardByType('人形', 8)
+    component.final = service.getCardByType('人形', 5);
+
+    fixture.detectChanges();
+    component.onSubmit(null);
+    expect(component.finalRoutes.length).toBe(15);
+    component.finalRoutes.forEach(
+      (route, index) => route.routes.map(aRoute => {
+        if (aRoute.orig && aRoute.merged) {
+          expect(aRoute.goal).toBe(service.mergeCard(aRoute.orig, aRoute.merged));
+        }
+        if (index >= 7 && index <= 13) { // 右半分にイジワル[6]がいないこと
+          expect(component.finalRoutes[6].routes[component.finalRoutes[6].routes.length - 1].goal).not.toBe(aRoute.goal);
+          expect(component.finalRoutes[6].routes[component.finalRoutes[6].routes.length - 1].goal).not.toBe(aRoute.merged);
+        }
+        expect(service.exists).not.toContain(aRoute.goal);
+        expect(service.exists).not.toContain(aRoute.merged);
+      })
+    );
+  });
+
 });

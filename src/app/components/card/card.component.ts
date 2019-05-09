@@ -96,15 +96,16 @@ export class CardComponent implements OnInit {
     this.skill7 = "属性UP[雷]"
   }
   private debug5() {
-    this.skill1 = "SP吸収";
-    this.skill2 = "MP吸収";
-    this.skill3 = "女神の微笑";
-    this.skill4 = "瞬足";
-    this.skill7 = "属性UP[白]";
-    this.skill6 = "追撃[白]";
-    this.skill5 = "財力";
+    this.skill1 = "属性UP[白]";
+    this.skill2 = "追撃[白]";
+    this.skill3 = "MP吸収";
+    this.skill4 = "SP吸収";
+    this.skill5 = "女神の微笑";
+    this.skill6 = "瞬足";
+    this.skill7 = "初速";
     this.skill8 = "耐久の初撃";
-    this.exist1 = this.cardService.getCardByType('悪魔', 3);
+    this.final = this.cardService.getCardByType('昆虫', 4);
+    // this.exist1 = this.cardService.getCardByType('悪魔', 3);
   }
 
   private debug6() {
@@ -499,8 +500,9 @@ export class CardComponent implements OnInit {
     return this.cardService.getSymbolByCard(card);
   }
 
-  updateExists() {
+  updateExists(excluds: Card[] = []) {
     this.cardService.clearExist();
+    excluds.map(exclud => this.cardService.addExist(exclud));
     this.exists.map(exist => {
       this.cardService.addExist(exist);
     })
@@ -571,7 +573,8 @@ export class CardComponent implements OnInit {
     this.finalPathBinaryTree.add(this.cardService.getPathToFinal(tree.data.rank4Pair[0], 0));
     this.cardService.addExist(tree.data.rank4Pair[0]);
     this.finalPathBinaryTree.add(this.cardService.getPathToFinal(tree.data.rank4Pair[1], 0));
-    this.updateExists();
+    // スキル4つもちのカードはしばらく存在するカードとなるためクリア対象から除外する
+    this.updateExists([this.finalPathBinaryTree.left.data.goal]);
     if (maxCount > this.finalPathBinaryTree.size) {
       const lastNode = this.finalPathBinaryTree.getLast(this.finalPathBinaryTree);
       this.makeLastMiles(lastNode, maxCount);
