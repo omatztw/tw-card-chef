@@ -7,29 +7,20 @@ https://omatztw.github.io/tw-card-chef/
 * スキル8つの金カードまで作成可能です ※v1.0よりスキル8個まで作成できるように対応しました。
 * 手持ちのカードがある場合はなるべく避けるレシピを作成します。
 
-## ローカル環境構築
+## バージョン履歴
 
-以下はローカル環境で実行するための手順です。コードを改造した場合のデバッグ用途でご利用ください。  
-ツールのみ利用したい場合は本手順は不要です。[サイト](https://omatztw.github.io/tw-card-chef/)から入場ください。
+[Releases](https://github.com/omatztw/tw-card-chef/releases)ページよりご確認いただけます。
 
-* 必要なもの
-    * Node
+## 問い合わせ/不具合報告
 
-* インストール
-
-```
-    git clone https://github.com/omatztw/tw-card-chef.git
-    cd tw-card-chef
-    npm install
-    npm start
-```
-
-* Access to http://localhost:4200
+* [問い合わせフォーム](https://forms.gle/KBqHFqypPMAvUiqh9)からお願いします
+* 開発者へ直接連絡したい場合は、[Discord](https://discord.gg/ksFC4rP)の #general までどうぞ(=ﾟωﾟ)
+* Githubアカウントをお持ちの方は直接[Issues](https://github.com/omatztw/tw-card-chef/issues/new)を作成可能です
 
 ## Developer
 
 * テイルズウィーバー エルフィンタ鯖 「おまつ先生」
-    * 開発者へのお問い合わせは、[Discord](https://discord.gg/ksFC4rP)の #general までどうぞ(=ﾟωﾟ)
+    * ゲーム内でも気軽に話しかけてください(=ﾟωﾟ)
 
 ## ライセンス
 
