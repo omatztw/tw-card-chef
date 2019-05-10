@@ -16,6 +16,7 @@ import {
   SKILL_ARRAY_FORTEST7,
 } from '../../consts';
 import k_combinations from '../../../assets/combinations.js';
+import { FooterComponent } from '../footer/footer.component';
 
 // private debug1() {
 //   this.skill1 = "MR増加";
@@ -56,7 +57,7 @@ describe('CardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CardComponent, ResultComponent],
+      declarations: [CardComponent, ResultComponent, FooterComponent],
       imports: [FormsModule, ReactiveFormsModule],
       providers: [
         CardService, ErrorService

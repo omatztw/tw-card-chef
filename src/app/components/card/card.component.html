@@ -9,7 +9,8 @@
           <button type="button" class="btn btn-sm btn-danger" (click)="onClear($event)">クリア</button>
         </p>
         <div class="checkbox checkbox-primary">
-          <input id="rank10Enabled" type="checkbox" class="styled" checked name="rank10Enabled" [(ngModel)]="rank10Enabled">
+          <input id="rank10Enabled" type="checkbox" class="styled" checked name="rank10Enabled"
+            [(ngModel)]="rank10Enabled">
           <label for="rank10Enabled">
             Rank10カードスキルを有効化
           </label>
@@ -155,7 +156,8 @@
         <label for="final" hidden>final</label>
         <select class="form-control" id="final" [(ngModel)]="final" name="final" #typef="ngModel">
           <!-- <option [ngValue]="null"> </option> -->
-          <option *ngFor="let card of goalCardList" [ngValue]="card" [class]="noSkillWhenLv1(card)?'bg-info text-white':''">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+          <option *ngFor="let card of goalCardList" [ngValue]="card"
+            [class]="noSkillWhenLv1(card)?'bg-info text-white':''">R{{card.rank}}({{card.type}}): {{card.name}}</option>
         </select>
       </div>
     </div>
@@ -170,8 +172,4 @@
 <p>結果</p>
 <hr>
 <app-result [routes]="finalRoutes"></app-result>
-<div class="container">
-  <footer class="footer text-left">
-    <a href="https://github.com/omatztw/tw-card-chef">ABOUT</a>
-  </footer>
-</div>
+<app-footer></app-footer>
