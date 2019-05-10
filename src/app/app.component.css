@@ -1,0 +1,4 @@
+.title::before,
+.title::after {
+    content: url(/assets/icon.png);
+}
