@@ -1,3 +1,7 @@
+.footer {
+    margin-top: 1em;
+}
+
 .footer ul li{ 	
     display: inline;
     margin-right: 1em;
