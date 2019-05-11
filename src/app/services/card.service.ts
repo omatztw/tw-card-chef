@@ -7,6 +7,7 @@ import { graph, convert2Type, convert2Symbol } from '../consts/dijkstra-map';
 import { Subject } from 'rxjs/Rx';
 import { ErrorService } from './error.service';
 import { FinalPath } from '../models/final-path-tree.model';
+import { Skill } from '../models/skill.model';
 
 declare const Graph: any;
 
@@ -169,8 +170,10 @@ export class CardService {
    * 
    * つまり、Any -> Rank5およびRank5 -> Rank4があれば良い
    * @param final 
+   * @param num
+   * @param excludesFromPair pair算出の際に除外扱いしたいカード
    */
-  getPathToFinal(final: Card, num): FinalPath {
+  getPathToFinal(final: Card, num: number, excludesFromPair: Card[]): FinalPath {
 
     // 中間状態となるカードを摘出。基本的にはRank5のカードとRank4のペアとなる。
     let middleCard: { final: Card, merged: Card };
@@ -180,10 +183,10 @@ export class CardService {
         final: final,
         merged: null
       }
-      pair = this.findBestPair(final);
+      pair = this.findBestPair(final, excludesFromPair);
     } else {
       middleCard = this.getRank5Card(final);
-      pair = this.findBestPair(middleCard.final);
+      pair = this.findBestPair(middleCard.final, excludesFromPair);
     }
     if (pair.length === 0) {
       this.addExist(middleCard.final);
@@ -192,7 +195,7 @@ export class CardService {
         this.errorService.error('経路みつかんねｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗｗ');
         throw new Error('Cannot find final Route..');
       }
-      return this.getPathToFinal(final, num);
+      return this.getPathToFinal(final, num, excludesFromPair);
     }
     if (pair.length) {
       pair.sort((a, b) => { //死と羽は特別なので、なるべく通らないルートにしたい(ソートで優先度を降格)
@@ -444,9 +447,10 @@ export class CardService {
     return retCardPair;
   }
 
-  private findCardPair(foundRank1: number, foundRank2: number, fromRank: number, fromCard: Card): Card[][] {
+  private findCardPair(foundRank1: number, foundRank2: number, fromRank: number, fromCard: Card, excludes: Card[] = []): Card[][] {
     let retCardPair = [];
-    const cards1 = this.getFilteredCardByRank(foundRank1);
+    // 左側のカードのみ手元に残る可能性がある
+    const cards1 = this.getFilteredCardByRank(foundRank1, excludes);
     const cards2 = this.getFilteredCardByRank(foundRank2);
     for (let i = 0; i < cards1.length; i++) {
       for (let j = 0; j < cards2.length; j++) {
@@ -467,21 +471,21 @@ export class CardService {
 
   }
 
-  private findBestPair(card: Card): Card[][] {
+  private findBestPair(card: Card, excludes: Card[] = []): Card[][] {
     if (card.rank > 5) {
-      return this.findCardPair(card.rank - 2, card.rank - 1, card.rank, card);
+      return this.findCardPair(card.rank - 2, card.rank - 1, card.rank, card, excludes);
     }
     // 4未満のカードは不可
-    return this.findCardPair(4, 4, 5, card);
+    return this.findCardPair(4, 4, 5, card, excludes);
   }
 
   /**
    * 全カードリストから、特定Rankのカードリストを算出（重複チェックあり）
    * @param rank 
    */
-  private getFilteredCardByRank(rank: number): Card[] {
+  private getFilteredCardByRank(rank: number, excludes: Card[] = []): Card[] {
     return this.cards.filter(card => {
-      return card.rank === rank && !this.checkIfCardExist(card);
+      return card.rank === rank && !this.checkIfCardExist(card) && !excludes.some(c => c === card);
     });
   }
 }
