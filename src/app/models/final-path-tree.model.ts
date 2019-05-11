@@ -1,4 +1,5 @@
 import { Card } from './card.model';
+import { Path } from './route.model';
 
 export class FinalPathTree {
     top: FinalPath;
@@ -50,6 +51,40 @@ export class FinalPathBinaryTree {
         return current;
     }
 
+    getByIndex(index: number): FinalPath {
+
+        // 段数を計算する。2 ** n乗で階層が一段下がる。
+        const n = (new Array(index)).fill(null).map((_, i) => i).find(i => {
+            return (2 ** i <= index && 2 ** (i + 1) > index)
+        });
+
+        // 階層が下がったところを基本として、indexを2進数に変換する。
+        const bin = index === 1 ? '' : ('0000000' + parseInt((index - 2 ** n).toString(2))).slice(-n);
+        return this.getByBin(bin.split(''));
+    }
+
+    // 2進数で0は左ツリー、1は右ツリーとして、木を探索する。
+    getByBin(bin: string[]): FinalPath {
+        if (!bin.length) {
+            return this.data;
+        }
+        const c = bin.shift();
+        switch (c) {
+            case "0":
+                return this.left.getByBin(bin);
+            case "1":
+                return this.right.getByBin(bin);
+            default:
+                return null;
+        }
+    }
+
+    getMinGoals() {
+        return this.getRoutes([])
+            .filter(route => { return route[0].merged === null && route[0].orig === null })
+            .map(route => { return route[0].goal; });
+    }
+
     leftFull(): boolean {
         let leafs = 1;
         let used: number;
@@ -64,6 +99,38 @@ export class FinalPathBinaryTree {
         else {
             return false;
         }
+    }
+
+    getRoutes(current: Path[][]): Path[][] {
+        if (this.left) {
+            current = this.left.getRoutes(current);
+        }
+        if (this.right) {
+            current = this.right.getRoutes(current);
+        }
+        if (!this.left && !this.right) {
+            let path: Path = {
+                orig: null,
+                goal: this.data.goal,
+                merged: null
+            }
+            current.push([path]);
+        } else {
+            let path: Path[] = [{
+                orig: this.left.data.goal,
+                goal: this.data.rank5,
+                merged: this.right.data.goal
+            }]
+            if (this.data.rank5 !== this.data.goal) {
+                path.push({
+                    orig: this.data.rank5,
+                    goal: this.data.goal,
+                    merged: this.data.merged
+                });
+            }
+            current.push(path);
+        }
+        return current;
     }
 }
 

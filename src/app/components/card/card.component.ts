@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CardService } from '../../services/card.service';
 import { Card } from '../../models/card.model';
 import { RouteModel, Path } from '../../models/route.model';
-import { TYPES, cards, SKILL_ARRAY, convert2Symbol } from '../../consts/index';
+import { TYPES, cards, SKILL_ARRAY, convert2Symbol, SKILL_ARRAY_FORTEST_DEBUG } from '../../consts/index';
 import { Skill } from '../../models/skill.model';
 import { ErrorService } from '../../services/error.service';
 import { FinalPathTree, FinalPathBinaryTree, FinalPath } from '../../models/final-path-tree.model';
+import { addRemovePatterns } from '../../consts/add-remove-pattern.const';
 
 @Component({
   selector: 'app-card',
@@ -74,7 +75,22 @@ export class CardComponent implements OnInit {
     this.errorService.error$.asObservable().subscribe(
       err => this.errMsg = err
     );
+
+    // this.debug_const();
   }
+
+  private debug_const() {
+    this.skill1 = SKILL_ARRAY_FORTEST_DEBUG[0];
+    this.skill2 = SKILL_ARRAY_FORTEST_DEBUG[1];
+    this.skill3 = SKILL_ARRAY_FORTEST_DEBUG[2];
+    this.skill4 = SKILL_ARRAY_FORTEST_DEBUG[3];
+    this.skill5 = SKILL_ARRAY_FORTEST_DEBUG[4];
+    this.skill6 = SKILL_ARRAY_FORTEST_DEBUG[5];
+    this.skill7 = SKILL_ARRAY_FORTEST_DEBUG[6];
+    this.skill8 = SKILL_ARRAY_FORTEST_DEBUG[7];
+    this.final = this.cardService.getCardByType('昆虫', 10);
+  }
+
   private debug1() {
     this.skill1 = "MR増加";
     this.skill2 = "天の裁き";
@@ -363,126 +379,15 @@ export class CardComponent implements OnInit {
     return this.cardService.getCardByType('人形', 5);
   }
 
-  //To Card Service
   noSkillWhenLv1(card: Card): boolean {
-    // そもそもスキルがない場合
-    if (!card.skills) return true;
-
-    let lv1Skills: Skill[] = [];
-    lv1Skills = card.skills.filter(skill => {
-      return skill.lv === 1;
-    });
-    if (lv1Skills.length) {
-      return false;
-    } else {
-      return true;
-    }
+    return this.cardService.noSkillWhenLv1(card);
   }
 
   calcAllPath() {
     const skillCount = this.skillDisplayed.length;
-    const totalCount = skillCount * 2 - 1;
-    let shouldAdd: Card[][] = [[], [], [], [], [], [], [], []];
-    let shouldRemove: Card[][] = [[], [], [], [], [], [], [], []];
     this.routes = [];
-
     this.updateExists();
-
-    if (skillCount === 1) {
-      shouldAdd[0].push(this.minGoals[0]);
-    } else if (skillCount === 2) {
-      shouldAdd[0].push(this.minGoals[0]);
-      shouldAdd[1].push(this.finalPathBinaryTree.data.goal);
-
-      shouldRemove[1].push(...shouldAdd[0]);
-
-    } else if (skillCount === 3) {
-      shouldAdd[0].push(this.minGoals[0]);
-      shouldAdd[1].push(this.finalPathBinaryTree.data.rank4Pair[0]);
-      shouldAdd[2].push(this.finalPathBinaryTree.data.goal);
-
-      shouldRemove[1] = shouldAdd[0];
-      shouldRemove[2] = shouldAdd[1];
-    } else if (skillCount === 4) {
-      shouldAdd[0].push(this.minGoals[0]);
-      shouldAdd[1].push(this.finalPathBinaryTree.left.data.goal);
-      shouldAdd[2].push(this.minGoals[2]);
-      shouldAdd[3].push(this.finalPathBinaryTree.data.goal);
-
-      shouldRemove[1] = shouldAdd[0];
-      shouldRemove[3].push(...shouldAdd[2]);
-      shouldRemove[3].push(...shouldAdd[1]);
-
-    } else if (skillCount === 5) {
-
-
-      shouldAdd[0].push(this.minGoals[0]);
-      shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
-      shouldAdd[2].push(this.finalPathBinaryTree.left.data.goal);
-      shouldAdd[3].push(this.minGoals[3]);
-      shouldAdd[4].push(this.finalPathBinaryTree.data.goal);
-
-      shouldRemove[0].push();
-      shouldRemove[1].push(...shouldAdd[0]);
-      shouldRemove[2].push(...shouldAdd[1]);
-      shouldRemove[3].push();
-      shouldRemove[4].push(...shouldAdd[2], ...shouldAdd[3]);
-
-
-    } else if (skillCount === 6) {
-
-      shouldAdd[0].push(this.minGoals[0]);
-      shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
-      shouldAdd[2].push(this.minGoals[2]);
-      shouldAdd[3].push(this.finalPathBinaryTree.left.data.goal);
-      shouldAdd[4].push(this.minGoals[4]);
-      shouldAdd[5].push(this.finalPathBinaryTree.data.goal);
-
-      shouldRemove[0].push();
-      shouldRemove[1].push(...shouldAdd[0]);
-      shouldRemove[2].push();
-      shouldRemove[3].push(...shouldAdd[1], ...shouldAdd[2]);
-      shouldRemove[4].push();
-      shouldRemove[5].push(...shouldAdd[3], ...shouldAdd[4]);
-
-    } else if (skillCount === 7) {
-
-      shouldAdd[0].push(this.minGoals[0]);
-      shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
-      shouldAdd[2].push(this.minGoals[2]);
-      shouldAdd[3].push(this.finalPathBinaryTree.left.data.goal);
-      shouldAdd[4].push(this.minGoals[4]);
-      shouldAdd[5].push(this.finalPathBinaryTree.right.left.data.goal);
-      shouldAdd[6].push(this.finalPathBinaryTree.data.goal);
-
-      shouldRemove[0].push();
-      shouldRemove[1].push(...shouldAdd[0]);
-      shouldRemove[2].push();
-      shouldRemove[3].push(...shouldAdd[1], ...shouldAdd[2]);
-      shouldRemove[4].push();
-      shouldRemove[5].push(...shouldAdd[3]);
-      shouldRemove[6].push(...shouldAdd[4], ...shouldAdd[5]);
-
-    } else if (skillCount === 8) {
-
-      shouldAdd[0].push(this.minGoals[0]);
-      shouldAdd[1].push(this.finalPathBinaryTree.left.left.data.goal);
-      shouldAdd[2].push(this.minGoals[2]);
-      shouldAdd[3].push(this.finalPathBinaryTree.left.data.goal);
-      shouldAdd[4].push(this.minGoals[4]);
-      shouldAdd[5].push(this.finalPathBinaryTree.right.left.data.goal);
-      shouldAdd[6].push(this.minGoals[6]);
-      shouldAdd[7].push(this.finalPathBinaryTree.data.goal);
-
-      shouldRemove[0].push();
-      shouldRemove[1].push(...shouldAdd[0]);
-      shouldRemove[2].push();
-      shouldRemove[3].push(...shouldAdd[1], ...shouldAdd[2]);
-      shouldRemove[4].push();
-      shouldRemove[5].push(...shouldAdd[4]);
-      shouldRemove[6].push();
-      shouldRemove[7].push(...shouldAdd[3], ...shouldAdd[5], ...shouldAdd[6]);
-    }
+    const pattern = addRemovePatterns.find(p => p.skillCount === skillCount);
 
     for (let step = 0; step < skillCount; step++) {
       if (!this.cards[step].start || !this.cards[step].goal) {
@@ -491,8 +396,8 @@ export class CardComponent implements OnInit {
         this.routes[step] = this.cardService.getPath(this.cards[step].start, this.cards[step].goal);
         this.toRankMinRoutes[step] = this.cardService.getPath(this.cards[step].goal, this.minGoals[step]);
       }
-      shouldRemove[step].map(remove => this.cardService.removeOneFromExist(remove));
-      shouldAdd[step].map(add => this.cardService.addExist(add));
+      pattern.shouldRemove[step].map(remove => this.cardService.removeOneFromExist(this.finalPathBinaryTree.getByIndex(remove).goal));
+      pattern.shouldAdd[step].map(add => this.cardService.addExist(this.finalPathBinaryTree.getByIndex(add).goal));
     }
   }
 
@@ -533,9 +438,7 @@ export class CardComponent implements OnInit {
     const skillCount = this.skillDisplayed.length;
     const totalCount = skillCount * 2 - 1;
     this.makeLastMiles(this.finalPathBinaryTree, totalCount);
-    this.minGoals = this.getRoutes(this.finalPathBinaryTree, [])
-      .filter(route => { return route[0].merged === null && route[0].orig === null })
-      .map(route => { return route[0].goal; });
+    this.minGoals = this.finalPathBinaryTree.getMinGoals();
     this.calcAllPath();
     this.setFinalRoutes();
   }
@@ -566,6 +469,11 @@ export class CardComponent implements OnInit {
     this.skill8 = undefined;
   }
 
+  /**
+   * FinalPathBinaryTreeを完成させる。STEPの数だけ枝を生やしていく。
+   * @param tree 
+   * @param maxCount 
+   */
   makeLastMiles(tree: FinalPathBinaryTree, maxCount: number) {
     if (maxCount === 1) {
       return;
@@ -581,48 +489,15 @@ export class CardComponent implements OnInit {
     }
   }
 
-  //To FinalPathBinaryTree Class
-  getRoutes(root: FinalPathBinaryTree, current: Path[][]): Path[][] {
-    if (root.left) {
-      current = this.getRoutes(root.left, current);
-    }
-    if (root.right) {
-      current = this.getRoutes(root.right, current);
-    }
-    if (!root.left && !root.right) {
-      let path: Path = {
-        orig: null,
-        goal: root.data.goal,
-        merged: null
-      }
-      current.push([path]);
-    } else {
-      let path: Path[] = [{
-        orig: root.left.data.goal,
-        goal: root.data.rank5,
-        merged: root.right.data.goal
-      }]
-      if (root.data.rank5 !== root.data.goal) {
-        path.push({
-          orig: root.data.rank5,
-          goal: root.data.goal,
-          merged: root.data.merged
-        });
-      }
-      current.push(path);
-    }
-    return current;
-  }
-
   setFinalRoutes() {
     let currentSkillIndex = 0;
     let skillQueue = [];
 
-    const preRoutes = this.getRoutes(this.finalPathBinaryTree, []);
+    const preRoutes = this.finalPathBinaryTree.getRoutes([]);
     let offset = 0;
     preRoutes.map(
       (route, index, array) => {
-        if (route[0].orig === null && route[0].merged === null) {
+        if (route[0].orig === null && route[0].merged === null) { // 欲しいスキルを持つ一つのカードを作成する場合
           if (this.skillDisplayed[currentSkillIndex]) {
             const newRoute = new RouteModel();
             newRoute.pre = this.skillDisplayed[currentSkillIndex].pre;
@@ -634,7 +509,7 @@ export class CardComponent implements OnInit {
             skillQueue.push(this.skillDisplayed[currentSkillIndex].skill);
             currentSkillIndex++;
           }
-        } else {
+        } else { // 合成してほしい形に持っていく場合
           const newRoute = new RouteModel();
           newRoute.divider = NaN;
           newRoute.routes.push(...route);
