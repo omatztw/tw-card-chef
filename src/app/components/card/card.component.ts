@@ -544,7 +544,7 @@ export class CardComponent implements OnInit {
     this.finalRoutes = []; //初期化
     this.skillDisplayed = Object.assign([], this.cards);
     this.updateExists();
-    this.finalPathBinaryTree = new FinalPathBinaryTree(this.cardService.getPathToFinal(this.final, 0));
+    this.finalPathBinaryTree = new FinalPathBinaryTree(this.cardService.getPathToFinal(this.final, 0, this.skillDisplayed.map(c => c.goal)));
   }
 
   existSkillGoal(): boolean {
@@ -570,9 +570,9 @@ export class CardComponent implements OnInit {
     if (maxCount === 1) {
       return;
     }
-    this.finalPathBinaryTree.add(this.cardService.getPathToFinal(tree.data.rank4Pair[0], 0));
+    this.finalPathBinaryTree.add(this.cardService.getPathToFinal(tree.data.rank4Pair[0], 0, this.skillDisplayed.map(c => c.goal)));
     this.cardService.addExist(tree.data.rank4Pair[0]);
-    this.finalPathBinaryTree.add(this.cardService.getPathToFinal(tree.data.rank4Pair[1], 0));
+    this.finalPathBinaryTree.add(this.cardService.getPathToFinal(tree.data.rank4Pair[1], 0, this.skillDisplayed.map(c => c.goal)));
     // スキル4つもちのカードはしばらく存在するカードとなるためクリア対象から除外する
     this.updateExists([this.finalPathBinaryTree.left.data.goal]);
     if (maxCount > this.finalPathBinaryTree.size) {
