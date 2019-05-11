@@ -14,9 +14,11 @@ import {
   SKILL_ARRAY_FORTEST5,
   SKILL_ARRAY_FORTEST6,
   SKILL_ARRAY_FORTEST7,
+  SKILL_ARRAY_FORTEST_DEBUG,
 } from '../../consts';
 import k_combinations from '../../../assets/combinations.js';
 import { FooterComponent } from '../footer/footer.component';
+import { addRemovePatterns } from '../../consts/add-remove-pattern.const';
 
 // private debug1() {
 //   this.skill1 = "MR増加";
@@ -229,10 +231,10 @@ describe('CardComponent', () => {
   });
 
   it('スキル8個のパターンで問題ないこと1', () => {
-    const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST1, 8);
     skillPattern.forEach(
       pattern => {
+        const service = new CardService(null);
         component.skill1 = pattern[0];
         component.skill2 = pattern[1];
         component.skill3 = pattern[2];
@@ -250,6 +252,23 @@ describe('CardComponent', () => {
             }
             expect(component.exists).not.toContain(aRoute.goal);
           })
+        );
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
         );
 
       }
@@ -258,10 +277,10 @@ describe('CardComponent', () => {
 
   });
   it('スキル8個のパターンで問題ないこと2', () => {
-    const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST2, 8);
     skillPattern.forEach(
       pattern => {
+        const service = new CardService(null);
         component.skill1 = pattern[0];
         component.skill2 = pattern[1];
         component.skill3 = pattern[2];
@@ -279,6 +298,23 @@ describe('CardComponent', () => {
             }
             expect(component.exists).not.toContain(aRoute.goal);
           })
+        );
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
         );
 
       }
@@ -287,10 +323,10 @@ describe('CardComponent', () => {
 
   });
   it('スキル8個のパターンで問題ないこと3', () => {
-    const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST3, 8);
     skillPattern.forEach(
       pattern => {
+        const service = new CardService(null);
         component.skill1 = pattern[0];
         component.skill2 = pattern[1];
         component.skill3 = pattern[2];
@@ -308,6 +344,23 @@ describe('CardComponent', () => {
             }
             expect(component.exists).not.toContain(aRoute.goal);
           })
+        );
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
         );
 
       }
@@ -316,10 +369,10 @@ describe('CardComponent', () => {
 
   });
   it('スキル8個のパターンで問題ないこと4', () => {
-    const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST4, 8);
     skillPattern.forEach(
       pattern => {
+        const service = new CardService(null);
         component.skill1 = pattern[0];
         component.skill2 = pattern[1];
         component.skill3 = pattern[2];
@@ -339,16 +392,32 @@ describe('CardComponent', () => {
           })
         );
 
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
+        );
       }
     )
 
 
   });
   it('スキル8個のパターンで問題ないこと5', () => {
-    const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST5, 8);
     skillPattern.forEach(
       pattern => {
+        const service = new CardService(null);
         component.skill1 = pattern[0];
         component.skill2 = pattern[1];
         component.skill3 = pattern[2];
@@ -366,6 +435,23 @@ describe('CardComponent', () => {
             }
             expect(component.exists).not.toContain(aRoute.goal);
           })
+        );
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
         );
 
       }
@@ -374,10 +460,10 @@ describe('CardComponent', () => {
 
   });
   it('スキル8個のパターンで問題ないこと6', () => {
-    const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST6, 8);
     skillPattern.forEach(
       pattern => {
+        const service = new CardService(null);
         component.skill1 = pattern[0];
         component.skill2 = pattern[1];
         component.skill3 = pattern[2];
@@ -397,17 +483,32 @@ describe('CardComponent', () => {
           })
         );
 
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
+        );
+
       }
     )
-
-
   });
 
   it('スキル8個のパターンで問題ないこと7', () => {
-    const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST7, 8);
     skillPattern.forEach(
       pattern => {
+        const service = new CardService(null);
         component.skill1 = pattern[0];
         component.skill2 = pattern[1];
         component.skill3 = pattern[2];
@@ -425,6 +526,23 @@ describe('CardComponent', () => {
             }
             expect(component.exists).not.toContain(aRoute.goal);
           })
+        );
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
         );
 
       }
@@ -460,10 +578,10 @@ describe('CardComponent', () => {
   });
 
   it('スキル8個のパターンでRank10着地で問題ないこと', () => {
-    const service = new CardService(null);
     const skillPattern = k_combinations(SKILL_ARRAY_FORTEST2, 8);
     skillPattern.forEach(
       (pattern, index) => {
+        const service = new CardService(null);
         component.skill1 = pattern[0];
         component.skill2 = pattern[1];
         component.skill3 = pattern[2];
@@ -472,9 +590,11 @@ describe('CardComponent', () => {
         component.skill6 = pattern[5];
         component.skill7 = pattern[6];
         component.skill8 = pattern[7];
+        component.rank10Enabled = true;
         component.final = service.getCardByType('ゼリー', 10);
         fixture.detectChanges();
         component.onSubmit(null);
+
         component.finalRoutes.forEach(
           route => route.routes.map(aRoute => {
             if (aRoute.orig && aRoute.merged) {
@@ -482,6 +602,272 @@ describe('CardComponent', () => {
             }
             expect(component.exists).not.toContain(aRoute.goal);
           })
+        );
+      }
+    )
+  });
+
+  it('スキル8個のパターン/Rank10着地で重複問題がないこと1', () => {
+    const skillPattern = k_combinations(SKILL_ARRAY_FORTEST1, 8);
+    skillPattern.forEach(
+      (pattern, index) => {
+        const service = new CardService(null);
+        component.skill1 = pattern[0];
+        component.skill2 = pattern[1];
+        component.skill3 = pattern[2];
+        component.skill4 = pattern[3];
+        component.skill5 = pattern[4];
+        component.skill6 = pattern[5];
+        component.skill7 = pattern[6];
+        component.skill8 = pattern[7];
+        component.rank10Enabled = true;
+        component.final = service.getCardByType('ゼリー', 10);
+        fixture.detectChanges();
+        component.onSubmit(null);
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
+        );
+      }
+    )
+  });
+
+  it('スキル8個のパターン/Rank10着地で重複問題がないこと2', () => {
+    const skillPattern = k_combinations(SKILL_ARRAY_FORTEST2, 8);
+    skillPattern.forEach(
+      (pattern, index) => {
+        const service = new CardService(null);
+        component.skill1 = pattern[0];
+        component.skill2 = pattern[1];
+        component.skill3 = pattern[2];
+        component.skill4 = pattern[3];
+        component.skill5 = pattern[4];
+        component.skill6 = pattern[5];
+        component.skill7 = pattern[6];
+        component.skill8 = pattern[7];
+        component.rank10Enabled = true;
+        component.final = service.getCardByType('植物', 10);
+        fixture.detectChanges();
+        component.onSubmit(null);
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
+        );
+      }
+    )
+  });
+
+  it('スキル8個のパターン/Rank10着地で重複問題がないこと3', () => {
+    const skillPattern = k_combinations(SKILL_ARRAY_FORTEST3, 8);
+    skillPattern.forEach(
+      (pattern, index) => {
+        const service = new CardService(null);
+        component.skill1 = pattern[0];
+        component.skill2 = pattern[1];
+        component.skill3 = pattern[2];
+        component.skill4 = pattern[3];
+        component.skill5 = pattern[4];
+        component.skill6 = pattern[5];
+        component.skill7 = pattern[6];
+        component.skill8 = pattern[7];
+        component.rank10Enabled = true;
+        component.final = service.getCardByType('昆虫', 10);
+        fixture.detectChanges();
+        component.onSubmit(null);
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
+        );
+      }
+    )
+  });
+
+  it('スキル8個のパターン/Rank10着地で重複問題がないこと4', () => {
+    const skillPattern = k_combinations(SKILL_ARRAY_FORTEST4, 8);
+    skillPattern.forEach(
+      (pattern, index) => {
+        const service = new CardService(null);
+        component.skill1 = pattern[0];
+        component.skill2 = pattern[1];
+        component.skill3 = pattern[2];
+        component.skill4 = pattern[3];
+        component.skill5 = pattern[4];
+        component.skill6 = pattern[5];
+        component.skill7 = pattern[6];
+        component.skill8 = pattern[7];
+        component.rank10Enabled = true;
+        component.final = service.getCardByType('人形', 10);
+        fixture.detectChanges();
+        component.onSubmit(null);
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
+        );
+      }
+    )
+  });
+
+  it('スキル8個のパターン/Rank10着地で重複問題がないこと5', () => {
+    const skillPattern = k_combinations(SKILL_ARRAY_FORTEST5, 8);
+    skillPattern.forEach(
+      (pattern, index) => {
+        const service = new CardService(null);
+        component.skill1 = pattern[0];
+        component.skill2 = pattern[1];
+        component.skill3 = pattern[2];
+        component.skill4 = pattern[3];
+        component.skill5 = pattern[4];
+        component.skill6 = pattern[5];
+        component.skill7 = pattern[6];
+        component.skill8 = pattern[7];
+        component.rank10Enabled = true;
+        component.final = service.getCardByType('動物', 10);
+        fixture.detectChanges();
+        component.onSubmit(null);
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
+        );
+      }
+    )
+  });
+
+  it('スキル8個のパターン/Rank10着地で重複問題がないこと6', () => {
+    const skillPattern = k_combinations(SKILL_ARRAY_FORTEST6, 8);
+    skillPattern.forEach(
+      (pattern, index) => {
+        const service = new CardService(null);
+        component.skill1 = pattern[0];
+        component.skill2 = pattern[1];
+        component.skill3 = pattern[2];
+        component.skill4 = pattern[3];
+        component.skill5 = pattern[4];
+        component.skill6 = pattern[5];
+        component.skill7 = pattern[6];
+        component.skill8 = pattern[7];
+        component.rank10Enabled = true;
+        component.final = service.getCardByType('甲羅', 10);
+        fixture.detectChanges();
+        component.onSubmit(null);
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
+        );
+      }
+    )
+  });
+
+  it('スキル8個のパターン/Rank10着地で重複問題がないこと7', () => {
+    const skillPattern = k_combinations(SKILL_ARRAY_FORTEST7, 8);
+    skillPattern.forEach(
+      (pattern, index) => {
+        const service = new CardService(null);
+        component.skill1 = pattern[0];
+        component.skill2 = pattern[1];
+        component.skill3 = pattern[2];
+        component.skill4 = pattern[3];
+        component.skill5 = pattern[4];
+        component.skill6 = pattern[5];
+        component.skill7 = pattern[6];
+        component.skill8 = pattern[7];
+        component.rank10Enabled = true;
+        component.final = service.getCardByType('悪魔', 10);
+        fixture.detectChanges();
+        component.onSubmit(null);
+
+        const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+        let si = 0;
+        component.finalRoutes.forEach(
+          (route, index) => {
+            if (route.divider) {
+              route.routes.map(aRoute => {
+                expect(service.exists).not.toContain(aRoute.orig);
+                expect(service.exists).not.toContain(aRoute.merged);
+                expect(service.exists).not.toContain(aRoute.goal);
+              });
+              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+              si++;
+            }
+          }
         );
       }
     )
@@ -518,7 +904,41 @@ describe('CardComponent', () => {
     );
   });
 
+
   it('イジワルが重複する問題', () => {
+    const service = new CardService(null);
+    component.skill1 = "HP吸収";
+    component.skill2 = "MP吸収";
+    component.skill3 = "属性UP[黒]";
+    component.skill4 = "追撃[黒]";
+    component.skill5 = "瞬足";
+    component.skill6 = "女神の微笑";
+    component.skill7 = "自己再生";
+    component.skill8 = "初速";
+    component.exist1 = service.getCardByType('人形', 8);
+    component.final = service.getCardByType('人形', 5);
+    fixture.detectChanges();
+    component.onSubmit(null);
+
+    const pattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+    let si = 0;
+    component.finalRoutes.forEach(
+      (route, index) => {
+        if (route.divider) {
+          route.routes.map(aRoute => {
+            expect(service.exists).not.toContain(aRoute.orig);
+            expect(service.exists).not.toContain(aRoute.merged);
+            expect(service.exists).not.toContain(aRoute.goal);
+          });
+          pattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+          pattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+          si++;
+        }
+      }
+    );
+  });
+
+  it('イジワルが重複する問題2', () => {
     const service = new CardService(null);
     component.skill1 = "属性UP[白]";
     component.skill2 = "追撃[白]";
@@ -529,53 +949,24 @@ describe('CardComponent', () => {
     component.skill7 = "初速";
     component.skill8 = "耐久の初撃";
     component.final = service.getCardByType('昆虫', 4);
-
     fixture.detectChanges();
     component.onSubmit(null);
-    expect(component.finalRoutes.length).toBe(15);
-    component.finalRoutes.forEach(
-      (route, index) => route.routes.map(aRoute => {
-        if (aRoute.orig && aRoute.merged) {
-          expect(aRoute.goal).toBe(service.mergeCard(aRoute.orig, aRoute.merged));
-        }
-        if (index >= 7 && index <= 13) { // 右半分にイジワル[6]がいないこと
-          expect(component.finalRoutes[6].routes[component.finalRoutes[6].routes.length - 1].goal).not.toBe(aRoute.goal);
-          expect(component.finalRoutes[6].routes[component.finalRoutes[6].routes.length - 1].goal).not.toBe(aRoute.merged);
-        }
-        expect(service.exists).not.toContain(aRoute.goal);
-        expect(service.exists).not.toContain(aRoute.merged);
-      })
-    );
-  });
 
-  it('イジワルが重複する問題2', () => {
-    const service = new CardService(null);
-    component.skill1 = "HP吸収";
-    component.skill2 = "MP吸収";
-    component.skill3 = "属性UP[黒]";
-    component.skill4 = "追撃[黒]";
-    component.skill5 = "瞬足";
-    component.skill6 = "女神の微笑";
-    component.skill7 = "自己再生";
-    component.skill8 = "初速";
-    component.exist1 = service.getCardByType('人形', 8)
-    component.final = service.getCardByType('人形', 5);
-
-    fixture.detectChanges();
-    component.onSubmit(null);
-    expect(component.finalRoutes.length).toBe(15);
+    const pattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+    let si = 0;
     component.finalRoutes.forEach(
-      (route, index) => route.routes.map(aRoute => {
-        if (aRoute.orig && aRoute.merged) {
-          expect(aRoute.goal).toBe(service.mergeCard(aRoute.orig, aRoute.merged));
+      (route, index) => {
+        if (route.divider) {
+          route.routes.map(aRoute => {
+            expect(service.exists).not.toContain(aRoute.orig);
+            expect(service.exists).not.toContain(aRoute.merged);
+            expect(service.exists).not.toContain(aRoute.goal);
+          });
+          pattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+          pattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+          si++;
         }
-        if (index >= 7 && index <= 13) { // 右半分にイジワル[6]がいないこと
-          expect(component.finalRoutes[6].routes[component.finalRoutes[6].routes.length - 1].goal).not.toBe(aRoute.goal);
-          expect(component.finalRoutes[6].routes[component.finalRoutes[6].routes.length - 1].goal).not.toBe(aRoute.merged);
-        }
-        expect(service.exists).not.toContain(aRoute.goal);
-        expect(service.exists).not.toContain(aRoute.merged);
-      })
+      }
     );
   });
 

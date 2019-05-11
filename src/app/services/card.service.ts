@@ -242,6 +242,22 @@ export class CardService {
     return mergedCard;
   }
 
+  //To Card Service
+  noSkillWhenLv1(card: Card): boolean {
+    // そもそもスキルがない場合
+    if (!card.skills) return true;
+
+    let lv1Skills: Skill[] = [];
+    lv1Skills = card.skills.filter(skill => {
+      return skill.lv === 1;
+    });
+    if (lv1Skills.length) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   /**
    * Rank 1のカードを探す。
    * ただし、excludesに存在するものは除く。

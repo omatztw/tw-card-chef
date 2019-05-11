@@ -264,6 +264,20 @@ export const SKILL_ARRAY_FORTEST3 = [
 
 ]
 
+export const SKILL_ARRAY_FORTEST_DEBUG = [
+    'DEF成長',
+    'MR成長',
+    'DEX成長',
+    'AGI成長',
+    '鋼の肌',
+    '魔法耐性',
+    '仁王立ち',
+    // '初速',
+    '瞬足',
+    // '致命打',
+
+]
+
 //test用にスキルを間引く
 export const SKILL_ARRAY_FORTEST4 = [
     '追撃[風]',
