@@ -40,7 +40,7 @@ export class ResultComponent {
     const lvArray = skills.map(skill => {
       const filteredSkill = this.filterSkill(skill, card);
       if (filteredSkill) {
-        return filteredSkill.lv
+        return filteredSkill.lv;
       }
     }).filter(lv => !!lv);
     return Math.max(...lvArray);
