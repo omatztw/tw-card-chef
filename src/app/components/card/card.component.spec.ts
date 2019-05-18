@@ -19,6 +19,9 @@ import {
 import k_combinations from '../../../assets/combinations.js';
 import { FooterComponent } from '../footer/footer.component';
 import { addRemovePatterns } from '../../consts/add-remove-pattern.const';
+import { HistoryService } from '../../services/history.service';
+import { ActivatedRoute, Router, RouterModule, convertToParamMap } from '@angular/router';
+import { of } from 'rxjs/observable/of';
 
 // private debug1() {
 //   this.skill1 = "MR増加";
@@ -57,12 +60,31 @@ describe('CardComponent', () => {
   let component: CardComponent;
   let fixture: ComponentFixture<CardComponent>;
 
+  const router = {
+    navigate: jasmine.createSpy('navigate')
+  };
+
+  const activatedRoute = {
+    queryParamMap: of({
+      get: param => ''
+    })
+  };
+
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CardComponent, ResultComponent, FooterComponent],
       imports: [FormsModule, ReactiveFormsModule],
       providers: [
-        CardService, ErrorService
+        CardService, ErrorService, HistoryService,
+        {
+          provide: ActivatedRoute,
+          useValue: activatedRoute
+        },
+        {
+          provide: Router,
+          useValue: router
+        }
       ]
     })
       .compileComponents();
