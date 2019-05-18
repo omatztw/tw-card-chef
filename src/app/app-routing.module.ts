@@ -5,8 +5,7 @@ import { CardComponent } from './components/card/card.component';
 import { HistoryComponent } from './components/history/history.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: CardComponent },
+  { path: '', component: CardComponent },
   { path: 'history', component: HistoryComponent }
 ];
 

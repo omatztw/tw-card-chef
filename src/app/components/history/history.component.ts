@@ -58,7 +58,7 @@ export class HistoryComponent implements OnInit {
       f: this.cardService.getSymbolByCard(item.final)
     };
 
-    this.router.navigate(['home'], {
+    this.router.navigate([''], {
       queryParams: queryParams
     });
   }
