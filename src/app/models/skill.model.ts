@@ -1,4 +1,4 @@
 export class Skill {
-    name?: string;
-    value?: number;
+  name?: string;
+  value?: number;
 }

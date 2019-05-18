@@ -1,0 +1,24 @@
+<div class="container">
+  <hr>
+  <h2>合成履歴<button type="button" class="btn btn-sm btn-danger clear-history" (click)="onClear()">履歴削除</button></h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>時間</th>
+        <th>スキル</th>
+        <th>所持カード</th>
+        <th>着地カード</th>
+        <th>適用</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of histories">
+        <th>{{item.time | date:'yyyy/M/d H:mm'}}</th>
+        <th>{{item.content.skills}}</th>
+        <th>{{convertToName(item.content.exists)}}</th>
+        <th>{{convertToName([item.content.final])}}</th>
+        <th><button (click)="onRerender(item.content)" class="btn btn-primary btn-sm">再表示</button></th>
+      </tr>
+    </tbody>
+  </table>
+</div>

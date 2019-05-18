@@ -3,8 +3,8 @@
     <div class="col-md-12 col-lg-6 recipie">
       <div class="card bg-default">
         <div class="card-header text-left bg-primary  text-white skill-header " role="tab" [id]="'rskill'+ri">
-          <a class="collapsed text-right text-white" data-toggle="collapse" data-parent="#accordion" [href]="'#collapse'+ri" aria-expanded="false"
-            [attr.aria-controls]="'collapse'+ri">
+          <a class="collapsed text-right text-white" data-toggle="collapse" data-parent="#accordion"
+            [href]="'#collapse'+ri" aria-expanded="false" [attr.aria-controls]="'collapse'+ri">
             <i class="fa fa-align-justify"></i>
             <strong>STEP {{ri + 1}}: </strong>
             <span *ngFor="let skill of route.skills">{{skill}}/</span>
@@ -18,10 +18,11 @@
         <div [id]="'collapse'+ri" class="collapse show" role="tabpanel" aria-labelledby="'skill'+ri">
           <div class="card-block">
             <div *ngIf="!route.pre.length && route.divider" class="monster-info">
-              <img class="monster-img" [src]="'assets/' + getSymbol(route.routes[0].goal) + '.gif'" [alt]="'R' + route.routes[0].goal.rank + ': ' + route.routes[0].goal.name"
-                srcset="">
+              <img class="monster-img" [src]="'assets/' + getSymbol(route.routes[0].goal) + '.gif'"
+                [alt]="'R' + route.routes[0].goal.rank + ': ' + route.routes[0].goal.name" srcset="">
               <p>{{route.routes[0].goal.name}}を作成して、
-                <span *ngFor="let aSkill of filterSkills(route.skills, route.routes[0].goal)">{{aSkill.name}}: {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,route.routes[0].goal)}}まで上げる
+                <span *ngFor="let aSkill of filterSkills(route.skills, route.routes[0].goal)">{{aSkill.name}}:
+                  {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,route.routes[0].goal)}}まで上げる
               </p>
             </div>
             <div class="text-white bg-danger">
@@ -30,25 +31,28 @@
             </div>
             <div *ngFor="let aPre of route.pre; index as pi">
               <div *ngIf="pi === 0" class="monster-info">
-                <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'" [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name"
-                  srcset="">
+                <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'"
+                  [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name" srcset="">
                 <p>{{aPre.orig.name}}を作成して、
-                  <span *ngFor="let aSkill of filterSkills(route.skills, aPre.orig)">{{aSkill.name}}: {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,aPre.orig)}}まで上げる
+                  <span *ngFor="let aSkill of filterSkills(route.skills, aPre.orig)">{{aSkill.name}}:
+                    {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,aPre.orig)}}まで上げる
                 </p>
               </div>
-              <div *ngIf="filterSkills(route.skills, aPre.merged, filterSkills(route.skills, aPre.orig)).length" class="monster-info">
-                <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'" [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name"
-                  srcset="">
+              <div *ngIf="filterSkills(route.skills, aPre.merged, filterSkills(route.skills, aPre.orig)).length"
+                class="monster-info">
+                <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'"
+                  [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name" srcset="">
                 <p>{{aPre.merged.name}}を作成して、
-                  <span *ngFor="let aSkill of filterSkills(route.skills, aPre.merged)">{{aSkill.name}}: {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,aPre.merged)}}まで上げる</p>
+                  <span *ngFor="let aSkill of filterSkills(route.skills, aPre.merged)">{{aSkill.name}}:
+                    {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,aPre.merged)}}まで上げる</p>
               </div>
               <div class="gousei row">
                 <div class="col-1 path-label">
                   <i class="fa fa-circle"></i>
                 </div>
                 <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'" [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name"
-                    srcset="">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'"
+                    [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name" srcset="">
                   <div class="monster-label">{{aPre.orig.name}}</div>
                 </div>
                 <div calss="col-1">
@@ -57,8 +61,8 @@
                   </h2>
                 </div>
                 <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'" [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name"
-                    srcset="">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'"
+                    [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name" srcset="">
                   <div class="monster-label">{{aPre.merged.name}}</div>
                 </div>
                 <div calss="col-1">
@@ -67,18 +71,20 @@
                   </h2>
                 </div>
                 <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.goal) + '.gif'" [alt]="'R' + aPre.goal.rank + ': ' + aPre.goal.name"
-                    srcset="">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.goal) + '.gif'"
+                    [alt]="'R' + aPre.goal.rank + ': ' + aPre.goal.name" srcset="">
                   <div class="monster-label">{{aPre.goal.name}}</div>
                 </div>
               </div>
             </div>
             <div *ngFor="let aRoute of route.routes; index as i" class="">
               <div *ngIf="i === route.divider" class="monster-info">
-                <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'" [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name"
-                  srcset="">
+                <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'"
+                  [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name" srcset="">
                 <p>{{aRoute.goal.name}}で、
-                  <span *ngFor="let skill of route.skills; index as i">{{skill}}:{{filterSkill(skill, aRoute.goal).value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills, aRoute.goal)}}まで上げる</p>
+                  <span
+                    *ngFor="let skill of route.skills; index as i">{{skill}}:{{filterSkill(skill, aRoute.goal).value}}/</span>を習得するまでモンスターLv
+                  {{getMaxLv(route.skills, aRoute.goal)}}まで上げる</p>
               </div>
               <div *ngIf="i === route.divider && route.routes[route.routes.length -1].goal !== aRoute.goal">
                 <p class="bg-warning">
@@ -92,8 +98,8 @@
                   <i class="fa fa-circle"></i>
                 </div>
                 <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.orig) + '.gif'" [alt]="'R' + aRoute.orig.rank + ': ' + aRoute.orig.name"
-                    srcset="">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.orig) + '.gif'"
+                    [alt]="'R' + aRoute.orig.rank + ': ' + aRoute.orig.name" srcset="">
                   <div class="monster-label">{{aRoute.orig.name}}</div>
                 </div>
                 <div calss="col-1">
@@ -102,8 +108,8 @@
                   </h2>
                 </div>
                 <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.merged) + '.gif'" [alt]="'R' + aRoute.merged.rank + ': ' + aRoute.merged.name"
-                    srcset="">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.merged) + '.gif'"
+                    [alt]="'R' + aRoute.merged.rank + ': ' + aRoute.merged.name" srcset="">
                   <div class="monster-label">{{aRoute.merged.name}}</div>
                 </div>
                 <div calss="col-1">
@@ -112,8 +118,8 @@
                   </h2>
                 </div>
                 <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'" [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name"
-                    srcset="">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'"
+                    [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name" srcset="">
                   <div class="monster-label">{{aRoute.goal.name}}</div>
                 </div>
               </div>

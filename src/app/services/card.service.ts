@@ -4,7 +4,6 @@ import { Card } from '../models/card.model';
 import { Path } from '../models/route.model';
 import '../../assets/graph.js';
 import { graph, convert2Type, convert2Symbol } from '../consts/dijkstra-map';
-import { Subject } from 'rxjs/Rx';
 import { ErrorService } from './error.service';
 import { FinalPath } from '../models/final-path-tree.model';
 import { Skill } from '../models/skill.model';
@@ -28,19 +27,19 @@ export class CardService {
     private errorService: ErrorService
   ) { }
 
-  //public
+  // public
 
 
   /**
    * ダイクストラ法で最短経路を用いる。startとgoalを指定すると、重複チェックをした後に最短経路を算出。
-   * @param start 
-   * @param goal 
+   * @param start
+   * @param goal
    */
   getPath(start: Card, goal: Card): Path[] {
 
     this.errorService.clear();
 
-    let currentGraph = this.setExistsWeight(this.initGraph);
+    const currentGraph = this.setExistsWeight(this.initGraph);
 
     const startValue = this.getSymbolByCard(start);
     const goalValue = this.getSymbolByCard(goal);
@@ -62,8 +61,8 @@ export class CardService {
 
   /**
    * typeとrankから、Cardクラスを算出
-   * @param type 
-   * @param rank 
+   * @param type
+   * @param rank
    */
   getCardByType(type: string, rank): Card {
     return this.cards.find(card => {
@@ -76,7 +75,7 @@ export class CardService {
    * minフラグをTrueにするとスキルを所持している最小'ランク'のカードを返却
    * minフラグをFalseにするとスキルを所持している最大'スキルレベル'のカードを返却
    * @param skillName
-   * @param min 
+   * @param min
    * @param limit // カードランクの上限
    */
   getCardBySkill(skillName: string, min: boolean = true, limit: number = 10): Card {
@@ -91,16 +90,16 @@ export class CardService {
 
     const cardsWithSkill = filteredcards.filter(card => {
       return card.skills.some(skill => {
-        return skill.name === skillName
+        return skill.name === skillName;
       });
     });
 
     if (min) {
       return cardsWithSkill.reduce((prev, current) => {
         if (prev.rank > current.rank) {
-          return current
+          return current;
         } else {
-          return prev
+          return prev;
         }
       }, { name: 'dummy', type: 'dummy', rank: 100 });
     } else {
@@ -113,9 +112,9 @@ export class CardService {
         });
 
         if (prevSkill[0].value < currentSkill[0].value) {
-          return current
+          return current;
         } else {
-          return prev
+          return prev;
         }
       }, { name: 'dummy', type: 'dummy', rank: 0, skills: [{ name: skillName, lv: 1, value: -5 }] });
     }
@@ -123,7 +122,7 @@ export class CardService {
 
   /**
    * 所持しているカードを追加
-   * @param card 
+   * @param card
    */
   addExist(card: Card) {
     if (card) {
@@ -140,19 +139,22 @@ export class CardService {
 
   /**
    * 特定のカードを所持カードから除去
-   * @param card 
+   * @param card
    */
   removeOneFromExist(card: Card) {
     this.exists = this.exists.filter(
       exCard => exCard.name !== card.name
-    )
+    );
   }
 
   /**
  * cardから、a1,b2などのシンボルを算出
- * @param card 
+ * @param card
  */
   getSymbolByCard(card: Card): string {
+    if (!card) {
+      return null;
+    }
     return convert2Type[card.type] + '' + card.rank;
   }
 
@@ -161,15 +163,15 @@ export class CardService {
    * 着地カードから4つのRank4まで導き出す方法を考える
    * 1. Any -> Rank5
    * 2. Rank5 -> Rank4, Rank4
-   * 3. Rank4, Rank4 -> Rank5, Rank5 
+   * 3. Rank4, Rank4 -> Rank5, Rank5
    * 4. Rank5, Rank5 -> Rank4, Rank4, Rank4, Rank4
-   * 
-   * 
+   *
+   *
    * 2と4は同じ
    * 1と3も実質同じ
-   * 
+   *
    * つまり、Any -> Rank5およびRank5 -> Rank4があれば良い
-   * @param final 
+   * @param final
    * @param num
    * @param excludesFromPair pair算出の際に除外扱いしたいカード
    */
@@ -182,7 +184,7 @@ export class CardService {
       middleCard = {
         final: final,
         merged: null
-      }
+      };
       pair = this.findBestPair(final, excludesFromPair);
     } else {
       middleCard = this.getRank5Card(final);
@@ -198,7 +200,7 @@ export class CardService {
       return this.getPathToFinal(final, num, excludesFromPair);
     }
     if (pair.length) {
-      pair.sort((a, b) => { //死と羽は特別なので、なるべく通らないルートにしたい(ソートで優先度を降格)
+      pair.sort((a, b) => { // 死と羽は特別なので、なるべく通らないルートにしたい(ソートで優先度を降格)
         if (a[0].type === '死' || a[0].type === '羽') {
           return 1;
         }
@@ -212,7 +214,7 @@ export class CardService {
         rank5: middleCard.final,
         merged: middleCard.merged,
         goal: final
-      }
+      };
     }
     return null;
   }
@@ -221,8 +223,8 @@ export class CardService {
    * カードを合成する。合成後のカードを返す。
    * 合成元のカードを指定していない場合は、nullを返す。
    * つくれない組み合わせの場合はundefindedを返す。
-   * @param card1 
-   * @param card2 
+   * @param card1
+   * @param card2
    */
   mergeCard(card1: Card, card2: Card, ignoreExists = false): Card {
     if (!card1 || !card2) {
@@ -232,20 +234,22 @@ export class CardService {
     const rank = this.getMergedCardRank(card1.rank, card2.rank);
     const mergedCard = this.getCardByType(type, rank);
     if (mergedCard === card1 || mergedCard === card2) {
-      //つくれない組み合わせの場合
+      // つくれない組み合わせの場合
       return undefined;
     }
     if (!ignoreExists && this.exists.some(exist => exist === mergedCard)) {
-      //カードが重複
+      // カードが重複
       return undefined;
     }
     return mergedCard;
   }
 
-  //To Card Service
+  // To Card Service
   noSkillWhenLv1(card: Card): boolean {
     // そもそもスキルがない場合
-    if (!card.skills) return true;
+    if (!card.skills) {
+      return true;
+    }
 
     let lv1Skills: Skill[] = [];
     lv1Skills = card.skills.filter(skill => {
@@ -261,13 +265,13 @@ export class CardService {
   /**
    * Rank 1のカードを探す。
    * ただし、excludesに存在するものは除く。
-   * @param excluds 
+   * @param excluds
   */
   public findRank1Card(excluds: Card[]): Card {
     return this.findRankedCard(excluds, 1);
   }
 
-  //private
+  // private
 
   private findRankedCard(excluds: Card[], rank: number): Card {
     for (let i = 0; i < TYPES.length; i++) {
@@ -279,18 +283,20 @@ export class CardService {
     }
   }
 
-  private setExistsWeight(graph) {
-    let graphDeepCopy = JSON.parse(JSON.stringify(graph));
+  private setExistsWeight(a_graph: any) {
+    const graphDeepCopy = JSON.parse(JSON.stringify(a_graph));
 
     this.exists.map(exist => {
       const existSymbol = this.getSymbolByCard(exist);
       this.cards.map(card => {
 
-        //合成結果がExistsだった場合のコストを上げる
+        // 合成結果がExistsだった場合のコストを上げる
         const cardSymbol = this.getSymbolByCard(card);
-        if (graphDeepCopy[cardSymbol][existSymbol]) graphDeepCopy[cardSymbol][existSymbol] = this.COST_INF;
+        if (graphDeepCopy[cardSymbol][existSymbol]) {
+          graphDeepCopy[cardSymbol][existSymbol] = this.COST_INF;
+        }
 
-        //合成対象がExistsだった場合のコストを上げる
+        // 合成対象がExistsだった場合のコストを上げる
         const forbiddenGoal = this.mergeCard(card, exist);
         if (!forbiddenGoal) {
           return;
@@ -308,7 +314,7 @@ export class CardService {
   }
 
   private getPerfectPath(pathList): Path[] {
-    let perfectPath: Path[] = [];
+    const perfectPath: Path[] = [];
     pathList.reduce(
       (prev, current, i, list) => {
         const mergedCard = this.getMergedCard(prev, current);
@@ -335,8 +341,8 @@ export class CardService {
   /**
    * 最初と最後のカードを指定すると、合成に使うカードを一つ算出してくれる。
    * 重複チェックはしない。
-   * @param start 
-   * @param goal 
+   * @param start
+   * @param goal
    */
   private getMergedCard(start: Card, goal: Card): Card {
 
@@ -345,7 +351,7 @@ export class CardService {
     }
 
     const needRank = Math.min.apply(null, this.rankMatrix[start.rank - 1].map((rank, i, array) => {
-      if (rank == goal.rank) {
+      if (rank === goal.rank) {
         return i + 1;
       } else {
         return 100;
@@ -368,7 +374,7 @@ export class CardService {
 
     if (cardList.length) {
       cardList = cardList.filter(card => {
-        return card.name !== start.name && card.name !== goal.name
+        return card.name !== start.name && card.name !== goal.name;
       });
     }
     if (cardList.length) {
@@ -391,7 +397,7 @@ export class CardService {
 
   /**
  * 所持カードに存在するかをチェックする
- * @param card 
+ * @param card
  */
   private checkIfCardExist(card: Card): boolean {
     return this.exists.some(c => c.name === card.name);
@@ -400,34 +406,45 @@ export class CardService {
 
   /**
    * a1, a2などのシンボルから、cardを算出
-   * @param symbol 
+   * @param symbol
    */
-  private getCardBySymbol(symbol: string): Card {
-    const strArr = symbol.split('');
-    const type = convert2Symbol[strArr[0]];
-    const rank: number = parseInt(symbol.slice(1));
+  public getCardBySymbol(symbol: string): Card {
+    if (!symbol) {
+      return null;
+    }
+    let strArr: string[];
+    let type: string;
+    let rank: number;
+    try {
+      strArr = symbol.split('');
+      type = convert2Symbol[strArr[0]];
+      rank = parseInt(symbol.slice(1), 10);
+    } catch (e) {
+      console.error(e.message);
+      return null;
+    }
     return this.getCardByType(type, rank);
   }
 
   /**
    * Rank5のカードで重複しないものと、着地までの素材カード（重複チェックあり）を探す
-   * @param final 
+   * @param final
    */
   private getRank5Card(final: Card, excludes: Card[] = []): { final: Card, merged: Card } {
     if (final.rank === 5) {
-      //すでにRank5
+      // すでにRank5
       return {
         final: final,
         merged: null
       };
     }
 
-    let mergedCard = null;
     const rank5cards = this.getFilteredCardByRank(5);
 
     for (let i = 0; i < rank5cards.length; i++) {
       const merged = this.getMergedCard(rank5cards[i], final);
-      if (!merged) continue; //mergeがない      
+      // tslint:disable: curly
+      if (!merged) continue; // mergeがない
       if (this.checkIfCardExist(merged)) continue;
       if (excludes.some(card => card === merged)) continue;
       return {
@@ -442,10 +459,10 @@ export class CardService {
 
   /**
    * rank5カードから、必要なRank4のペアの配列を算出（重複チェックあり）
-   * @param rank5card 
+   * @param rank5card
    */
   private findRank4PairFromRank5_org(rank5card: Card): Card[][] {
-    let retCardPair = [];
+    const retCardPair = [];
     const rank4cards = this.getFilteredCardByRank(4);
     rank4cards.reduce((prev, current) => {
       const goal = this.mergeCard(prev, current);
@@ -464,7 +481,7 @@ export class CardService {
   }
 
   private findCardPair(foundRank1: number, foundRank2: number, fromRank: number, fromCard: Card, excludes: Card[] = []): Card[][] {
-    let retCardPair = [];
+    const retCardPair = [];
     // 左側のカードのみ手元に残る可能性がある
     const cards1 = this.getFilteredCardByRank(foundRank1, excludes);
     const cards2 = this.getFilteredCardByRank(foundRank2);
@@ -497,7 +514,7 @@ export class CardService {
 
   /**
    * 全カードリストから、特定Rankのカードリストを算出（重複チェックあり）
-   * @param rank 
+   * @param rank
    */
   private getFilteredCardByRank(rank: number, excludes: Card[] = []): Card[] {
     return this.cards.filter(card => {

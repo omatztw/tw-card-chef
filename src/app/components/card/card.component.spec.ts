@@ -79,14 +79,14 @@ describe('CardComponent', () => {
   });
 
   it('スキル8個が7個にまとまるパターンで問題ないこと', () => {
-    component.skill1 = "SP吸収";
-    component.skill2 = "MP吸収";
-    component.skill3 = "女神の微笑";
-    component.skill4 = "瞬足";
-    component.skill7 = "属性UP[白]"; //財力と重なる
-    component.skill5 = "財力";
-    component.skill6 = "追撃[白]";
-    component.skill8 = "耐久の初撃";
+    component.skill1 = 'SP吸収';
+    component.skill2 = 'MP吸収';
+    component.skill3 = '女神の微笑';
+    component.skill4 = '瞬足';
+    component.skill7 = '属性UP[白]'; // 財力と重なる
+    component.skill5 = '財力';
+    component.skill6 = '追撃[白]';
+    component.skill8 = '耐久の初撃';
     fixture.detectChanges();
     component.onSubmit(null);
     const service = new CardService(null);
@@ -98,19 +98,19 @@ describe('CardComponent', () => {
         }
       })
     );
-    expect(component.finalRoutes[7].pre.length).toBe(0); //重なった場合
+    expect(component.finalRoutes[7].pre.length).toBe(0); // 重なった場合
   });
 
   it('着地がRank6の場合で問題ないこと', () => {
     const service = new CardService(null);
-    component.skill1 = "MR増加";
-    component.skill2 = "MR成長";
-    component.skill3 = "女神の微笑";
-    component.skill4 = "耐久の初撃";
-    component.skill5 = "鋼の肌";
-    component.skill6 = "魔法耐性";
-    component.skill7 = "属性UP[白]";
-    component.skill8 = "追撃[白]";
+    component.skill1 = 'MR増加';
+    component.skill2 = 'MR成長';
+    component.skill3 = '女神の微笑';
+    component.skill4 = '耐久の初撃';
+    component.skill5 = '鋼の肌';
+    component.skill6 = '魔法耐性';
+    component.skill7 = '属性UP[白]';
+    component.skill8 = '追撃[白]';
     component.final = service.getCardByType('ゼリー', 6);
     fixture.detectChanges();
     component.onSubmit(null);
@@ -122,19 +122,19 @@ describe('CardComponent', () => {
         }
       })
     );
-    expect(component.finalRoutes[7].pre.length).toBe(0); //重なった場合
+    expect(component.finalRoutes[7].pre.length).toBe(0); // 重なった場合
   });
 
   it('着地がRank10の場合で問題ないこと', () => {
     const service = new CardService(null);
-    component.skill1 = "MR増加";
-    component.skill2 = "MR成長";
-    component.skill3 = "女神の微笑";
-    component.skill4 = "耐久の初撃";
-    component.skill5 = "鋼の肌";
-    component.skill6 = "魔法耐性";
-    component.skill7 = "属性UP[白]";
-    component.skill8 = "追撃[黒]";
+    component.skill1 = 'MR増加';
+    component.skill2 = 'MR成長';
+    component.skill3 = '女神の微笑';
+    component.skill4 = '耐久の初撃';
+    component.skill5 = '鋼の肌';
+    component.skill6 = '魔法耐性';
+    component.skill7 = '属性UP[白]';
+    component.skill8 = '追撃[黒]';
     component.final = service.getCardByType('ゼリー', 10);
     fixture.detectChanges();
     component.onSubmit(null);
@@ -146,19 +146,19 @@ describe('CardComponent', () => {
         }
       })
     );
-    expect(component.finalRoutes[7].pre.length).toBe(0); //重なった場合
+    expect(component.finalRoutes[7].pre.length).toBe(0); // 重なった場合
   });
 
   it('所有済みのカードが合成されないこと', () => {
     const service = new CardService(null);
-    component.skill1 = "SP吸収";
-    component.skill2 = "MP吸収";
-    component.skill3 = "女神の微笑";
-    component.skill4 = "瞬足";
-    component.skill5 = "属性UP[白]";
-    component.skill7 = "夜行性";
-    component.skill6 = "追撃[白]";
-    component.skill8 = "耐久の初撃";
+    component.skill1 = 'SP吸収';
+    component.skill2 = 'MP吸収';
+    component.skill3 = '女神の微笑';
+    component.skill4 = '瞬足';
+    component.skill5 = '属性UP[白]';
+    component.skill7 = '夜行性';
+    component.skill6 = '追撃[白]';
+    component.skill8 = '耐久の初撃';
     component.exist1 = service.getCardByType('ゼリー', 6);
     component.exist2 = service.getCardByType('ゼリー', 5);
     component.exist3 = service.getCardByType('ゼリー', 4);
@@ -179,14 +179,14 @@ describe('CardComponent', () => {
   });
 
   it('スキル8個のパターンで問題ないこと', () => {
-    component.skill1 = "SP吸収";
-    component.skill2 = "MP吸収";
-    component.skill3 = "女神の微笑";
-    component.skill4 = "瞬足";
-    component.skill5 = "属性UP[白]";
-    component.skill7 = "夜行性";
-    component.skill6 = "追撃[白]";
-    component.skill8 = "耐久の初撃";
+    component.skill1 = 'SP吸収';
+    component.skill2 = 'MP吸収';
+    component.skill3 = '女神の微笑';
+    component.skill4 = '瞬足';
+    component.skill5 = '属性UP[白]';
+    component.skill7 = '夜行性';
+    component.skill6 = '追撃[白]';
+    component.skill8 = '耐久の初撃';
     fixture.detectChanges();
     component.onSubmit(null);
     // const service = fixture.debugElement.injector.get(CardService);
@@ -204,14 +204,14 @@ describe('CardComponent', () => {
 
   it('スキル8個のパターンで問題ないこと', () => {
     const service = new CardService(null);
-    component.skill1 = "SP回復";
-    component.skill2 = "MP回復";
-    component.skill3 = "女神の微笑";
-    component.skill4 = "瞬足";
-    component.skill5 = "属性UP[白]";
-    component.skill7 = "鋼の肌";
-    component.skill6 = "追撃[白]";
-    component.skill8 = "魔法耐性";
+    component.skill1 = 'SP回復';
+    component.skill2 = 'MP回復';
+    component.skill3 = '女神の微笑';
+    component.skill4 = '瞬足';
+    component.skill5 = '属性UP[白]';
+    component.skill7 = '鋼の肌';
+    component.skill6 = '追撃[白]';
+    component.skill8 = '魔法耐性';
     component.final = service.getCardByType('悪魔', 5);
 
     component.exist1 = service.getCardByType('猛者', 5);
@@ -264,7 +264,9 @@ describe('CardComponent', () => {
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
@@ -272,7 +274,7 @@ describe('CardComponent', () => {
         );
 
       }
-    )
+    );
 
 
   });
@@ -310,7 +312,9 @@ describe('CardComponent', () => {
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
@@ -318,7 +322,7 @@ describe('CardComponent', () => {
         );
 
       }
-    )
+    );
 
 
   });
@@ -356,7 +360,9 @@ describe('CardComponent', () => {
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
@@ -364,7 +370,7 @@ describe('CardComponent', () => {
         );
 
       }
-    )
+    );
 
 
   });
@@ -402,14 +408,16 @@ describe('CardComponent', () => {
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
           }
         );
       }
-    )
+    );
 
 
   });
@@ -447,7 +455,9 @@ describe('CardComponent', () => {
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
@@ -455,7 +465,7 @@ describe('CardComponent', () => {
         );
 
       }
-    )
+    );
 
 
   });
@@ -493,7 +503,9 @@ describe('CardComponent', () => {
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
@@ -501,7 +513,7 @@ describe('CardComponent', () => {
         );
 
       }
-    )
+    );
   });
 
   it('スキル8個のパターンで問題ないこと7', () => {
@@ -538,7 +550,9 @@ describe('CardComponent', () => {
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
@@ -546,7 +560,7 @@ describe('CardComponent', () => {
         );
 
       }
-    )
+    );
   });
 
   it('スキル8個のパターンでRank6着地で問題ないこと', () => {
@@ -574,7 +588,7 @@ describe('CardComponent', () => {
           })
         );
       }
-    )
+    );
   });
 
   it('スキル8個のパターンでRank10着地で問題ないこと', () => {
@@ -604,7 +618,7 @@ describe('CardComponent', () => {
           })
         );
       }
-    )
+    );
   });
 
   it('スキル8個のパターン/Rank10着地で重複問題がないこと1', () => {
@@ -628,21 +642,23 @@ describe('CardComponent', () => {
         const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
         let si = 0;
         component.finalRoutes.forEach(
-          (route, index) => {
+          route => {
             if (route.divider) {
               route.routes.map(aRoute => {
                 expect(service.exists).not.toContain(aRoute.orig);
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
           }
         );
       }
-    )
+    );
   });
 
   it('スキル8個のパターン/Rank10着地で重複問題がないこと2', () => {
@@ -666,21 +682,23 @@ describe('CardComponent', () => {
         const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
         let si = 0;
         component.finalRoutes.forEach(
-          (route, index) => {
+          route => {
             if (route.divider) {
               route.routes.map(aRoute => {
                 expect(service.exists).not.toContain(aRoute.orig);
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
           }
         );
       }
-    )
+    );
   });
 
   it('スキル8個のパターン/Rank10着地で重複問題がないこと3', () => {
@@ -704,21 +722,23 @@ describe('CardComponent', () => {
         const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
         let si = 0;
         component.finalRoutes.forEach(
-          (route, index) => {
+          route => {
             if (route.divider) {
               route.routes.map(aRoute => {
                 expect(service.exists).not.toContain(aRoute.orig);
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
           }
         );
       }
-    )
+    );
   });
 
   it('スキル8個のパターン/Rank10着地で重複問題がないこと4', () => {
@@ -742,21 +762,23 @@ describe('CardComponent', () => {
         const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
         let si = 0;
         component.finalRoutes.forEach(
-          (route, index) => {
+          route => {
             if (route.divider) {
               route.routes.map(aRoute => {
                 expect(service.exists).not.toContain(aRoute.orig);
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
           }
         );
       }
-    )
+    );
   });
 
   it('スキル8個のパターン/Rank10着地で重複問題がないこと5', () => {
@@ -780,21 +802,23 @@ describe('CardComponent', () => {
         const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
         let si = 0;
         component.finalRoutes.forEach(
-          (route, index) => {
+          route => {
             if (route.divider) {
               route.routes.map(aRoute => {
                 expect(service.exists).not.toContain(aRoute.orig);
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
           }
         );
       }
-    )
+    );
   });
 
   it('スキル8個のパターン/Rank10着地で重複問題がないこと6', () => {
@@ -818,21 +842,23 @@ describe('CardComponent', () => {
         const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
         let si = 0;
         component.finalRoutes.forEach(
-          (route, index) => {
+          route => {
             if (route.divider) {
               route.routes.map(aRoute => {
                 expect(service.exists).not.toContain(aRoute.orig);
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
           }
         );
       }
-    )
+    );
   });
 
   it('スキル8個のパターン/Rank10着地で重複問題がないこと7', () => {
@@ -856,34 +882,36 @@ describe('CardComponent', () => {
         const addRemovePattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
         let si = 0;
         component.finalRoutes.forEach(
-          (route, index) => {
+          route => {
             if (route.divider) {
               route.routes.map(aRoute => {
                 expect(service.exists).not.toContain(aRoute.orig);
                 expect(service.exists).not.toContain(aRoute.merged);
                 expect(service.exists).not.toContain(aRoute.goal);
               });
-              addRemovePattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+              addRemovePattern.shouldRemove[si].map(
+                remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal)
+              );
               addRemovePattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
               si++;
             }
           }
         );
       }
-    )
+    );
   });
 
 
   it('水属性UPと水追撃UPのパターン', () => {
     const service = new CardService(null);
-    component.skill1 = "SP吸収";
-    component.skill2 = "MP吸収";
-    component.skill3 = "女神の微笑";
-    component.skill4 = "瞬足";
-    component.skill5 = "属性UP[水]";
-    component.skill7 = "鋼の肌";
-    component.skill6 = "追撃[水]";
-    component.skill8 = "魔法耐性";
+    component.skill1 = 'SP吸収';
+    component.skill2 = 'MP吸収';
+    component.skill3 = '女神の微笑';
+    component.skill4 = '瞬足';
+    component.skill5 = '属性UP[水]';
+    component.skill7 = '鋼の肌';
+    component.skill6 = '追撃[水]';
+    component.skill8 = '魔法耐性';
     component.final = service.getCardByType('悪魔', 5);
 
     component.exist1 = service.getCardByType('猛者', 5);
@@ -907,14 +935,14 @@ describe('CardComponent', () => {
 
   it('イジワルが重複する問題', () => {
     const service = new CardService(null);
-    component.skill1 = "HP吸収";
-    component.skill2 = "MP吸収";
-    component.skill3 = "属性UP[黒]";
-    component.skill4 = "追撃[黒]";
-    component.skill5 = "瞬足";
-    component.skill6 = "女神の微笑";
-    component.skill7 = "自己再生";
-    component.skill8 = "初速";
+    component.skill1 = 'HP吸収';
+    component.skill2 = 'MP吸収';
+    component.skill3 = '属性UP[黒]';
+    component.skill4 = '追撃[黒]';
+    component.skill5 = '瞬足';
+    component.skill6 = '女神の微笑';
+    component.skill7 = '自己再生';
+    component.skill8 = '初速';
     component.exist1 = service.getCardByType('人形', 8);
     component.final = service.getCardByType('人形', 5);
     fixture.detectChanges();
@@ -940,14 +968,14 @@ describe('CardComponent', () => {
 
   it('イジワルが重複する問題2', () => {
     const service = new CardService(null);
-    component.skill1 = "属性UP[白]";
-    component.skill2 = "追撃[白]";
-    component.skill3 = "MP吸収";
-    component.skill4 = "SP吸収";
-    component.skill5 = "女神の微笑";
-    component.skill6 = "瞬足";
-    component.skill7 = "初速";
-    component.skill8 = "耐久の初撃";
+    component.skill1 = '属性UP[白]';
+    component.skill2 = '追撃[白]';
+    component.skill3 = 'MP吸収';
+    component.skill4 = 'SP吸収';
+    component.skill5 = '女神の微笑';
+    component.skill6 = '瞬足';
+    component.skill7 = '初速';
+    component.skill8 = '耐久の初撃';
     component.final = service.getCardByType('昆虫', 4);
     fixture.detectChanges();
     component.onSubmit(null);

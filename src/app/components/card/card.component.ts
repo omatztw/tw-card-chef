@@ -1,3 +1,5 @@
+// tslint:disable: curly
+
 import { Component, OnInit } from '@angular/core';
 import { CardService } from '../../services/card.service';
 import { Card } from '../../models/card.model';
@@ -7,6 +9,9 @@ import { Skill } from '../../models/skill.model';
 import { ErrorService } from '../../services/error.service';
 import { FinalPathTree, FinalPathBinaryTree, FinalPath } from '../../models/final-path-tree.model';
 import { addRemovePatterns } from '../../consts/add-remove-pattern.const';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MergedHistory } from '../../models/history.model';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
   selector: 'app-card',
@@ -68,7 +73,10 @@ export class CardComponent implements OnInit {
 
   constructor(
     private cardService: CardService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private historyService: HistoryService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -76,103 +84,45 @@ export class CardComponent implements OnInit {
       err => this.errMsg = err
     );
 
-    // this.debug_const();
-  }
+    this.route.queryParamMap.subscribe(
+      params => {
+        this.skill1 = params.get('s1');
+        this.skill2 = params.get('s2');
+        this.skill3 = params.get('s3');
+        this.skill4 = params.get('s4');
+        this.skill5 = params.get('s5');
+        this.skill6 = params.get('s6');
+        this.skill7 = params.get('s7');
+        this.skill8 = params.get('s8');
 
-  private debug_const() {
-    this.skill1 = SKILL_ARRAY_FORTEST_DEBUG[0];
-    this.skill2 = SKILL_ARRAY_FORTEST_DEBUG[1];
-    this.skill3 = SKILL_ARRAY_FORTEST_DEBUG[2];
-    this.skill4 = SKILL_ARRAY_FORTEST_DEBUG[3];
-    this.skill5 = SKILL_ARRAY_FORTEST_DEBUG[4];
-    this.skill6 = SKILL_ARRAY_FORTEST_DEBUG[5];
-    this.skill7 = SKILL_ARRAY_FORTEST_DEBUG[6];
-    this.skill8 = SKILL_ARRAY_FORTEST_DEBUG[7];
-    this.final = this.cardService.getCardByType('昆虫', 10);
-  }
+        this.exist1 = this.cardService.getCardBySymbol(params.get('e1'));
+        this.exist2 = this.cardService.getCardBySymbol(params.get('e2'));
+        this.exist3 = this.cardService.getCardBySymbol(params.get('e3'));
+        this.exist4 = this.cardService.getCardBySymbol(params.get('e4'));
+        this.exist5 = this.cardService.getCardBySymbol(params.get('e5'));
+        this.exist6 = this.cardService.getCardBySymbol(params.get('e6'));
+        this.exist7 = this.cardService.getCardBySymbol(params.get('e7'));
+        this.exist8 = this.cardService.getCardBySymbol(params.get('e8'));
 
-  private debug1() {
-    this.skill1 = "MR増加";
-    this.skill2 = "天の裁き";
-  }
+        const f = this.cardService.getCardBySymbol(params.get('f'));
+        if (f) {
+          this.final = f;
+        }
 
-  private debug2() {
-    this.skill3 = "HACK成長";
-    this.skill4 = "追撃[風]";
-  }
+        if (params.keys) {
+          this.finalRoutes = null;
+          if (this.skills.length) {
+            this.onSubmit(null);
+          }
+        }
+      }
+    );
 
-  private debug3() {
-    this.skill1 = "AGI成長";
-    this.skill2 = "初速";
-    this.skill3 = "属性UP[雷]"
-  }
-  private debug4() {
-    this.skill5 = "AGI成長";
-    this.skill6 = "初速";
-    this.skill7 = "属性UP[雷]"
-  }
-  private debug5() {
-    this.skill1 = "属性UP[白]";
-    this.skill2 = "追撃[白]";
-    this.skill3 = "MP吸収";
-    this.skill4 = "SP吸収";
-    this.skill5 = "女神の微笑";
-    this.skill6 = "瞬足";
-    this.skill7 = "初速";
-    this.skill8 = "耐久の初撃";
-    this.final = this.cardService.getCardByType('昆虫', 4);
-    // this.exist1 = this.cardService.getCardByType('悪魔', 3);
-  }
-
-  private debug6() {
-    this.skill1 = "SP吸収";
-    this.skill2 = "MP吸収";
-    this.skill3 = "女神の微笑";
-    this.skill4 = "瞬足";
-    this.skill7 = "属性UP[白]";
-    this.skill6 = "追撃[白]";
-    this.skill5 = "夜行性";
-    this.skill8 = "耐久の初撃";
-    this.exist1 = this.cardService.getCardByType('ゼリー', 6);
-    this.exist2 = this.cardService.getCardByType('悪魔', 5);
-    this.exist3 = this.cardService.getCardByType('昆虫', 5);
-  }
-
-  private debug7() {
-    this.skill1 = "SP回復";
-    this.skill2 = "属性UP[雷]";
-    this.skill3 = "INT増加";
-    this.skill4 = "属性UP[黒]";
-    this.skill5 = "STAB増加";
-    this.skill6 = "HACK増加";
-    this.skill7 = "DEF増加";
-    this.skill8 = "AGI増加";
-  }
-
-  private debug8() {
-    this.skill1 = "MP回復";
-    this.skill2 = "HACK増加";
-    this.skill3 = "STAB増加";
-    this.skill4 = "緊急回避";
-    this.skill5 = "属性UP[雷]";
-    this.skill6 = "SP吸収";
-    this.skill7 = "属性UP[白]";
-    this.skill8 = "追撃[白]";
-  }
-
-  private debug9() {
-    this.skill1 = "MR増加";
-    this.skill2 = "MR成長";
-    this.skill3 = "女神の微笑";
-    this.skill4 = "耐久の初撃";
-    this.skill5 = "鋼の肌";
-    this.skill6 = "魔法耐性";
-    this.skill7 = "属性UP[白]";
-    this.skill8 = "追撃[白]";
   }
 
   get skills() {
     let skills = [];
+
     if (this.skill1) skills.push(this.skill1);
     if (this.skill2) skills.push(this.skill2);
     if (this.skill3) skills.push(this.skill3);
@@ -182,10 +132,10 @@ export class CardComponent implements OnInit {
     if (this.skill7) skills.push(this.skill7);
     if (this.skill8) skills.push(this.skill8);
 
-    //重複するものを除く
+    // 重複するものを除く
     skills = skills.filter((skill, index) => {
       return index === skills.indexOf(skill);
-    })
+    });
     return skills;
   }
 
@@ -203,12 +153,12 @@ export class CardComponent implements OnInit {
 
     exists = exists.filter((exist, index) => {
       return index === exists.indexOf(exist);
-    })
+    });
     return exists;
   }
 
 
-  //Rank4 - 8までのカードが着地として選択可能
+  // Rank4 - 8までのカードが着地として選択可能
   get goalCardList() {
     return this.cardList.filter(card => {
       return card.rank >= 4;
@@ -216,35 +166,35 @@ export class CardComponent implements OnInit {
   }
 
   get cards() {
-    let cards = [];
+    const ret_cards = [];
     this.skills.map(
       skill => {
-        cards.push({
+        ret_cards.push({
           start: this.cardService.getCardBySkill(skill, true),
           goal: this.cardService.getCardBySkill(skill, false, this.rank10Enabled ? 10 : 9),
           skill: skill
-        })
+        });
       }
     );
 
-    const filteredCards = this.filterDuplicatedFinalCard(cards);
+    const filteredCards = this.filterDuplicatedFinalCard(ret_cards);
 
-    let retCards = [];
+    const retCards = [];
     filteredCards.map(
       filteredCard => {
-        let pre: Path[] = [];
+        const pre: Path[] = [];
 
         let fGoal = null;
         filteredCard.starts.reduce((previous, current) => {
           let fOrig = previous;
           let fMerged = current;
           fGoal = this.cardService.mergeCard(previous, current);
-          if (fGoal === null) { //previous or currentのどちらかを指定していない場合
+          if (fGoal === null) { // previous or currentのどちらかを指定していない場合
             fGoal = current;
           }
-          if (fGoal === undefined) { //作れない組み合わせの場合。（所持カードの重複も含まれる)
-            //一旦別のカードに迂回するための、中間点のPathを検索する。
-            let middlePath = this.findMiddleGoal(previous, current);
+          if (fGoal === undefined) { // 作れない組み合わせの場合。（所持カードの重複も含まれる)
+            // 一旦別のカードに迂回するための、中間点のPathを検索する。
+            const middlePath = this.findMiddleGoal(previous, current);
             if (middlePath) {
               pre.push(middlePath);
               fOrig = middlePath.goal;
@@ -259,14 +209,14 @@ export class CardComponent implements OnInit {
             merged: fMerged,
             goal: fGoal
           });
-          return fGoal
+          return fGoal;
         });
 
         let fStart;
         if (pre.length > 0) {
           fStart = fGoal;
         } else {
-          fStart = filteredCard.starts[0]
+          fStart = filteredCard.starts[0];
         }
 
         retCards.push({
@@ -291,22 +241,22 @@ export class CardComponent implements OnInit {
    * 考え方：
    *    1. Rank1の別のカードを組み合わせる。組み合わせが見つかるまで再帰的にRank1カードを探していく。
    *    2. 中間ゴールカードを合成させたスタートカードを所持している場合もNGケースとして再度探す
-   * @param previous 
-   * @param current 
-   * @param excluds 
+   * @param previous
+   * @param current
+   * @param excluds
    */
   private findMiddleGoal(previous: Card, current: Card, excluds: Card[] = []): Path {
     const another = this.cardService.findRank1Card([previous, current, ...excluds]);
-    if (!another) { //どうしても見つからない場合はあきらめる
+    if (!another) { // どうしても見つからない場合はあきらめる
       return null;
     }
-    let mGoal = this.cardService.mergeCard(previous, another);
+    const mGoal = this.cardService.mergeCard(previous, another);
     if (mGoal === undefined) {
       excluds.push(another);
       return this.findMiddleGoal(previous, current, excluds);
     }
 
-    //中間ゴールカードを合成させたスタートカードを所持している場合
+    // 中間ゴールカードを合成させたスタートカードを所持している場合
     if (this.cardService.mergeCard(mGoal, current) === undefined) {
       excluds.push(another);
       return this.findMiddleGoal(previous, current, excluds);
@@ -322,27 +272,28 @@ export class CardComponent implements OnInit {
   /**
    * 必要なスキルの最終カードが被っているときに統合する
    */
-  filterDuplicatedFinalCard(cards: { pre: any[], start: Card, goal: Card, skill: Skill }[]): { starts: Card[], goal: Card, skill: Skill[] }[] {
+  filterDuplicatedFinalCard(in_cards: { pre: any[], start: Card, goal: Card, skill: Skill }[])
+    : { starts: Card[], goal: Card, skill: Skill[] }[] {
 
-    let filterdCards: {
+    const filterdCards: {
       starts: Card[],
       goal: Card,
       skill: Skill[]
     }[] = [];
 
-    cards.map(
+    in_cards.map(
       card => {
-        //重複してるものを探す
+        // 重複してるものを探す
         let isDuplicated = false;
         filterdCards.map((filterdCard, index) => {
-          //重複した場合統合させる。
-          //昇順になるように並べ替える。
+          // 重複した場合統合させる。
+          // 昇順になるように並べ替える。
           if (filterdCard.goal === card.goal) {
-            //すでに2つのスキルが重なっている場合は、たとえゴールが同じでも重ねない。3スキルを扱うのは非効率になるため。
+            // すでに2つのスキルが重なっている場合は、たとえゴールが同じでも重ねない。3スキルを扱うのは非効率になるため。
             if (filterdCards[index].skill.length < 2) {
-              //スキルAを持つ種とスキルBを持つ種の共通のゴールABとした場合、種AがスキルBも所持していた場合、種A→ゴールABとする
-              //重複カードとしては処理するが、種Bはスタートカードとして登録しない処理をいれる
-              const startAlsoDuplicated: boolean = cards
+              // スキルAを持つ種とスキルBを持つ種の共通のゴールABとした場合、種AがスキルBも所持していた場合、種A→ゴールABとする
+              // 重複カードとしては処理するが、種Bはスタートカードとして登録しない処理をいれる
+              const startAlsoDuplicated: boolean = in_cards
                 .filter(fCard => fCard.start.name !== card.start.name)
                 .filter(fCard => fCard.goal.name === card.goal.name)
                 .some(fCard => fCard.start.skills.some(s => s.name === card.skill));
@@ -352,7 +303,7 @@ export class CardComponent implements OnInit {
                 // console.log(filterdCards[index].starts);
                 // console.log(card);
               }
-              //startカードの重複を除去除去
+              // startカードの重複を除去除去
               filterdCards[index].starts = filterdCards[index].starts.filter((x, i, self) => self.indexOf(x) === i);
               filterdCards[index].starts.sort((a, b) => a.rank - b.rank);
               filterdCards[index].skill.push(card.skill);
@@ -361,7 +312,7 @@ export class CardComponent implements OnInit {
           }
         });
 
-        //重複していない場合は、そのまま採用する
+        // 重複していない場合は、そのまま採用する
         if (!isDuplicated) {
           filterdCards.push({
             starts: [card.start],
@@ -410,20 +361,50 @@ export class CardComponent implements OnInit {
     excluds.map(exclud => this.cardService.addExist(exclud));
     this.exists.map(exist => {
       this.cardService.addExist(exist);
-    })
+    });
+  }
+
+  updateQueryParams(): void {
+    const queryParams: Params = {
+      s1: this.skill1,
+      s2: this.skill2,
+      s3: this.skill3,
+      s4: this.skill4,
+      s5: this.skill5,
+      s6: this.skill6,
+      s7: this.skill7,
+      s8: this.skill8,
+      e1: this.cardService.getSymbolByCard(this.exist1),
+      e2: this.cardService.getSymbolByCard(this.exist2),
+      e3: this.cardService.getSymbolByCard(this.exist3),
+      e4: this.cardService.getSymbolByCard(this.exist4),
+      e5: this.cardService.getSymbolByCard(this.exist5),
+      e6: this.cardService.getSymbolByCard(this.exist6),
+      e7: this.cardService.getSymbolByCard(this.exist7),
+      e8: this.cardService.getSymbolByCard(this.exist8),
+      f: this.cardService.getSymbolByCard(this.final)
+    };
+
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: queryParams
+      });
   }
 
   onSubmit(event) {
+    this.updateQueryParams();
 
     this.InitValues();
 
     if (!this.cards.length) {
-      this.errorService.error("スキル入力忘れていまっせ(ﾉ∀`)");
+      this.errorService.error('スキル入力忘れていまっせ(ﾉ∀`)');
       return;
     }
 
     if (this.existSkillGoal()) {
-      this.errorService.error("どうも作れない組み合わせのようだ(´・ω・`) 必要なスキルの最大値を持つカードをすでに持っている気がする(´・ω・`)");
+      this.errorService.error('どうも作れない組み合わせのようだ(´・ω・`) 必要なスキルの最大値を持つカードをすでに持っている気がする(´・ω・`)');
       return;
     }
 
@@ -431,8 +412,17 @@ export class CardComponent implements OnInit {
       this.final = this.defaultFinal;
     }
     if (!this.cards.length) {
-      return
+      return;
     }
+
+    const history = new MergedHistory();
+    const now = new Date();
+    history.skills = this.skills;
+    history.exists = this.exists;
+    history.final = this.final;
+
+    this.historyService.updateHistory(history, now);
+
 
     this.skillDisplayed = Object.assign([], this.cards);
     const skillCount = this.skillDisplayed.length;
@@ -444,18 +434,20 @@ export class CardComponent implements OnInit {
   }
 
   InitValues() {
-    this.finalRoutes = []; //初期化
+    this.finalRoutes = []; // 初期化
     this.skillDisplayed = Object.assign([], this.cards);
     this.updateExists();
-    this.finalPathBinaryTree = new FinalPathBinaryTree(this.cardService.getPathToFinal(this.final, 0, this.skillDisplayed.map(c => c.goal)));
+    this.finalPathBinaryTree = new FinalPathBinaryTree(
+      this.cardService.getPathToFinal(this.final, 0, this.skillDisplayed.map(c => c.goal))
+    );
   }
 
   existSkillGoal(): boolean {
     const existSkillGoal = this.cards.filter(card => {
-      return this.exists.some(exist => exist.name === card.goal.name)
-    })
+      return this.exists.some(exist => exist.name === card.goal.name);
+    });
 
-    return !!existSkillGoal.length
+    return !!existSkillGoal.length;
   }
 
   onClear(event) {
@@ -471,8 +463,8 @@ export class CardComponent implements OnInit {
 
   /**
    * FinalPathBinaryTreeを完成させる。STEPの数だけ枝を生やしていく。
-   * @param tree 
-   * @param maxCount 
+   * @param tree
+   * @param maxCount
    */
   makeLastMiles(tree: FinalPathBinaryTree, maxCount: number) {
     if (maxCount === 1) {
@@ -514,7 +506,7 @@ export class CardComponent implements OnInit {
           newRoute.divider = NaN;
           newRoute.routes.push(...route);
           if (this.skillDisplayed.length) {
-            if (index === array.length - 1) { //最後は全部
+            if (index === array.length - 1) { // 最後は全部
               for (let i = 0; i < this.skillDisplayed.length; i++) {
                 newRoute.skills.push(...this.skillDisplayed[i].skill);
               }
@@ -534,6 +526,6 @@ export class CardComponent implements OnInit {
           skillQueue = [];
         }
       }
-    )
+    );
   }
 }
