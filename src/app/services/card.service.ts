@@ -152,6 +152,9 @@ export class CardService {
  * @param card
  */
   getSymbolByCard(card: Card): string {
+    if (!card) {
+      return null;
+    }
     return convert2Type[card.type] + '' + card.rank;
   }
 
@@ -405,10 +408,21 @@ export class CardService {
    * a1, a2などのシンボルから、cardを算出
    * @param symbol
    */
-  private getCardBySymbol(symbol: string): Card {
-    const strArr = symbol.split('');
-    const type = convert2Symbol[strArr[0]];
-    const rank: number = parseInt(symbol.slice(1), 10);
+  public getCardBySymbol(symbol: string): Card {
+    if (!symbol) {
+      return null;
+    }
+    let strArr: string[];
+    let type: string;
+    let rank: number;
+    try {
+      strArr = symbol.split('');
+      type = convert2Symbol[strArr[0]];
+      rank = parseInt(symbol.slice(1), 10);
+    } catch (e) {
+      console.error(e.message);
+      return null;
+    }
     return this.getCardByType(type, rank);
   }
 

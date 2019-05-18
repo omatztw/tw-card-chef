@@ -9,22 +9,28 @@ import { CardService } from './services/card.service';
 import { ResultComponent } from './components/result/result.component';
 import { ErrorService } from './services/error.service';
 import { FooterComponent } from './components/footer/footer.component';
+import { AppRoutingModule } from './app-routing.module';
+import { HistoryComponent } from './components/history/history.component';
+import { HistoryService } from './services/history.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardComponent,
     ResultComponent,
-    FooterComponent
+    FooterComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AppRoutingModule
   ],
   providers: [
     CardService,
-    ErrorService
+    ErrorService,
+    HistoryService
   ],
   bootstrap: [AppComponent]
 })

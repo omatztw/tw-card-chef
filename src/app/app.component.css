@@ -2,3 +2,6 @@
 .title::after {
     content: url(/assets/icon.png);
 }
+.title-link {
+  color: black;
+}

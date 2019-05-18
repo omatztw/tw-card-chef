@@ -9,6 +9,9 @@ import { Skill } from '../../models/skill.model';
 import { ErrorService } from '../../services/error.service';
 import { FinalPathTree, FinalPathBinaryTree, FinalPath } from '../../models/final-path-tree.model';
 import { addRemovePatterns } from '../../consts/add-remove-pattern.const';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MergedHistory } from '../../models/history.model';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
   selector: 'app-card',
@@ -70,7 +73,10 @@ export class CardComponent implements OnInit {
 
   constructor(
     private cardService: CardService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private historyService: HistoryService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -78,99 +84,40 @@ export class CardComponent implements OnInit {
       err => this.errMsg = err
     );
 
-    // this.debug_const();
-  }
+    this.route.queryParamMap.subscribe(
+      params => {
+        this.skill1 = params.get('s1');
+        this.skill2 = params.get('s2');
+        this.skill3 = params.get('s3');
+        this.skill4 = params.get('s4');
+        this.skill5 = params.get('s5');
+        this.skill6 = params.get('s6');
+        this.skill7 = params.get('s7');
+        this.skill8 = params.get('s8');
 
-  private debug_const() {
-    this.skill1 = SKILL_ARRAY_FORTEST_DEBUG[0];
-    this.skill2 = SKILL_ARRAY_FORTEST_DEBUG[1];
-    this.skill3 = SKILL_ARRAY_FORTEST_DEBUG[2];
-    this.skill4 = SKILL_ARRAY_FORTEST_DEBUG[3];
-    this.skill5 = SKILL_ARRAY_FORTEST_DEBUG[4];
-    this.skill6 = SKILL_ARRAY_FORTEST_DEBUG[5];
-    this.skill7 = SKILL_ARRAY_FORTEST_DEBUG[6];
-    this.skill8 = SKILL_ARRAY_FORTEST_DEBUG[7];
-    this.final = this.cardService.getCardByType('昆虫', 10);
-  }
+        this.exist1 = this.cardService.getCardBySymbol(params.get('e1'));
+        this.exist2 = this.cardService.getCardBySymbol(params.get('e2'));
+        this.exist3 = this.cardService.getCardBySymbol(params.get('e3'));
+        this.exist4 = this.cardService.getCardBySymbol(params.get('e4'));
+        this.exist5 = this.cardService.getCardBySymbol(params.get('e5'));
+        this.exist6 = this.cardService.getCardBySymbol(params.get('e6'));
+        this.exist7 = this.cardService.getCardBySymbol(params.get('e7'));
+        this.exist8 = this.cardService.getCardBySymbol(params.get('e8'));
 
-  private debug1() {
-    this.skill1 = 'MR増加';
-    this.skill2 = '天の裁き';
-  }
+        const f = this.cardService.getCardBySymbol(params.get('f'));
+        if (f) {
+          this.final = f;
+        }
 
-  private debug2() {
-    this.skill3 = 'HACK成長';
-    this.skill4 = '追撃[風]';
-  }
+        if (params.keys) {
+          this.finalRoutes = null;
+          if (this.skills.length) {
+            this.onSubmit(null);
+          }
+        }
+      }
+    );
 
-  private debug3() {
-    this.skill1 = 'AGI成長';
-    this.skill2 = '初速';
-    this.skill3 = '属性UP[雷]';
-  }
-  private debug4() {
-    this.skill5 = 'AGI成長';
-    this.skill6 = '初速';
-    this.skill7 = '属性UP[雷]';
-  }
-  private debug5() {
-    this.skill1 = '属性UP[白]';
-    this.skill2 = '追撃[白]';
-    this.skill3 = 'MP吸収';
-    this.skill4 = 'SP吸収';
-    this.skill5 = '女神の微笑';
-    this.skill6 = '瞬足';
-    this.skill7 = '初速';
-    this.skill8 = '耐久の初撃';
-    this.final = this.cardService.getCardByType('昆虫', 4);
-    // this.exist1 = this.cardService.getCardByType('悪魔', 3);
-  }
-
-  private debug6() {
-    this.skill1 = 'SP吸収';
-    this.skill2 = 'MP吸収';
-    this.skill3 = '女神の微笑';
-    this.skill4 = '瞬足';
-    this.skill7 = '属性UP[白]';
-    this.skill6 = '追撃[白]';
-    this.skill5 = '夜行性';
-    this.skill8 = '耐久の初撃';
-    this.exist1 = this.cardService.getCardByType('ゼリー', 6);
-    this.exist2 = this.cardService.getCardByType('悪魔', 5);
-    this.exist3 = this.cardService.getCardByType('昆虫', 5);
-  }
-
-  private debug7() {
-    this.skill1 = 'SP回復';
-    this.skill2 = '属性UP[雷]';
-    this.skill3 = 'INT増加';
-    this.skill4 = '属性UP[黒]';
-    this.skill5 = 'STAB増加';
-    this.skill6 = 'HACK増加';
-    this.skill7 = 'DEF増加';
-    this.skill8 = 'AGI増加';
-  }
-
-  private debug8() {
-    this.skill1 = 'MP回復';
-    this.skill2 = 'HACK増加';
-    this.skill3 = 'STAB増加';
-    this.skill4 = '緊急回避';
-    this.skill5 = '属性UP[雷]';
-    this.skill6 = 'SP吸収';
-    this.skill7 = '属性UP[白]';
-    this.skill8 = '追撃[白]';
-  }
-
-  private debug9() {
-    this.skill1 = 'MR増加';
-    this.skill2 = 'MR成長';
-    this.skill3 = '女神の微笑';
-    this.skill4 = '耐久の初撃';
-    this.skill5 = '鋼の肌';
-    this.skill6 = '魔法耐性';
-    this.skill7 = '属性UP[白]';
-    this.skill8 = '追撃[白]';
   }
 
   get skills() {
@@ -417,7 +364,37 @@ export class CardComponent implements OnInit {
     });
   }
 
+  updateQueryParams(): void {
+    const queryParams: Params = {
+      s1: this.skill1,
+      s2: this.skill2,
+      s3: this.skill3,
+      s4: this.skill4,
+      s5: this.skill5,
+      s6: this.skill6,
+      s7: this.skill7,
+      s8: this.skill8,
+      e1: this.cardService.getSymbolByCard(this.exist1),
+      e2: this.cardService.getSymbolByCard(this.exist2),
+      e3: this.cardService.getSymbolByCard(this.exist3),
+      e4: this.cardService.getSymbolByCard(this.exist4),
+      e5: this.cardService.getSymbolByCard(this.exist5),
+      e6: this.cardService.getSymbolByCard(this.exist6),
+      e7: this.cardService.getSymbolByCard(this.exist7),
+      e8: this.cardService.getSymbolByCard(this.exist8),
+      f: this.cardService.getSymbolByCard(this.final)
+    };
+
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: queryParams
+      });
+  }
+
   onSubmit(event) {
+    this.updateQueryParams();
 
     this.InitValues();
 
@@ -437,6 +414,15 @@ export class CardComponent implements OnInit {
     if (!this.cards.length) {
       return;
     }
+
+    const history = new MergedHistory();
+    const now = new Date();
+    history.skills = this.skills;
+    history.exists = this.exists;
+    history.final = this.final;
+
+    this.historyService.updateHistory(history, now);
+
 
     this.skillDisplayed = Object.assign([], this.cards);
     const skillCount = this.skillDisplayed.length;
