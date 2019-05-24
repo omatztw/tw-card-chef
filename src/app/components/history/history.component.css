@@ -2,3 +2,11 @@
   margin-left: 10px;
   margin-bottom: 8px;
 }
+
+.v-middle {
+  vertical-align: middle;
+}
+
+.text-left {
+  text-align: left;
+}
