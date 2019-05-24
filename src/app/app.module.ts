@@ -12,6 +12,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HistoryComponent } from './components/history/history.component';
 import { HistoryService } from './services/history.service';
+import { EnabledPipe } from './components/history/enabled.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HistoryService } from './services/history.service';
     CardComponent,
     ResultComponent,
     FooterComponent,
-    HistoryComponent
+    HistoryComponent,
+    EnabledPipe
   ],
   imports: [
     BrowserModule,
