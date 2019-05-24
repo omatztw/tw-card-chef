@@ -109,6 +109,8 @@ export class CardComponent implements OnInit {
           this.final = f;
         }
 
+        this.rank10Enabled = params.get('r10') ? params.get('r10').toLowerCase() === 'true' : false;
+
         if (params.keys) {
           this.finalRoutes = null;
           if (this.skills.length) {
@@ -382,7 +384,8 @@ export class CardComponent implements OnInit {
       e6: this.cardService.getSymbolByCard(this.exist6),
       e7: this.cardService.getSymbolByCard(this.exist7),
       e8: this.cardService.getSymbolByCard(this.exist8),
-      f: this.cardService.getSymbolByCard(this.final)
+      f: this.cardService.getSymbolByCard(this.final),
+      r10: this.rank10Enabled
     };
 
     this.router.navigate(
@@ -420,6 +423,7 @@ export class CardComponent implements OnInit {
     history.skills = this.skills;
     history.exists = this.exists;
     history.final = this.final;
+    history.isRank10Enabled = this.rank10Enabled;
 
     this.historyService.updateHistory(history, now);
 

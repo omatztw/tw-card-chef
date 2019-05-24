@@ -8,7 +8,8 @@
         <th>スキル</th>
         <th>所持カード</th>
         <th>着地カード</th>
-        <th>適用</th>
+        <th>Rank10有効</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +18,13 @@
         <th>{{item.content.skills}}</th>
         <th>{{convertToName(item.content.exists)}}</th>
         <th>{{convertToName([item.content.final])}}</th>
-        <th><button (click)="onRerender(item.content)" class="btn btn-primary btn-sm">再表示</button></th>
+        <th [innerHTML]="item.content.isRank10Enabled | enabledDisplay"></th>
+        <th>
+          <button (click)="onRerender(item.content)" class="btn btn-primary btn-sm">
+            <i class="fa fa-eye" aria-hidden="true"></i> 再表示</button>
+          <button (click)="onDelete(item.content)" class="btn btn-danger btn-sm">
+            <i class="fa fa-trash-o"></i> 削除</button>
+        </th>
       </tr>
     </tbody>
   </table>

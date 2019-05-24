@@ -14,6 +14,12 @@ export class HistoryService {
     localStorage.removeItem('history');
   }
 
+  deleteHistory(history: MergedHistory) {
+    const histories = JSON.parse(localStorage.getItem('history'));
+    delete histories[JSON.stringify(history)];
+    localStorage.setItem('history', JSON.stringify(histories));
+  }
+
   updateHistory(history: MergedHistory, time: Date) {
     const updateHistory = {
       [JSON.stringify(history)]: time
