@@ -15,6 +15,7 @@ https://omatztw.github.io/tw-card-chef/
 
 * [問い合わせフォーム](https://forms.gle/KBqHFqypPMAvUiqh9)からお願いします
 * 開発者へ直接連絡したい場合は、[Discord](https://discord.gg/ksFC4rP)の #general までどうぞ(=ﾟωﾟ)
+* Twitterも始めました [@omatztw](https://twitter.com/omatztw)
 * Githubアカウントをお持ちの方は直接[Issues](https://github.com/omatztw/tw-card-chef/issues/new)を作成可能です
 
 ## Developer
