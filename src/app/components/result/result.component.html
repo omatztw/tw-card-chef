@@ -17,6 +17,11 @@
         </ul>
         <div [id]="'collapse'+ri" class="collapse show" role="tabpanel" aria-labelledby="'skill'+ri">
           <div class="card-block">
+            <div *ngIf="route.divider && isLessThanBronz(route.skills,route.routes[route.divider].goal)">
+              <a class="text-white btn btn-info skipLowRank" (click)="goTo('newskill' + ri)">
+                <i class="fa fa-rocket" aria-hidden="true"></i>
+                R{{route.routes[route.divider].goal.rank}}:{{route.routes[route.divider].goal.name}}を直引きする</a>
+            </div>
             <div *ngIf="!route.pre.length && route.divider" class="monster-info">
               <img class="monster-img" [src]="'assets/' + getSymbol(route.routes[0].goal) + '.gif'"
                 [alt]="'R' + route.routes[0].goal.rank + ': ' + route.routes[0].goal.name" srcset="">
@@ -78,7 +83,7 @@
               </div>
             </div>
             <div *ngFor="let aRoute of route.routes; index as i" class="">
-              <div *ngIf="i === route.divider" class="monster-info">
+              <div *ngIf="i === route.divider" class="monster-info" [id]="'newskill'+ri">
                 <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'"
                   [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name" srcset="">
                 <p>{{aRoute.goal.name}}で、
