@@ -23,3 +23,7 @@
     margin: 0;
     border: solid 0.5px rgb(117, 117, 117);
 }
+
+.skipLowRank {
+  margin-top: 0.3rem;
+}

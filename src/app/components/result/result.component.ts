@@ -49,5 +49,12 @@ export class ResultComponent {
   goTo(location: string): void {
     window.location.hash = '';
     window.location.hash = location;
+    window.scroll(window.scrollX, window.scrollY - 55);
+  }
+
+  isLessThanBronz(skills: string[], card: Card): boolean {
+    return skills.every(skill => {
+      return card.skills.findIndex(sk => sk.name === skill) < 4;
+    });
   }
 }
