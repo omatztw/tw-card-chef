@@ -21,7 +21,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { addRemovePatterns } from '../../consts/add-remove-pattern.const';
 import { HistoryService } from '../../services/history.service';
 import { ActivatedRoute, Router, RouterModule, convertToParamMap } from '@angular/router';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 // private debug1() {
 //   this.skill1 = "MR増加";

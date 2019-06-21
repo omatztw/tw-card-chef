@@ -25,5 +25,13 @@
 }
 
 .skipLowRank {
-  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  margin-right: 5px;
+  cursor: pointer;
+  font-size: 0.75em;
+}
+
+.skipLowRank::before {
+  content: "\f101";
+  font-family: FontAwesome;
 }
