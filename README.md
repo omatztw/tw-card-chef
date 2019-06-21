@@ -1,48 +1,27 @@
-# TW カードシェフ
+# Twcc
 
-Tales Weaverのモンスターカードレシピを自動生成するツールです。
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.2.
 
-https://omatztw.github.io/tw-card-chef/
+## Development server
 
-* スキル8つの金カードまで作成可能です ※v1.0よりスキル8個まで作成できるように対応しました。
-* 手持ちのカードがある場合はなるべく避けるレシピを作成します。
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## バージョン履歴
+## Code scaffolding
 
-[Releases](https://github.com/omatztw/tw-card-chef/releases)ページよりご確認いただけます。
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## 問い合わせ/不具合報告
+## Build
 
-* [問い合わせフォーム](https://forms.gle/KBqHFqypPMAvUiqh9)からお願いします
-* 開発者へ直接連絡したい場合は、[Discord](https://discord.gg/ksFC4rP)の #general までどうぞ(=ﾟωﾟ)
-* Twitterも始めました [@omatztw](https://twitter.com/omatztw)
-* Githubアカウントをお持ちの方は直接[Issues](https://github.com/omatztw/tw-card-chef/issues/new)を作成可能です
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Developer
+## Running unit tests
 
-* テイルズウィーバー エルフィンタ鯖 「おまつ先生」
-    * ゲーム内でも気軽に話しかけてください(=ﾟωﾟ)
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## ライセンス
+## Running end-to-end tests
 
-MIT
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-## OSS License
+## Further help
 
-https://omatztw.github.io/tw-card-chef/3rdpartylicenses.txt
-
-
-## 謝辞
-
-* ツールのアイディアのオリジナルは「ブラウンかずた」さん作成のモンスターカードレシピメーカーをリスペクトしたものです。素晴らしいアイディアに感謝いたします。
-    * ブラウンかずたさんのサイト閉鎖に伴い自作することにしました。
-
-## 注意事項
-
-* 中身の検索アルゴリズムを含めたすべてのソースコードは完全オリジナルであり、「モンスターカードレシピメーカー」のものとは異なります。そのため、作成されるレシピは異なります。
-
-## 著作権
-
-すべての画像データは韓国NEXON社に帰属するものとします。
-
-    Copyright © NEXON Korea Corporation and NEXON Co., Ltd. All Rights Reserved.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

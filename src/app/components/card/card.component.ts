@@ -16,7 +16,7 @@ import { HistoryService } from '../../services/history.service';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css', './toggle.css']
+  styleUrls: ['./card.component.scss', './toggle.scss']
 })
 export class CardComponent implements OnInit {
 
