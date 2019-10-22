@@ -6,7 +6,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CardService } from '../../services/card.service';
 import { ErrorService } from '../../services/error.service';
 import {
-  SKILL_ARRAY,
   SKILL_ARRAY_FORTEST1,
   SKILL_ARRAY_FORTEST2,
   SKILL_ARRAY_FORTEST3,
@@ -14,7 +13,7 @@ import {
   SKILL_ARRAY_FORTEST5,
   SKILL_ARRAY_FORTEST6,
   SKILL_ARRAY_FORTEST7,
-  SKILL_ARRAY_FORTEST_DEBUG,
+  SKILL,
 } from '../../consts';
 import k_combinations from '../../../assets/combinations.js';
 import { FooterComponent } from '../footer/footer.component';
@@ -1007,6 +1006,54 @@ describe('CardComponent', () => {
     component.finalRoutes.forEach(
       (route, index) => {
         if (route.divider) {
+          route.routes.map(aRoute => {
+            expect(service.exists).not.toContain(aRoute.orig);
+            expect(service.exists).not.toContain(aRoute.merged);
+            expect(service.exists).not.toContain(aRoute.goal);
+          });
+          pattern.shouldRemove[si].map(remove => service.removeOneFromExist(component.finalPathBinaryTree.getByIndex(remove).goal));
+          pattern.shouldAdd[si].map(add => service.addExist(component.finalPathBinaryTree.getByIndex(add).goal));
+          si++;
+        }
+      }
+    );
+  });
+
+  it('シャピアー重なる問題', () => {
+    const service = new CardService(null);
+    component.skill1 = 'SP吸収';
+    component.skill2 = 'MP吸収';
+    component.skill3 = '属性UP[黒]';
+    component.skill4 = '追撃[黒]';
+    component.skill5 = '瞬足';
+    component.skill6 = '夜行性';
+    component.skill7 = '財力';
+    component.skill8 = '鋼の肌';
+    component.final = service.getCardByType('悪魔', 5);
+    fixture.detectChanges();
+    component.onSubmit(null);
+
+    const pattern = addRemovePatterns.find(p => p.skillCount === component.skillDisplayed.length);
+    let si = 0;
+
+    component.finalRoutes.forEach(
+      (route, index) => {
+
+
+        route.routes.map(aRoute => {
+          if (aRoute.orig && aRoute.merged) {
+            expect(aRoute.goal).toBe(service.mergeCard(aRoute.orig, aRoute.merged, true));
+          }
+        });
+
+        if (route.divider) {
+          console.log(si, JSON.stringify(service.exists.map(c => c.name)));
+          route.pre.map(preRoute => {
+            expect(service.exists).not.toContain(preRoute.orig);
+            expect(service.exists).not.toContain(preRoute.merged);
+            expect(service.exists).not.toContain(preRoute.goal);
+          });
+
           route.routes.map(aRoute => {
             expect(service.exists).not.toContain(aRoute.orig);
             expect(service.exists).not.toContain(aRoute.merged);

@@ -174,7 +174,7 @@ export class CardComponent implements OnInit {
         ret_cards.push({
           start: this.cardService.getCardBySkill(skill, true),
           goal: this.cardService.getCardBySkill(skill, false, this.rank10Enabled ? 10 : 9),
-          skill: skill
+          skill
         });
       }
     );
@@ -222,7 +222,7 @@ export class CardComponent implements OnInit {
         }
 
         retCards.push({
-          pre: pre,
+          pre,
           start: fStart,
           goal: filteredCard.goal,
           skill: filteredCard.skill
@@ -392,7 +392,7 @@ export class CardComponent implements OnInit {
       [],
       {
         relativeTo: this.route,
-        queryParams: queryParams
+        queryParams
       });
   }
 
@@ -428,10 +428,10 @@ export class CardComponent implements OnInit {
     this.historyService.updateHistory(history, now);
 
 
-    this.skillDisplayed = Object.assign([], this.cards);
     const skillCount = this.skillDisplayed.length;
     const totalCount = skillCount * 2 - 1;
     this.makeLastMiles(this.finalPathBinaryTree, totalCount);
+    this.skillDisplayed = Object.assign([], this.cards);
     this.minGoals = this.finalPathBinaryTree.getMinGoals();
     this.calcAllPath();
     this.setFinalRoutes();
