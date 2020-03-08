@@ -26,6 +26,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
     - run: npx ng build --prod --base-href "https://omatztw.github.io/tw-card-chef/"
-    - run: npx ngh --dir dist/twcc --repo=https://${{ secrets.GITHUB_TOKEN }}@github.com/omatztw/tw-card-chef.git --name="おまつ先生" --email=33661309+omatztw@users.noreply.github.com
+    - run: npx ngh --dir dist/twcc --repo=https://${{ secrets.GH_TOKEN }}@github.com/omatztw/tw-card-chef.git --name="おまつ先生" --email=33661309+omatztw@users.noreply.github.com
       env:
         CI: true
