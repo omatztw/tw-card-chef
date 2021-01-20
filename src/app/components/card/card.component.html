@@ -1,163 +1,338 @@
 <div class="container">
-  <hr>
+  <hr />
   <form (ngSubmit)="onSubmit($event)" #f="ngForm">
     <div class="row">
-      <hr>
+      <hr />
       <div class="col-md-12">
-        <p>取得したいスキルを入力
+        <p>
+          取得したいスキルを入力
           <i class="fa fa-thumbs-o-up"></i>
-          <button type="button" class="btn btn-sm btn-danger" (click)="onClear($event)">クリア</button>
+          <button
+            type="button"
+            class="btn btn-sm btn-danger"
+            (click)="onClear($event)"
+          >
+            クリア
+          </button>
         </p>
         <div class="checkbox checkbox-primary">
-          <input id="rank10Enabled" type="checkbox" class="styled" checked name="rank10Enabled"
-            [(ngModel)]="rank10Enabled">
-          <label for="rank10Enabled">
-            Rank10カードスキルを有効化
-          </label>
+          <input
+            id="rank10Enabled"
+            type="checkbox"
+            class="styled"
+            checked
+            name="rank10Enabled"
+            [(ngModel)]="rank10Enabled"
+          />
+          <label for="rank10Enabled"> Rank10カードスキルを有効化 </label>
         </div>
       </div>
       <div class="form-group col-md-3">
         <label for="skill1" hidden>skill1</label>
-        <select class="form-control" id="skill1" [(ngModel)]="skill1" name="skill1" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        <select
+          class="form-control"
+          id="skill1"
+          [(ngModel)]="skill1"
+          name="skill1"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let skill of deduplicateSkills(skill1)"
+            [ngValue]="skill"
+          >
+            {{ skill }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="skill2" hidden>skill2</label>
-        <select class="form-control" id="skill2" [(ngModel)]="skill2" name="skill2" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        <select
+          class="form-control"
+          id="skill2"
+          [(ngModel)]="skill2"
+          name="skill2"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let skill of deduplicateSkills(skill2)"
+            [ngValue]="skill"
+          >
+            {{ skill }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="skill3" hidden>skill3</label>
-        <select class="form-control" id="skill3" [(ngModel)]="skill3" name="skill3" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        <select
+          class="form-control"
+          id="skill3"
+          [(ngModel)]="skill3"
+          name="skill3"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let skill of deduplicateSkills(skill3)"
+            [ngValue]="skill"
+          >
+            {{ skill }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="skill4" hidden>skill4</label>
-        <select class="form-control" id="skill4" [(ngModel)]="skill4" name="skill4" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        <select
+          class="form-control"
+          id="skill4"
+          [(ngModel)]="skill4"
+          name="skill4"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let skill of deduplicateSkills(skill4)"
+            [ngValue]="skill"
+          >
+            {{ skill }}
+          </option>
         </select>
       </div>
     </div>
     <div class="row">
       <div class="form-group col-md-3">
         <label for="skill5" hidden>skill5</label>
-        <select class="form-control" id="skill5" [(ngModel)]="skill5" name="skill5" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        <select
+          class="form-control"
+          id="skill5"
+          [(ngModel)]="skill5"
+          name="skill5"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let skill of deduplicateSkills(skill5)"
+            [ngValue]="skill"
+          >
+            {{ skill }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="skill6" hidden>skill6</label>
-        <select class="form-control" id="skill6" [(ngModel)]="skill6" name="skill6" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        <select
+          class="form-control"
+          id="skill6"
+          [(ngModel)]="skill6"
+          name="skill6"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let skill of deduplicateSkills(skill6)"
+            [ngValue]="skill"
+          >
+            {{ skill }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="skill7" hidden>skill7</label>
-        <select class="form-control" id="skill7" [(ngModel)]="skill7" name="skill7" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        <select
+          class="form-control"
+          id="skill7"
+          [(ngModel)]="skill7"
+          name="skill7"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let skill of deduplicateSkills(skill7)"
+            [ngValue]="skill"
+          >
+            {{ skill }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="skill8" hidden>skill8</label>
-        <select class="form-control" id="skill8" [(ngModel)]="skill8" name="skill8" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let skill of SKILL_ARRAY" [ngValue]="skill">{{skill}}</option>
+        <select
+          class="form-control"
+          id="skill8"
+          [(ngModel)]="skill8"
+          name="skill8"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option
+            *ngFor="let skill of deduplicateSkills(skill8)"
+            [ngValue]="skill"
+          >
+            {{ skill }}
+          </option>
         </select>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="row">
       <div class="col-md-12">
         <p>所持しているカードを入力</p>
-        <p>なるべく被らないルート探しがんばるお！ヽ(`・ω・´)ﾉ </p>
+        <p>なるべく被らないルート探しがんばるお！ヽ(`・ω・´)ﾉ</p>
       </div>
     </div>
     <div class="row">
       <div class="form-group col-md-3">
         <label for="exist1" hidden>exist1</label>
-        <select class="form-control" id="exist1" [(ngModel)]="exist1" name="exist1" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+        <select
+          class="form-control"
+          id="exist1"
+          [(ngModel)]="exist1"
+          name="exist1"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option *ngFor="let card of cardList" [ngValue]="card">
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist2" hidden>exist2</label>
-        <select class="form-control" id="exist2" [(ngModel)]="exist2" name="exist2" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+        <select
+          class="form-control"
+          id="exist2"
+          [(ngModel)]="exist2"
+          name="exist2"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option *ngFor="let card of cardList" [ngValue]="card">
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist3" hidden>exist3</label>
-        <select class="form-control" id="exist3" [(ngModel)]="exist3" name="exist3" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+        <select
+          class="form-control"
+          id="exist3"
+          [(ngModel)]="exist3"
+          name="exist3"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option *ngFor="let card of cardList" [ngValue]="card">
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist4" hidden>exist4</label>
-        <select class="form-control" id="exist4" [(ngModel)]="exist4" name="exist4" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+        <select
+          class="form-control"
+          id="exist4"
+          [(ngModel)]="exist4"
+          name="exist4"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option *ngFor="let card of cardList" [ngValue]="card">
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
     </div>
     <div class="row">
       <div class="form-group col-md-3">
         <label for="exist5" hidden>exist5</label>
-        <select class="form-control" id="exist5" [(ngModel)]="exist5" name="exist5" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+        <select
+          class="form-control"
+          id="exist5"
+          [(ngModel)]="exist5"
+          name="exist5"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option *ngFor="let card of cardList" [ngValue]="card">
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist6" hidden>exist6</label>
-        <select class="form-control" id="exist6" [(ngModel)]="exist6" name="exist6" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+        <select
+          class="form-control"
+          id="exist6"
+          [(ngModel)]="exist6"
+          name="exist6"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option *ngFor="let card of cardList" [ngValue]="card">
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist7" hidden>exist7</label>
-        <select class="form-control" id="exist7" [(ngModel)]="exist7" name="exist7" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+        <select
+          class="form-control"
+          id="exist7"
+          [(ngModel)]="exist7"
+          name="exist7"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option *ngFor="let card of cardList" [ngValue]="card">
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
       <div class="form-group col-md-3">
         <label for="exist8" hidden>exist8</label>
-        <select class="form-control" id="exist8" [(ngModel)]="exist8" name="exist8" #typef="ngModel">
-          <option [ngValue]="null"> </option>
-          <option *ngFor="let card of cardList" [ngValue]="card">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+        <select
+          class="form-control"
+          id="exist8"
+          [(ngModel)]="exist8"
+          name="exist8"
+          #typef="ngModel"
+        >
+          <option [ngValue]="null"></option>
+          <option *ngFor="let card of cardList" [ngValue]="card">
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="row">
       <p class="col-md-12">着地カード入力</p>
-      <p class="col-md-12">初期値は「{{defaultFinal.name}}」(´(･)｀)</p>
+      <p class="col-md-12">初期値は「{{ defaultFinal.name }}」(´(･)｀)</p>
       <p class="col-md-12">
-        <span class="bg-info text-white">背景色</span>が異なるものは初期スキルを所持していないカードなので合成前のスキルをそのまま継承できる
+        <span class="bg-info text-white">背景色</span
+        >が異なるものは初期スキルを所持していないカードなので合成前のスキルをそのまま継承できる
         <span class="badge badge-success">ｵｽｽﾒ</span>
       </p>
     </div>
-    <div class="row  justify-content-center">
+    <div class="row justify-content-center">
       <div class="form-group col-md-3">
         <label for="final" hidden>final</label>
-        <select class="form-control" id="final" [(ngModel)]="final" name="final" #typef="ngModel">
+        <select
+          class="form-control"
+          id="final"
+          [(ngModel)]="final"
+          name="final"
+          #typef="ngModel"
+        >
           <!-- <option [ngValue]="null"> </option> -->
-          <option *ngFor="let card of goalCardList" [ngValue]="card"
-            [class]="noSkillWhenLv1(card)?'bg-info text-white':''">R{{card.rank}}({{card.type}}): {{card.name}}</option>
+          <option
+            *ngFor="let card of goalCardList"
+            [ngValue]="card"
+            [class]="noSkillWhenLv1(card) ? 'bg-info text-white' : ''"
+          >
+            R{{ card.rank }}({{ card.type }}): {{ card.name }}
+          </option>
         </select>
       </div>
     </div>
@@ -166,10 +341,10 @@
 </div>
 <!-- <p>{{this.cardService.exists| json}}</p> -->
 <div class="alert alert-danger" role="alert" *ngIf="errMsg">
-  <strong>{{errMsg}}</strong>
+  <strong>{{ errMsg }}</strong>
 </div>
-<hr>
+<hr />
 <p>結果</p>
-<hr>
+<hr />
 <app-result [routes]="finalRoutes"></app-result>
 <app-footer></app-footer>
