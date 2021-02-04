@@ -1,32 +1,32 @@
 // tslint:disable: curly
 
-import { Component, OnInit } from "@angular/core";
-import { CardService } from "../../services/card.service";
-import { Card } from "../../models/card.model";
-import { RouteModel, Path } from "../../models/route.model";
+import { Component, OnInit } from '@angular/core';
+import { CardService } from '../../services/card.service';
+import { Card } from '../../models/card.model';
+import { RouteModel, Path } from '../../models/route.model';
 import {
   TYPES,
   cards,
   SKILL_ARRAY,
   convert2Symbol,
   SKILL_ARRAY_FORTEST_DEBUG,
-} from "../../consts/index";
-import { Skill } from "../../models/skill.model";
-import { ErrorService } from "../../services/error.service";
+} from '../../consts/index';
+import { Skill } from '../../models/skill.model';
+import { ErrorService } from '../../services/error.service';
 import {
   FinalPathTree,
   FinalPathBinaryTree,
   FinalPath,
-} from "../../models/final-path-tree.model";
-import { addRemovePatterns } from "../../consts/add-remove-pattern.const";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-import { MergedHistory } from "../../models/history.model";
-import { HistoryService } from "../../services/history.service";
+} from '../../models/final-path-tree.model';
+import { addRemovePatterns } from '../../consts/add-remove-pattern.const';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MergedHistory } from '../../models/history.model';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
-  selector: "app-card",
-  templateUrl: "./card.component.html",
-  styleUrls: ["./card.component.scss", "./toggle.scss"],
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.scss', './toggle.scss'],
 })
 export class CardComponent implements OnInit {
   type1: string;
@@ -91,31 +91,31 @@ export class CardComponent implements OnInit {
       .subscribe((err) => (this.errMsg = err));
 
     this.route.queryParamMap.subscribe((params) => {
-      this.skill1 = params.get("s1");
-      this.skill2 = params.get("s2");
-      this.skill3 = params.get("s3");
-      this.skill4 = params.get("s4");
-      this.skill5 = params.get("s5");
-      this.skill6 = params.get("s6");
-      this.skill7 = params.get("s7");
-      this.skill8 = params.get("s8");
+      this.skill1 = params.get('s1');
+      this.skill2 = params.get('s2');
+      this.skill3 = params.get('s3');
+      this.skill4 = params.get('s4');
+      this.skill5 = params.get('s5');
+      this.skill6 = params.get('s6');
+      this.skill7 = params.get('s7');
+      this.skill8 = params.get('s8');
 
-      this.exist1 = this.cardService.getCardBySymbol(params.get("e1"));
-      this.exist2 = this.cardService.getCardBySymbol(params.get("e2"));
-      this.exist3 = this.cardService.getCardBySymbol(params.get("e3"));
-      this.exist4 = this.cardService.getCardBySymbol(params.get("e4"));
-      this.exist5 = this.cardService.getCardBySymbol(params.get("e5"));
-      this.exist6 = this.cardService.getCardBySymbol(params.get("e6"));
-      this.exist7 = this.cardService.getCardBySymbol(params.get("e7"));
-      this.exist8 = this.cardService.getCardBySymbol(params.get("e8"));
+      this.exist1 = this.cardService.getCardBySymbol(params.get('e1'));
+      this.exist2 = this.cardService.getCardBySymbol(params.get('e2'));
+      this.exist3 = this.cardService.getCardBySymbol(params.get('e3'));
+      this.exist4 = this.cardService.getCardBySymbol(params.get('e4'));
+      this.exist5 = this.cardService.getCardBySymbol(params.get('e5'));
+      this.exist6 = this.cardService.getCardBySymbol(params.get('e6'));
+      this.exist7 = this.cardService.getCardBySymbol(params.get('e7'));
+      this.exist8 = this.cardService.getCardBySymbol(params.get('e8'));
 
-      const f = this.cardService.getCardBySymbol(params.get("f"));
+      const f = this.cardService.getCardBySymbol(params.get('f'));
       if (f) {
         this.final = f;
       }
 
-      this.rank10Enabled = params.get("r10")
-        ? params.get("r10").toLowerCase() === "true"
+      this.rank10Enabled = params.get('r10')
+        ? params.get('r10').toLowerCase() === 'true'
         : false;
 
       if (params.keys) {
@@ -352,7 +352,7 @@ export class CardComponent implements OnInit {
   }
 
   get defaultFinal(): Card {
-    return this.cardService.getCardByType("人形", 5);
+    return this.cardService.getCardByType('人形', 5);
   }
 
   noSkillWhenLv1(card: Card): boolean {
@@ -435,13 +435,13 @@ export class CardComponent implements OnInit {
     this.InitValues();
 
     if (!this.cards.length) {
-      this.errorService.error("スキル入力忘れていまっせ(ﾉ∀`)");
+      this.errorService.error('スキル入力忘れていまっせ(ﾉ∀`)');
       return;
     }
 
     if (this.existSkillGoal()) {
       this.errorService.error(
-        "どうも作れない組み合わせのようだ(´・ω・`) 必要なスキルの最大値を持つカードをすでに持っている気がする(´・ω・`)"
+        'どうも作れない組み合わせのようだ(´・ω・`) 必要なスキルの最大値を持つカードをすでに持っている気がする(´・ω・`)'
       );
       return;
     }
