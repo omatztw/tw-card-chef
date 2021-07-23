@@ -1,138 +1,70 @@
 <div class="container-fluid" style="min-width:470px; max-width:940px;">
-  <div *ngFor="let route of routes; index as ri" class="row justify-content-center">
+  <div class="row justify-content-center">
     <div class="col-md-12 col-lg-6 recipie">
       <div class="card bg-default">
-        <div class="card-header text-left bg-primary  text-white skill-header " role="tab" [id]="'rskill'+ri">
-          <a class="collapsed text-right text-white" data-toggle="collapse" data-parent="#accordion"
-            [href]="'#collapse'+ri" aria-expanded="false" [attr.aria-controls]="'collapse'+ri">
-            <i class="fa fa-align-justify"></i>
-            <strong>STEP {{ri + 1}}: </strong>
-            <span *ngFor="let skill of route.skills">{{skill}}/</span>
-          </a>
-        </div>
-        <ul class="nav nav-tabs">
-          <li *ngFor="let route of routes; index as lri" class="nav-item">
-            <a class="nav-link btn btn-default btn-sm" (click)="goTo('rskill' + lri)">S{{lri + 1}}</a>
-          </li>
-        </ul>
-        <div [id]="'collapse'+ri" class="collapse show" role="tabpanel" aria-labelledby="'skill'+ri">
-          <div class="card-block">
-
-            <div *ngIf="!route.pre.length && route.divider" class="monster-info">
-              <img class="monster-img" [src]="'assets/' + getSymbol(route.routes[0].goal) + '.gif'"
-                [alt]="'R' + route.routes[0].goal.rank + ': ' + route.routes[0].goal.name" srcset="">
-              <p>{{route.routes[0].goal.name}}を作成して、
-                <span *ngFor="let aSkill of filterSkills(route.skills, route.routes[0].goal)">{{aSkill.name}}:
-                  {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,route.routes[0].goal)}}まで上げる
-              </p>
-              <div class="text-right"
-                *ngIf="route.divider && isLessThanBronz(route.skills,route.routes[route.divider].goal)">
-                <a href="javascript:void(0);" class="skipLowRank" (click)="goTo('newskill' + ri)">
-                  <!-- <i class="fa fa-rocket" aria-hidden="true"></i> -->
-                  [上級者]
-                  R{{route.routes[route.divider].goal.rank}}:{{route.routes[route.divider].goal.name}}を直引きして時短可能</a>
-              </div>
-            </div>
-            <div class="text-white bg-danger">
-              <p>
-                <span *ngFor="let skill of route.skills">{{skill}}/</span>が消えたら引き直す</p>
-            </div>
-            <div *ngFor="let aPre of route.pre; index as pi">
-              <div *ngIf="pi === 0" class="monster-info">
-                <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'"
-                  [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name" srcset="">
-                <p>{{aPre.orig.name}}を作成して、
-                  <span *ngFor="let aSkill of filterSkills(route.skills, aPre.orig)">{{aSkill.name}}:
-                    {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,aPre.orig)}}まで上げる
-                </p>
-              </div>
-              <div *ngIf="filterSkills(route.skills, aPre.merged, filterSkills(route.skills, aPre.orig)).length"
-                class="monster-info">
-                <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'"
-                  [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name" srcset="">
-                <p>{{aPre.merged.name}}を作成して、
-                  <span *ngFor="let aSkill of filterSkills(route.skills, aPre.merged)">{{aSkill.name}}:
-                    {{aSkill.value}}/</span>を習得するまでモンスターLv {{getMaxLv(route.skills,aPre.merged)}}まで上げる</p>
-              </div>
-              <div class="gousei row">
-                <div class="col-1 path-label">
-                  <i class="fa fa-circle"></i>
-                </div>
-                <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.orig) + '.gif'"
-                    [alt]="'R' + aPre.orig.rank + ': ' + aPre.orig.name" srcset="">
-                  <div class="monster-label">{{aPre.orig.name}}</div>
-                </div>
-                <div calss="col-1">
-                  <h2>
-                    <strong>+</strong>
-                  </h2>
-                </div>
-                <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.merged) + '.gif'"
-                    [alt]="'R' + aPre.merged.rank + ': ' + aPre.merged.name" srcset="">
-                  <div class="monster-label">{{aPre.merged.name}}</div>
-                </div>
-                <div calss="col-1">
-                  <h2>
-                    <strong>=</strong>
-                  </h2>
-                </div>
-                <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aPre.goal) + '.gif'"
-                    [alt]="'R' + aPre.goal.rank + ': ' + aPre.goal.name" srcset="">
-                  <div class="monster-label">{{aPre.goal.name}}</div>
-                </div>
-              </div>
-            </div>
-            <div *ngFor="let aRoute of route.routes; index as i" class="">
-              <div *ngIf="i === route.divider" class="monster-info" [id]="'newskill'+ri">
-                <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'"
-                  [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name" srcset="">
-                <p>{{aRoute.goal.name}}で、
-                  <span
-                    *ngFor="let skill of route.skills; index as i">{{skill}}:{{filterSkill(skill, aRoute.goal).value}}/</span>を習得するまでモンスターLv
-                  {{getMaxLv(route.skills, aRoute.goal)}}まで上げる</p>
-              </div>
-              <div *ngIf="i === route.divider && route.routes[route.routes.length -1].goal !== aRoute.goal">
-                <p class="bg-warning">
-                  ここからR{{route.routes[route.routes.length -1].goal.rank}}の{{route.routes[route.routes.length -1].goal.name}}まで変化させよっか
-                </p>
-                <p class="text-white bg-danger">
-                  <span *ngFor="let skill of route.skills">{{skill}}/</span>が消えたら引き直す</p>
-              </div>
-              <div *ngIf="aRoute.orig" class="gousei row">
-                <div class="col-1 path-label">
-                  <i class="fa fa-circle"></i>
-                </div>
-                <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.orig) + '.gif'"
-                    [alt]="'R' + aRoute.orig.rank + ': ' + aRoute.orig.name" srcset="">
-                  <div class="monster-label">{{aRoute.orig.name}}</div>
-                </div>
-                <div calss="col-1">
-                  <h2>
-                    <strong>+</strong>
-                  </h2>
-                </div>
-                <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.merged) + '.gif'"
-                    [alt]="'R' + aRoute.merged.rank + ': ' + aRoute.merged.name" srcset="">
-                  <div class="monster-label">{{aRoute.merged.name}}</div>
-                </div>
-                <div calss="col-1">
-                  <h2>
-                    <strong>=</strong>
-                  </h2>
-                </div>
-                <div class="col-3">
-                  <img class="monster-img" [src]="'assets/' + getSymbol(aRoute.goal) + '.gif'"
-                    [alt]="'R' + aRoute.goal.rank + ': ' + aRoute.goal.name" srcset="">
-                  <div class="monster-label">{{aRoute.goal.name}}</div>
-                </div>
-              </div>
-            </div>
+        <div *ngFor="let route of routes; index as i">
+          <div class="card-header text-left bg-primary  text-white skill-header " role="tab" >
+            <strong>STEP{{i  + 1}}
+              <span *ngIf="route.type === 'draw'">   カード獲得</span>
+              <span *ngIf="route.type === 'arm'">   スキル獲得「<span>{{route.skills.join('/')}}</span>」</span>
+              <span *ngIf="route.type === 'merge'">   カード合成 <strong *ngIf="route.isFinal"><br>合成部屋に行くぞー！</strong></span>
+            </strong>
           </div>
+            <div class="card-block">
+              <div class="monster-info">
+                <div *ngIf="route.type === 'draw'">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(route.main) + '.gif'"
+                  [alt]="route.main.name" srcset="">
+                  <div class="description">
+                    {{route.main.name}}を獲得<br>
+                    <span *ngIf="route.skills.length">「<span>{{route.skills.join('/')}}</span>」を獲得するまで引き直し</span>
+                  </div>
+                </div>
+                <div *ngIf="route.type === 'arm'">
+                  <img class="monster-img" [src]="'assets/' + getSymbol(route.material) + '.gif'"
+                  [alt]="route.material.name" srcset="">
+                  <p class="description">
+                    {{route.material.name}}を獲得<br>
+                    <span *ngIf="route.skills.length">「<span>{{route.skills.join('/')}}</span>」を獲得するまでやり直してけ</span>
+                  </p>
+                </div>
+                <div *ngIf="route.type === 'merge' || route.type === 'arm'">
+                  <div class="row">
+                    <div class="col-1">
+                      <!-- <i class="fa fa-circle"></i> -->
+                    </div>
+                    <div class="col-3">
+                      <img class="monster-img" [src]="'assets/' + getSymbol(route.main) + '.gif'"
+                        [alt]="route.main.name" srcset="">
+                      <div class="monster-label">{{route.main.name}}</div>
+                    </div>
+                    <div calss="col-1">
+                      <h2>
+                        <strong>+</strong>
+                      </h2>
+                    </div>
+                    <div class="col-3">
+                      <img class="monster-img" [src]="'assets/' + getSymbol(route.material) + '.gif'"
+                        [alt]="route.material.name" srcset="">
+                      <div class="monster-label">{{route.material.name}}</div>
+                    </div>
+                    <div calss="col-1">
+                      <h2>
+                        <strong>=</strong>
+                      </h2>
+                    </div>
+                    <div class="col-3">
+                      <img class="monster-img" [src]="'assets/' + getSymbol(route.main) + '.gif'"
+                        [alt]="route.main.name" srcset="">
+                      <div class="monster-label">{{route.main.name}}</div>
+                    </div>
+                  </div>
+                  <p class="description">
+                    <span *ngIf="route.currentSkills.length">「<span>{{route.currentSkills.join('/')}}</span>」が付くまでやり直してけ</span>
+                  </p>
+                 </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>

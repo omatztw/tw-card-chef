@@ -71,6 +71,33 @@ export class CardService {
   }
 
   /**
+   * name、Cardクラスを算出
+   * @param name
+   */
+  getCardByName(name: string): Card {
+    return this.cards.find(card => {
+      return card.name === name;
+    });
+  }
+
+  /**
+   * skillの最大値を所持しているカード全部を算出
+   * @param skillName 
+   */
+  getCardsBySkill(skillName: string): Card[] {
+    const maxValue = this.findMaxValue(skillName);
+
+    const filteredcards = this.cards
+      .filter(card => card.skills) // skillを持っていないカードは除外
+      .filter(card => {
+        return card.skills.some(skill => {
+          return skill.name === skillName && skill.value === maxValue;
+        });
+      });
+
+    return filteredcards;
+  }
+  /**
    * skillを所持しているカードを算出。
    * minフラグをTrueにするとスキルを所持している最小'ランク'のカードを返却
    * minフラグをFalseにするとスキルを所持している最大'スキルレベル'のカードを返却
@@ -78,7 +105,7 @@ export class CardService {
    * @param min
    * @param limit // カードランクの上限
    */
-  getCardBySkill(skillName: string, min: boolean = true, limit: number = 10): Card {
+  getCardBySkill(skillName: string, min: boolean = true, limit: number = 11): Card {
 
     if (!skillName) {
       return null;
@@ -101,7 +128,7 @@ export class CardService {
         } else {
           return prev;
         }
-      }, { name: 'dummy', type: 'dummy', rank: 100 });
+      }, { name: 'dummy', type: 'dummy', rank: 100, skills: [] });
     } else {
       return cardsWithSkill.sort((a, b) => a.rank - b.rank).reduce((prev, current) => {
         const prevSkill = prev.skills.filter(skill => {
@@ -118,6 +145,17 @@ export class CardService {
         }
       }, { name: 'dummy', type: 'dummy', rank: 0, skills: [{ name: skillName, lv: 1, value: -5 }] });
     }
+  }
+
+  /**
+   * スキルの最大の値を算出
+   * @param skill 
+   */
+  findMaxValue(skill: string): number {
+    return Math.max(...this.cards
+                      .filter(card => card.skills.filter(s => s.name === skill).length > 0)
+                      .map(card => card.skills.find(s => s.name === skill).value)
+                    );
   }
 
   /**
@@ -146,6 +184,11 @@ export class CardService {
       exCard => exCard.name !== card.name
     );
   }
+  
+  isExist(card: Card) {
+    return this.exists.some(exist => exist.name === card.name);
+  }
+
 
   /**
  * cardから、a1,b2などのシンボルを算出

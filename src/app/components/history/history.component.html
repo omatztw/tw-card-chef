@@ -8,7 +8,6 @@
         <th>スキル</th>
         <th>所持カード</th>
         <th>着地カード</th>
-        <th>Rank10有効</th>
         <th colspan="2" style="width: 1%;">操作</th>
       </tr>
     </thead>
@@ -26,7 +25,6 @@
           </ul>
         </th>
         <th>{{convertToName([item.content.final])}}</th>
-        <th [innerHTML]="item.content.isRank10Enabled | enabledDisplay"></th>
         <th style="padding-right: 5px;">
           <button (click)="onRerender(item.content)" class="btn btn-primary btn-sm">
             <i class="fa fa-eye" aria-hidden="true"></i>

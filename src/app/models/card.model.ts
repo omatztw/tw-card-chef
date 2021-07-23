@@ -4,7 +4,7 @@ export class Card {
   rank: number;
   img?: string;
   // status: State[];
-  skills?: {
+  skills: {
     lv: number,
     name: string,
     value: number

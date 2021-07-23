@@ -4,7 +4,6 @@ import { Card } from '../../models/card.model';
 import { Router } from '@angular/router';
 import { MergedHistory } from '../../models/history.model';
 import { CardService } from '../../services/card.service';
-import { EnabledPipe } from './enabled.pipe';
 
 @Component({
   selector: 'app-history',
@@ -57,7 +56,6 @@ export class HistoryComponent implements OnInit {
       e7: this.cardService.getSymbolByCard(item.exists[6] || null),
       e8: this.cardService.getSymbolByCard(item.exists[7] || null),
       f: this.cardService.getSymbolByCard(item.final),
-      r10: item.isRank10Enabled || false
     };
 
     this.router.navigate([''], {

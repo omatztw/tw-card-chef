@@ -1,5 +1,6 @@
 
 import { Card } from './card.model';
+import { Skill } from './skill.model';
 
 export class RouteModel {
   pre: Path[] = [];
@@ -14,3 +15,14 @@ export class Path {
   merged: Card;
   goal: Card;
 }
+
+export class Step {
+  type: Action;
+  main: Card;
+  material?: Card;
+  skills: string[];
+  currentSkills: string[];
+  isFinal?: boolean;
+}
+
+type Action = "draw" | "merge" | "arm";

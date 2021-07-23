@@ -5,5 +5,4 @@ export class MergedHistory {
   skills: Skill[];
   exists: Card[];
   final: Card;
-  isRank10Enabled: boolean;
 }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RouteModel } from '../../models/route.model';
+import { RouteModel, Step } from '../../models/route.model';
 import { Card } from '../../models/card.model';
 import { CardService } from '../../services/card.service';
 import { Skill } from '../../models/skill.model';
@@ -11,7 +11,8 @@ import { Skill } from '../../models/skill.model';
 })
 export class ResultComponent {
 
-  @Input() routes: RouteModel[];
+  // @Input() routes: RouteModel[];
+  @Input() routes: Step[];
 
   constructor(
     private cardService: CardService
@@ -21,40 +22,4 @@ export class ResultComponent {
     return this.cardService.getSymbolByCard(card);
   }
 
-  filterSkill(skill, card: Card) {
-    const fskill = card.skills.filter(s => {
-      return s.name === skill;
-    });
-    return fskill[0];
-  }
-
-  filterSkills(skills: any[], card: Card, exclude: Skill = null) {
-    const fskill = skills.map(
-      skill => this.filterSkill(skill, card)
-    ).filter(skill => !!skill && skill !== exclude);
-
-    return fskill;
-  }
-
-  getMaxLv(skills: any[], card: Card) {
-    const lvArray = skills.map(skill => {
-      const filteredSkill = this.filterSkill(skill, card);
-      if (filteredSkill) {
-        return filteredSkill.lv;
-      }
-    }).filter(lv => !!lv);
-    return Math.max(...lvArray);
-  }
-
-  goTo(location: string): void {
-    window.location.hash = '';
-    window.location.hash = location;
-    window.scroll(window.scrollX, window.scrollY - 55);
-  }
-
-  isLessThanBronz(skills: string[], card: Card): boolean {
-    return skills.every(skill => {
-      return card.skills.findIndex(sk => sk.name === skill) < 4;
-    });
-  }
 }
