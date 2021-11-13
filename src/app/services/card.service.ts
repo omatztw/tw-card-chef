@@ -84,8 +84,8 @@ export class CardService {
    * skillの最大値を所持しているカード全部を算出
    * @param skillName 
    */
-  getCardsBySkill(skillName: string): Card[] {
-    const maxValue = this.findMaxValue(skillName);
+  getCardsBySkill(skillName: string, limit: number): Card[] {
+    const maxValue = this.findMaxValue(skillName, limit);
 
     const filteredcards = this.cards
       .filter(card => card.skills) // skillを持っていないカードは除外
@@ -151,8 +151,9 @@ export class CardService {
    * スキルの最大の値を算出
    * @param skill 
    */
-  findMaxValue(skill: string): number {
+  findMaxValue(skill: string, limit: number): number {
     return Math.max(...this.cards
+                      .filter(card => card.rank <= limit)
                       .filter(card => card.skills.filter(s => s.name === skill).length > 0)
                       .map(card => card.skills.find(s => s.name === skill).value)
                     );

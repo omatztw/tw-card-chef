@@ -54,6 +54,8 @@ export class CardComponent implements OnInit {
   skillPoolA: string[] = [];
   skillPoolB: string[] = [];
 
+  limit: number = 11;
+
   constructor(
     private cardService: CardService,
     private errorService: ErrorService,
@@ -145,7 +147,7 @@ export class CardComponent implements OnInit {
   // Rank4 - 8までのカードが着地として選択可能
   get goalCardList() {
     return this.cardList.filter((card) => {
-      return card.rank >= 4;
+      return card.rank >= 4 && card.rank <= this.limit;
     });
   }
 
@@ -224,7 +226,7 @@ export class CardComponent implements OnInit {
     const maxValuedCards = remainingSkills.map(rs => {
       return {
         skill: rs,
-        cards: this.cardService.getCardsBySkill(rs)
+        cards: this.cardService.getCardsBySkill(rs, this.limit)
       };
     });
 
@@ -277,7 +279,7 @@ export class CardComponent implements OnInit {
   }
 
   findPrioritySkills() {
-    const maxValuedSkills = this.final.skills.filter(skill => this.cardService.findMaxValue(skill.name) === skill.value);
+    const maxValuedSkills = this.final.skills.filter(skill => this.cardService.findMaxValue(skill.name, this.limit) === skill.value);
     this.prioritySkills = maxValuedSkills.filter(skill => this.skills.some(s => s === skill.name));
   }
 
