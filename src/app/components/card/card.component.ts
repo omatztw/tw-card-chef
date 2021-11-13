@@ -88,6 +88,11 @@ export class CardComponent implements OnInit {
       this.exist7 = this.cardService.getCardBySymbol(params.get('e7'));
       this.exist8 = this.cardService.getCardBySymbol(params.get('e8'));
 
+      const l = parseInt(params.get('l'));
+      if (l) {
+        this.limit = l;
+      }
+
       const f = this.cardService.getCardBySymbol(params.get('f'));
       if (f) {
         this.final = f;
@@ -171,6 +176,7 @@ export class CardComponent implements OnInit {
       e7: this.cardService.getSymbolByCard(this.exist7),
       e8: this.cardService.getSymbolByCard(this.exist8),
       f: this.cardService.getSymbolByCard(this.final),
+      l: this.limit
     };
 
     this.router.navigate([], {
@@ -201,6 +207,7 @@ export class CardComponent implements OnInit {
     history.skills = this.skills;
     history.exists = this.exists;
     history.final = this.final;
+    history.limit = this.limit;
 
     this.historyService.updateHistory(history, now);
 

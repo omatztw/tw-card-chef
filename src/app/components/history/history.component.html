@@ -6,8 +6,8 @@
       <tr>
         <th>日付</th>
         <th>スキル</th>
-        <th>所持カード</th>
         <th>着地カード</th>
+        <th>ランク上限</th>
         <th colspan="2" style="width: 1%;">操作</th>
       </tr>
     </thead>
@@ -19,12 +19,8 @@
             <li *ngFor="let skill of item.content.skills">{{skill}}</li>
           </ul>
         </th>
-        <th class="text-left">
-          <ul>
-            <li *ngFor="let exist of convertToName(item.content.exists)">{{exist}}</li>
-          </ul>
-        </th>
         <th>{{convertToName([item.content.final])}}</th>
+        <th>{{item.content.limit}}</th>
         <th style="padding-right: 5px;">
           <button (click)="onRerender(item.content)" class="btn btn-primary btn-sm">
             <i class="fa fa-eye" aria-hidden="true"></i>

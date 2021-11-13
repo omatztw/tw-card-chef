@@ -5,4 +5,5 @@ export class MergedHistory {
   skills: Skill[];
   exists: Card[];
   final: Card;
+  limit: number;
 }

@@ -56,6 +56,7 @@ export class HistoryComponent implements OnInit {
       e7: this.cardService.getSymbolByCard(item.exists[6] || null),
       e8: this.cardService.getSymbolByCard(item.exists[7] || null),
       f: this.cardService.getSymbolByCard(item.final),
+      l: item.limit || NaN
     };
 
     this.router.navigate([''], {
