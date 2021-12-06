@@ -89,6 +89,7 @@ export class CardService {
 
     const filteredcards = this.cards
       .filter(card => card.skills) // skillを持っていないカードは除外
+      .filter(card => card.rank <= limit)
       .filter(card => {
         return card.skills.some(skill => {
           return skill.name === skillName && skill.value === maxValue;
