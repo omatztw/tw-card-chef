@@ -148,7 +148,7 @@ export class CardComponent implements OnInit {
   // Rank4 - 8までのカードが着地として選択可能
   get goalCardList() {
     return this.cardList.filter((card) => {
-      return card.rank >= 4 && card.rank <= this.limit;
+      return card.rank <= this.limit;
     });
   }
 
@@ -203,6 +203,9 @@ export class CardComponent implements OnInit {
     history.limit = this.limit;
 
     this.historyService.updateHistory(history, now);
+
+    this.cardService.clearExist();
+    this.cardService.addExist(this.final);
 
     // DO CALC STEP
 
